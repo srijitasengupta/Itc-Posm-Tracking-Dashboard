@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DRISHTI — ITC TM&D Nagpur</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root{
+  --navy:#003087;--navy2:#00246b;--navy3:#0041b5;
+  --white:#fff;--w2:rgba(255,255,255,.75);--w3:rgba(255,255,255,.4);
+  --bg:#F0F4FF;--bg2:#E4ECFF;--card:#fff;
+  --border:#D0DAFE;--text:#1a2340;--text2:#4a5a80;--text3:#8a9ab8;
+  --green:#15803D;--greenb:#DCFCE7;
+  --amber:#B45309;--amberb:#FEF3C7;
+  --red:#DC2626;--redb:#FEE2E2;
+  --gold:#C9881A;
+  --s1:0 1px 3px rgba(0,48,135,.08);
+  --s2:0 4px 12px rgba(0,48,135,.1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-size:13px;-webkit-font-smoothing:antialiased}
+
+/* TOPBAR */
+.top{background:var(--navy);height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;position:sticky;top:0;z-index:100}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{font-size:18px;font-weight:700;color:#fff;letter-spacing:.5px}
+.divider{width:1px;height:20px;background:rgba(255,255,255,.2)}
+.meta{font-size:11px;color:var(--w3);line-height:1.4}
+.meta strong{color:var(--w2);display:block;font-weight:500}
+.live-chip{display:flex;align-items:center;gap:4px;background:rgba(74,222,128,.15);border:1px solid rgba(74,222,128,.3);color:#4ade80;font-size:10px;padding:3px 8px;border-radius:20px}
+.ldot{width:5px;height:5px;border-radius:50%;background:#4ade80;animation:blink 1.8s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.top-right{display:flex;align-items:center;gap:8px}
+.ut{font-size:10px;color:var(--w3)}
+.tbtn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:var(--w2);font-size:11px;font-family:inherit;padding:4px 12px;border-radius:6px;cursor:pointer}
+.tbtn:hover{background:rgba(255,255,255,.18);color:#fff}
+
+/* TABS */
+.tabs{background:var(--navy2);display:flex;padding:0 20px;gap:2px;overflow-x:auto}
+.tab{padding:10px 16px;font-size:11.5px;color:var(--w3);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;background:none;border-top:none;border-left:none;border-right:none;font-family:inherit;transition:all .15s}
+.tab:hover{color:var(--w2)}
+.tab.on{color:#fff;border-bottom-color:#FFB800;font-weight:500}
+
+/* MAIN */
+.main{padding:16px 20px;max-width:1400px;margin:0 auto}
+.panel{display:none;animation:fi .2s ease}
+.panel.on{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+/* METRICS */
+.mrow{display:grid;gap:10px;margin-bottom:14px}
+.m4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.m3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.mc{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;box-shadow:var(--s1);border-top:3px solid var(--navy)}
+.mc.g{border-top-color:var(--green)}.mc.a{border-top-color:var(--amber)}.mc.r{border-top-color:var(--red)}.mc.gold{border-top-color:var(--gold)}
+.mc-l{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px}
+.mc-v{font-size:24px;font-weight:700;color:var(--navy);line-height:1}
+.mc.g .mc-v{color:var(--green)}.mc.a .mc-v{color:var(--amber)}.mc.r .mc-v{color:var(--red)}.mc.gold .mc-v{color:var(--gold)}
+.mc-s{font-size:10.5px;color:var(--text3);margin-top:3px}
+
+/* CARDS */
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;box-shadow:var(--s1);margin-bottom:12px}
+.ch{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.ct{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.4px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* TABLE */
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:11.5px}
+th{text-align:left;padding:7px 8px;font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.3px;border-bottom:1px solid var(--border);background:var(--bg)}
+td{padding:7px 8px;border-bottom:1px solid var(--border);color:var(--text2)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--bg)}
+.tb{font-weight:500;color:var(--text)}
+
+/* BADGES */
+.b{display:inline-flex;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:600}
+.bg{background:var(--greenb);color:var(--green)}
+.ba{background:var(--amberb);color:var(--amber)}
+.br{background:var(--redb);color:var(--red)}
+.bb{background:#EFF6FF;color:#1e40af}
+.bgr{background:var(--bg2);color:var(--text3)}
+
+/* SCORE */
+.sc{padding:3px 8px;border-radius:20px;font-weight:700;font-size:11px}
+.sh{background:var(--greenb);color:var(--green)}
+.sm{background:var(--amberb);color:var(--amber)}
+.sl{background:var(--redb);color:var(--red)}
+
+/* ALERTS */
+.al{border-left:3px solid;padding:8px 11px;border-radius:0 7px 7px 0;margin-bottom:7px;font-size:11.5px;line-height:1.5}
+.al-r{border-color:var(--red);background:var(--redb);color:#7f1d1d}
+.al-a{border-color:#f59e0b;background:var(--amberb);color:#78350f}
+.al-g{border-color:var(--green);background:var(--greenb);color:#14532d}
+.al-b{border-color:#3b82f6;background:#EFF6FF;color:#1e3a8a}
+
+/* PROGRESS */
+.prog{margin-bottom:9px}.pr{display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:3px}.pb{height:6px;background:var(--bg2);border-radius:3px;overflow:hidden}.pf{height:100%;border-radius:3px}
+
+/* EMPTY */
+.empty{text-align:center;padding:40px 20px;color:var(--text3)}
+.ei{font-size:32px;margin-bottom:10px}
+
+/* LOADING */
+#splash{position:fixed;inset:0;z-index:999;background:var(--navy);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;transition:opacity .5s}
+#splash.hide{opacity:0;pointer-events:none}
+.sl{font-size:32px;font-weight:700;color:#fff;letter-spacing:.5px}
+.sb{width:200px;height:2px;background:rgba(255,255,255,.15);border-radius:2px;overflow:hidden}
+.sf{height:100%;background:linear-gradient(90deg,#4ade80,#FFB800);animation:load 2.5s ease forwards}
+@keyframes load{from{width:0}to{width:100%}}
+.ss{font-size:11px;color:var(--w3)}
+
+@media(max-width:768px){.mrow.m4{grid-template-columns:1fr 1fr}.g2{grid-template-columns:1fr}.tabs{padding:0 12px}.main{padding:12px}}
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="sl">DRISHTI</div>
+  <div class="ss">ITC TM&D · Nagpur · Loading live data...</div>
+  <div class="sb"><div class="sf"></div></div>
+</div>
+
+<!-- TOP -->
+<div class="top">
+  <div class="brand">
+    <div class="logo">DRISHTI</div>
+    <div class="divider"></div>
+    <div class="meta"><strong>ITC TM&D Nagpur</strong>POSM Beat Wise Update</div>
+    <div class="live-chip"><div class="ldot"></div>Live</div>
+  </div>
+  <div class="top-right">
+    <span class="ut" id="ut">Connecting...</span>
+    <button class="tbtn" onclick="loadData()">↻ Refresh</button>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab on"  onclick="go(this,'cmd')">Command Centre</button>
+  <button class="tab" onclick="go(this,'outlets')">Outlet Tracker</button>
+  <button class="tab" onclick="go(this,'ladi')">Ladi Hygiene</button>
+  <button class="tab" onclick="go(this,'ctu')">CTU Sell-Out</button>
+  <button class="tab" onclick="go(this,'ds')">DS Scorecard</button>
+  <button class="tab" onclick="go(this,'deploy')">Deployments</button>
+</div>
+
+<div class="main">
+
+<!-- CMD -->
+<div id="cmd" class="panel on">
+  <div class="mrow m4" id="cmdM"></div>
+  <div class="g2">
+    <div>
+      <div class="card">
+        <div class="ch"><div class="ct">Live Alerts</div><span id="acnt" class="b bgr">0</span></div>
+        <div id="alerts"></div>
+      </div>
+      <div class="card">
+        <div class="ch"><div class="ct">Hygiene Score Trend — Ladi</div></div>
+        <div style="position:relative;height:160px"><canvas id="trendC" role="img" aria-label="Score trend chart"></canvas></div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="ch"><div class="ct">POSM Type Breakdown</div></div>
+        <div id="posmMix"></div>
+      </div>
+      <div class="card">
+        <div class="ch"><div class="ct">Purity Distribution — Ladi</div></div>
+        <div style="position:relative;height:140px"><canvas id="purityC" role="img" aria-label="Purity chart"></canvas></div>
+        <div id="purityLeg" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;font-size:10.5px;color:var(--text3)"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- OUTLETS -->
+<div id="outlets" class="panel">
+  <div class="card">
+    <div class="ch">
+      <div class="ct">All outlets — latest scan</div>
+      <select id="ftype" onchange="renderOutlets()" style="font-size:11px;padding:4px 8px;border:1px solid var(--border);border-radius:6px;background:var(--card)">
+        <option value="">All POSM</option>
+        <option value="ladi">Ladi only</option>
+        <option value="counter">CTU only</option>
+      </select>
+    </div>
+    <div class="tw"><table>
+      <thead><tr><th>#</th><th>Outlet</th><th>DS</th><th>POSM</th><th>Last visit</th><th>Action today</th><th>Score / Stock</th><th>Status</th></tr></thead>
+      <tbody id="outTb"></tbody>
+    </table></div>
+  </div>
+</div>
+
+<!-- LADI -->
+<div id="ladi" class="panel">
+  <div class="mrow m3" id="ladiM"></div>
+  <div class="g2">
+    <div class="card">
+      <div class="ch"><div class="ct">Hygiene scores — all ladi scans</div></div>
+      <div class="tw"><table>
+        <thead><tr><th>Time</th><th>DS</th><th>Outlet</th><th>Stock</th><th>Purity</th><th>Condition</th><th>Score</th></tr></thead>
+        <tbody id="ladiTb"></tbody>
+      </table></div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="ch"><div class="ct">Score breakdown — how calculated</div></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+          <div style="background:var(--bg);border-radius:8px;padding:10px;text-align:center">
+            <div style="font-size:20px;font-weight:700;color:var(--navy)">35</div>
+            <div style="font-size:10px;color:var(--text3);margin-top:2px">Stock (Avg 8)</div>
+          </div>
+          <div style="background:var(--bg);border-radius:8px;padding:10px;text-align:center">
+            <div style="font-size:20px;font-weight:700;color:var(--navy)">40</div>
+            <div style="font-size:10px;color:var(--text3);margin-top:2px">Purity (100% ITC)</div>
+          </div>
+          <div style="background:var(--bg);border-radius:8px;padding:10px;text-align:center">
+            <div style="font-size:20px;font-weight:700;color:var(--navy)">25</div>
+            <div style="font-size:10px;color:var(--text3);margin-top:2px">Condition (Good)</div>
+          </div>
+        </div>
+        <div style="margin-top:10px;font-size:11px;color:var(--text3);line-height:1.6">
+          Max score: 100 pts &nbsp;|&nbsp; Good: 70+ &nbsp;|&nbsp; Watch: 45–69 &nbsp;|&nbsp; Action: below 45
+        </div>
+      </div>
+      <div class="card">
+        <div class="ch"><div class="ct">Purity breakdown</div></div>
+        <div id="purityDetail"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTU -->
+<div id="ctu" class="panel">
+  <div class="mrow m3" id="ctuM"></div>
+  <div class="card">
+    <div class="ch"><div class="ct">CTU sell-out tracking — units sold between visits</div></div>
+    <div class="tw"><table>
+      <thead><tr><th>Time</th><th>DS</th><th>Outlet</th><th>Current stock</th><th>Units sold since last visit</th><th>Order placed?</th><th>Condition</th></tr></thead>
+      <tbody id="ctuTb"></tbody>
+    </table></div>
+  </div>
+  <div class="card">
+    <div class="ch"><div class="ct">How CTU sell-out is calculated</div></div>
+    <div style="font-size:11.5px;color:var(--text2);line-height:1.8;background:var(--bg);border-radius:8px;padding:12px">
+      DS enters current stock count on every visit. System compares with previous visit count for the same outlet.<br>
+      <strong>Units sold = Previous stock count − Current stock count</strong><br>
+      Example: Visit 1 → DS enters 15 units. Visit 2 → DS enters 9 units. Sell-out = 6 units sold between the two visits.
+    </div>
+  </div>
+</div>
+
+<!-- DS -->
+<div id="ds" class="panel">
+  <div class="mrow m3" id="dsM"></div>
+  <div class="card">
+    <div class="ch"><div class="ct">DS performance this period</div></div>
+    <div class="tw"><table>
+      <thead><tr><th>DS name</th><th>Total scans</th><th>Hygiene checks</th><th>Deployments</th><th>Avg ladi score</th><th>Orders captured</th></tr></thead>
+      <tbody id="dsTb"></tbody>
+    </table></div>
+  </div>
+</div>
+
+<!-- DEPLOYMENTS -->
+<div id="deploy" class="panel">
+  <div class="mrow m3" id="depM"></div>
+  <div class="card">
+    <div class="ch"><div class="ct">All POSM deployments logged</div></div>
+    <div class="tw"><table>
+      <thead><tr><th>Date & time</th><th>DS</th><th>Outlet</th><th>POSM type</th><th>Photo</th></tr></thead>
+      <tbody id="depTb"></tbody>
+    </table></div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────────────
+const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQtX16effBsYlRH7bceAIc0s51G6VpWx-Eeg4QGsecBEWsa_H7_fkr0XUvxUIksfLiKvGFvVcfSlpse/pub?gid=411503546&single=true&output=csv";
+
+// Column indices (0-based)
+const C = {
+  ts:     0,  // Timestamp
+  ds:     1,  // DS Name
+  outlet: 2,  // Outlet Name
+  action: 3,  // What are you doing today?
+  ptype:  4,  // POSM type (deployment)
+  photo1: 5,  // Photo (deployment)
+  pcheck: 6,  // POSM type being checked
+  photoCTU: 7,// Photo (CTU)
+  stockCTU: 8,// Stock Level (CTU - number)
+  orderCTU: 9,// Order placed (CTU)
+  damCTU: 10, // Damaged (CTU)
+  photoLadi:11,// Photo (Ladi)
+  stockLadi:12,// Stock Level (Ladi - categorical)
+  orderLadi:13,// Order placed (Ladi)
+  damLadi: 14, // Damaged (Ladi)
+  purity:  15, // Purity (Ladi)
+  score:   16, // Hygiene Score / Stock Count
+  status:  17, // Status / Sell-Out
+  posmOut: 18  // POSM Type (written by script)
+};
+
+let DATA = [], HDR = [];
+
+// ── NAV ─────────────────────────────────────────────────────────
+function go(el, id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById(id).classList.add('on');
+}
+
+// ── CSV PARSER ───────────────────────────────────────────────────
+function parseCSV(txt) {
+  const lines = txt.trim().split('\n');
+  HDR = lines[0].split(',').map(h => h.replace(/"/g,'').trim());
+  return lines.slice(1).map(line => {
+    const vals = [];
+    let cur = '', inQ = false;
+    for (const ch of line) {
+      if (ch === '"') { inQ = !inQ; }
+      else if (ch === ',' && !inQ) { vals.push(cur.trim()); cur = ''; }
+      else cur += ch;
+    }
+    vals.push(cur.trim());
+    return vals.map(v => v.replace(/^"|"$/g,'').trim());
+  }).filter(r => r.some(v => v));
+}
+
+function v(row, col) { return (row[col] || '').trim(); }
+
+// ── LOAD ─────────────────────────────────────────────────────────
+async function loadData() {
+  document.getElementById('ut').textContent = 'Refreshing...';
+  try {
+    const res  = await fetch(CSV_URL + '&t=' + Date.now());
+    const txt  = await res.text();
+    DATA = parseCSV(txt);
+    document.getElementById('ut').textContent = 'Updated ' + new Date().toLocaleTimeString();
+  } catch(e) {
+    document.getElementById('ut').textContent = '⚠ Sheet not reachable';
+    useSample();
+  }
+  buildAll();
+  setTimeout(() => document.getElementById('splash').classList.add('hide'), 2000);
+}
+
+function useSample() {
+  DATA = [
+    ['09/05/2026 11:33:51','Option 1','Test','Hygiene check','','','Ladi','','','','','','Avg 8','Yes','Already removed by retailer','100% ITC','75','✅ Good','Ladi'],
+    ['09/05/2026 11:45:26','Option 1','Test 2','Hygiene check','','','Counter Top Unit','','2','Yes','Already removed by retailer','','','','','','2','first entry','CTU'],
+    ['09/05/2026 12:00:00','Option 1','Test','Deploying new POSM','Ladi','','','','','','','','','','','','','','Deployed'],
+  ];
+}
+
+// ── HELPERS ──────────────────────────────────────────────────────
+function isLadi(row)    { return /ladi/i.test(v(row,C.pcheck)) || /ladi/i.test(v(row,C.posmOut)); }
+function isCTU(row)     { return /counter/i.test(v(row,C.pcheck)) || /ctu/i.test(v(row,C.posmOut)); }
+function isHygiene(row) { return /hygiene/i.test(v(row,C.action)); }
+function isDeploy(row)  { return /deploy/i.test(v(row,C.action)); }
+function score(row)     { return parseInt(v(row,C.score)) || 0; }
+function sClass(s)      { return s >= 70 ? 'sh' : s >= 45 ? 'sm' : 'sl'; }
+function bClass(s)      { return s >= 70 ? 'bg' : s >= 45 ? 'ba' : 'br'; }
+function stxt(s)        { return s >= 70 ? '✅ Good' : s >= 45 ? '⚠️ Watch' : '🔴 Action'; }
+function ts(row)        { return v(row,C.ts).slice(0,16); }
+function kc(id)         { const c = Chart.getChart(id); if(c) c.destroy(); }
+const gc = 'rgba(0,48,135,.06)', tc = '#8a9ab8';
+const baseO = { responsive:true, maintainAspectRatio:false,
+  plugins:{legend:{display:false}},
+  scales:{x:{grid:{color:gc},ticks:{color:tc,font:{size:10}}},
+          y:{grid:{color:gc},ticks:{color:tc}}} };
+
+// ── BUILD ALL ────────────────────────────────────────────────────
+function buildAll() {
+  const hygiene   = DATA.filter(isHygiene);
+  const ladiRows  = hygiene.filter(isLadi);
+  const ctuRows   = hygiene.filter(isCTU);
+  const deploys   = DATA.filter(isDeploy);
+
+  buildCMD(ladiRows, ctuRows, deploys);
+  renderOutlets();
+  buildLadi(ladiRows);
+  buildCTU(ctuRows);
+  buildDS();
+  buildDeploy(deploys);
+}
+
+// ── COMMAND CENTRE ───────────────────────────────────────────────
+function buildCMD(ladiRows, ctuRows, deploys) {
+  const scores  = ladiRows.map(score);
+  const avg     = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) : 0;
+  const good    = scores.filter(s=>s>=70).length;
+  const action  = scores.filter(s=>s<45).length;
+  const total   = DATA.filter(isHygiene).length;
+
+  document.getElementById('cmdM').innerHTML = `
+    <div class="mc g"><div class="mc-l">Avg ladi score</div><div class="mc-v">${avg}<span style="font-size:13px;font-weight:400">/100</span></div><div class="mc-s">${ladiRows.length} ladi scans</div></div>
+    <div class="mc"><div class="mc-l">Total hygiene checks</div><div class="mc-v">${total}</div><div class="mc-s">Ladi + CTU combined</div></div>
+    <div class="mc"><div class="mc-l">POSM deployed</div><div class="mc-v">${deploys.length}</div><div class="mc-s">Units logged</div></div>
+    <div class="mc r"><div class="mc-l">Needs action</div><div class="mc-v">${action}</div><div class="mc-s">Score below 45</div></div>
+  `;
+
+  // Alerts
+  const ab = document.getElementById('alerts');
+  ab.innerHTML = '';
+  let ac = 0;
+  const seen = new Set();
+  ladiRows.forEach(r => {
+    const o = v(r,C.outlet), s = score(r);
+    if (s < 45 && !seen.has(o)) {
+      seen.add(o); ac++;
+      ab.innerHTML += `<div class="al al-r"><strong>Action:</strong> ${o} — Ladi score ${s}/100</div>`;
+    }
+  });
+  ctuRows.forEach(r => {
+    const sellOut = parseInt(v(r,C.status)) || 0;
+    if (v(r,C.status) !== 'first entry' && sellOut < 2) {
+      ab.innerHTML += `<div class="al al-a"><strong>Low sell-out:</strong> ${v(r,C.outlet)} CTU — only ${sellOut} units sold</div>`;
+    }
+  });
+  if (!ac && !ab.innerHTML) {
+    ab.innerHTML = '<div class="al al-g">All outlets looking good! No critical issues.</div>';
+  }
+  if (deploys.length) {
+    ab.innerHTML += `<div class="al al-b">${deploys.length} POSM deployment(s) logged this period.</div>`;
+  }
+  document.getElementById('acnt').textContent = ac + ' alert' + (ac!==1?'s':'');
+  document.getElementById('acnt').className = 'b ' + (ac>0?'br':'bg');
+
+  // Trend chart
+  const byDate = {};
+  ladiRows.forEach(r => {
+    const d = v(r,C.ts).split(' ')[0] || 'Unknown';
+    if (!byDate[d]) byDate[d] = [];
+    byDate[d].push(score(r));
+  });
+  const dates = Object.keys(byDate).sort();
+  const avgs  = dates.map(d => Math.round(byDate[d].reduce((a,b)=>a+b,0)/byDate[d].length));
+  kc('trendC');
+  if (dates.length > 0) {
+    new Chart(document.getElementById('trendC'), {
+      type:'line',
+      data:{labels:dates.map(d=>d.slice(5)||d), datasets:[
+        {data:avgs, borderColor:'#003087', backgroundColor:'rgba(0,48,135,.08)', borderWidth:2.5, pointRadius:4, tension:.35, fill:true},
+        {data:dates.map(()=>70), borderColor:'rgba(21,128,61,.4)', borderDash:[5,4], borderWidth:1, pointRadius:0}
+      ]},
+      options:{...baseO, scales:{x:{grid:{color:gc},ticks:{color:tc,font:{size:10}}},y:{min:0,max:100,grid:{color:gc},ticks:{color:tc}}}}
+    });
+  } else {
+    document.getElementById('trendC').parentElement.innerHTML = '<div class="empty"><div class="ei">📊</div>Submit hygiene checks to see trend</div>';
+  }
+
+  // Purity donut
+  const pure  = ladiRows.filter(r=>/100%/i.test(v(r,C.purity))).length;
+  const mixed = ladiRows.filter(r=>/mixed/i.test(v(r,C.purity))).length;
+  const comp  = ladiRows.filter(r=>/comp/i.test(v(r,C.purity))).length;
+  kc('purityC');
+  if (ladiRows.length > 0) {
+    new Chart(document.getElementById('purityC'), {
+      type:'doughnut',
+      data:{datasets:[{data:[pure||1,mixed,comp], backgroundColor:['#15803D','#B45309','#DC2626'], borderWidth:0}]},
+      options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, cutout:'65%'}
+    });
+    document.getElementById('purityLeg').innerHTML =
+      `<span>🟢 100% ITC (${pure})</span><span>🟡 Mixed (${mixed})</span><span>🔴 Competitor (${comp})</span>`;
+  }
+
+  // POSM mix
+  const pt = {};
+  DATA.filter(isHygiene).forEach(r => {
+    const t = isCTU(r) ? 'Counter Top Unit' : isLadi(r) ? 'Ladi' : 'Other';
+    pt[t] = (pt[t]||0)+1;
+  });
+  const tot = DATA.filter(isHygiene).length || 1;
+  document.getElementById('posmMix').innerHTML = Object.entries(pt).map(([t,c])=>{
+    const p = Math.round(c/tot*100);
+    return `<div class="prog"><div class="pr"><span>${t}</span><span style="font-weight:500">${c} scans (${p}%)</span></div><div class="pb"><div class="pf" style="width:${p}%;background:var(--navy)"></div></div></div>`;
+  }).join('') || '<div style="color:var(--text3);font-size:11px;padding:8px 0">No hygiene checks yet</div>';
+}
+
+// ── OUTLETS ──────────────────────────────────────────────────────
+function renderOutlets() {
+  const ft = (document.getElementById('ftype')||{value:''}).value;
+  const latest = {};
+  DATA.filter(isHygiene).forEach(r => {
+    const o = v(r,C.outlet);
+    if (!latest[o] || v(r,C.ts) > v(latest[o],C.ts)) latest[o] = r;
+  });
+  let entries = Object.entries(latest);
+  if (ft === 'ladi')    entries = entries.filter(([,r]) => isLadi(r));
+  if (ft === 'counter') entries = entries.filter(([,r]) => isCTU(r));
+
+  const tb = document.getElementById('outTb');
+  if (!entries.length) {
+    tb.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:24px;color:var(--text3)">No data yet — submit form responses to see outlets</td></tr>';
+    return;
+  }
+  tb.innerHTML = entries.map(([o,r],i) => {
+    const isL  = isLadi(r);
+    const s    = isL ? score(r) : 0;
+    const stat = v(r,C.status);
+    const order = isL ? v(r,C.orderLadi) : v(r,C.orderCTU);
+    const scoreDisplay = isL
+      ? `<span class="sc ${sClass(s)}">${s}/100</span>`
+      : `<span class="b bb">${v(r,C.score)} units</span>`;
+    const statusDisplay = isL ? stxt(s)
+      : (stat === 'first entry' ? 'First entry' : stat);
+    return `<tr>
+      <td style="font-weight:600;color:var(--text3)">${i+1}</td>
+      <td class="tb">${o}</td>
+      <td>${v(r,C.ds)}</td>
+      <td><span class="b bgr">${isL?'Ladi':'CTU'}</span></td>
+      <td style="font-size:10.5px;color:var(--text3)">${ts(r)}</td>
+      <td>${v(r,C.action)}</td>
+      <td>${scoreDisplay}</td>
+      <td>${statusDisplay}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ── LADI ─────────────────────────────────────────────────────────
+function buildLadi(ladiRows) {
+  const scores = ladiRows.map(score);
+  const avg  = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) : 0;
+  const good = scores.filter(s=>s>=70).length;
+  const low  = scores.filter(s=>s<45).length;
+
+  document.getElementById('ladiM').innerHTML = `
+    <div class="mc g"><div class="mc-l">Avg hygiene score</div><div class="mc-v">${avg}/100</div><div class="mc-s">${ladiRows.length} scans</div></div>
+    <div class="mc"><div class="mc-l">Good (70+)</div><div class="mc-v" style="color:var(--green)">${good}</div><div class="mc-s">outlets</div></div>
+    <div class="mc r"><div class="mc-l">Action needed (&lt;45)</div><div class="mc-v">${low}</div><div class="mc-s">outlets</div></div>
+  `;
+
+  const pureCount  = ladiRows.filter(r=>/100%/i.test(v(r,C.purity))).length;
+  const mixCount   = ladiRows.filter(r=>/mixed/i.test(v(r,C.purity))).length;
+  const compCount  = ladiRows.filter(r=>/comp/i.test(v(r,C.purity))).length;
+  const tot = ladiRows.length || 1;
+  document.getElementById('purityDetail').innerHTML = [
+    ['100% ITC', pureCount, '#15803D'],
+    ['Mixed', mixCount, '#B45309'],
+    ['Competitor', compCount, '#DC2626'],
+  ].map(([l,c,col])=>`<div class="prog"><div class="pr"><span>${l}</span><span style="font-weight:500;color:${col}">${c} (${Math.round(c/tot*100)}%)</span></div><div class="pb"><div class="pf" style="width:${Math.round(c/tot*100)}%;background:${col}"></div></div></div>`).join('');
+
+  document.getElementById('ladiTb').innerHTML = [...ladiRows].reverse().map(r => {
+    const s  = score(r);
+    const dam = v(r,C.damLadi) || '—';
+    return `<tr>
+      <td style="font-size:10.5px;color:var(--text3)">${ts(r)}</td>
+      <td>${v(r,C.ds)}</td>
+      <td class="tb">${v(r,C.outlet)}</td>
+      <td>${v(r,C.stockLadi)||'—'}</td>
+      <td><span class="b ${/100%/i.test(v(r,C.purity))?'bg':/mix/i.test(v(r,C.purity))?'ba':'br'}">${v(r,C.purity)||'—'}</span></td>
+      <td style="font-size:10.5px">${dam.length>22?dam.slice(0,20)+'…':dam}</td>
+      <td><span class="sc ${sClass(s)}">${s}/100</span></td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--text3)">No ladi scans yet</td></tr>';
+}
+
+// ── CTU ──────────────────────────────────────────────────────────
+function buildCTU(ctuRows) {
+  const sellOuts = ctuRows.map(r=>{
+    const s = parseInt(v(r,C.status)) || 0;
+    return isNaN(s) ? 0 : s;
+  }).filter(s=>s>0);
+  const avgSell = sellOuts.length ? Math.round(sellOuts.reduce((a,b)=>a+b,0)/sellOuts.length) : 0;
+  const totalSold = sellOuts.reduce((a,b)=>a+b,0);
+
+  document.getElementById('ctuM').innerHTML = `
+    <div class="mc g"><div class="mc-l">Total units sold (pilot)</div><div class="mc-v">${totalSold}</div><div class="mc-s">Across all CTU outlets</div></div>
+    <div class="mc gold"><div class="mc-l">Avg sell-out per visit</div><div class="mc-v">${avgSell}</div><div class="mc-s">units between visits</div></div>
+    <div class="mc"><div class="mc-l">CTU scans</div><div class="mc-v">${ctuRows.length}</div><div class="mc-s">Total submissions</div></div>
+  `;
+
+  document.getElementById('ctuTb').innerHTML = [...ctuRows].reverse().map(r => {
+    const st     = v(r,C.stockCTU) || '—';
+    const sell   = v(r,C.status);
+    const order  = v(r,C.orderCTU) || '—';
+    const dam    = v(r,C.damCTU)   || '—';
+    const isFirst = sell === 'first entry';
+    return `<tr>
+      <td style="font-size:10.5px;color:var(--text3)">${ts(r)}</td>
+      <td>${v(r,C.ds)}</td>
+      <td class="tb">${v(r,C.outlet)}</td>
+      <td style="font-weight:600">${st} units</td>
+      <td>${isFirst ? '<span class="b bgr">First entry</span>' : `<span class="b ${parseInt(sell)>5?'bg':parseInt(sell)>2?'ba':'br'}">${sell} units</span>`}</td>
+      <td><span class="b ${order.toLowerCase()==='yes'?'bg':'ba'}">${order}</span></td>
+      <td style="font-size:10.5px">${dam.length>22?dam.slice(0,20)+'…':dam}</td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--text3)">No CTU scans yet</td></tr>';
+}
+
+// ── DS ───────────────────────────────────────────────────────────
+function buildDS() {
+  const dsMap = {};
+  DATA.forEach(r => {
+    const ds = v(r,C.ds) || 'Unknown';
+    if (!dsMap[ds]) dsMap[ds] = {scans:0, hygiene:0, deploys:0, scores:[], orders:0};
+    dsMap[ds].scans++;
+    if (isHygiene(r)) dsMap[ds].hygiene++;
+    if (isDeploy(r))  dsMap[ds].deploys++;
+    if (isLadi(r) && score(r) > 0) dsMap[ds].scores.push(score(r));
+    const ord = isLadi(r) ? v(r,C.orderLadi) : v(r,C.orderCTU);
+    if (/yes/i.test(ord)) dsMap[ds].orders++;
+  });
+
+  const da = Object.entries(dsMap).sort((a,b) => b[1].scans - a[1].scans);
+  const top = da[0]?.[0] || '—';
+
+  document.getElementById('dsM').innerHTML = `
+    <div class="mc g"><div class="mc-l">Most active DS</div><div class="mc-v" style="font-size:16px">${top}</div><div class="mc-s">${dsMap[top]?.scans||0} total scans</div></div>
+    <div class="mc"><div class="mc-l">DS on beat</div><div class="mc-v">${da.length}</div><div class="mc-s">Active this period</div></div>
+    <div class="mc gold"><div class="mc-l">Orders captured</div><div class="mc-v">${da.reduce((a,[,v])=>a+v.orders,0)}</div><div class="mc-s">Across all DS</div></div>
+  `;
+
+  document.getElementById('dsTb').innerHTML = da.map(([ds, d]) => {
+    const avg = d.scores.length ? Math.round(d.scores.reduce((a,b)=>a+b,0)/d.scores.length) : 0;
+    return `<tr>
+      <td class="tb">${ds}</td>
+      <td>${d.scans}</td>
+      <td>${d.hygiene}</td>
+      <td>${d.deploys}</td>
+      <td>${d.scores.length ? `<span class="sc ${sClass(avg)}">${avg}/100</span>` : '—'}</td>
+      <td><span class="b ${d.orders>0?'bg':'bgr'}">${d.orders} orders</span></td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="6" style="text-align:center;padding:20px;color:var(--text3)">No data yet</td></tr>';
+}
+
+// ── DEPLOYMENTS ──────────────────────────────────────────────────
+function buildDeploy(deploys) {
+  document.getElementById('depM').innerHTML = `
+    <div class="mc"><div class="mc-l">Total deployed</div><div class="mc-v">${deploys.length}</div><div class="mc-s">POSM units logged</div></div>
+    <div class="mc"><div class="mc-l">Ladi deployed</div><div class="mc-v">${deploys.filter(r=>/ladi/i.test(v(r,C.ptype))).length}</div><div class="mc-s">units</div></div>
+    <div class="mc"><div class="mc-l">CTU deployed</div><div class="mc-v">${deploys.filter(r=>/counter/i.test(v(r,C.ptype))).length}</div><div class="mc-s">units</div></div>
+  `;
+  document.getElementById('depTb').innerHTML = [...deploys].reverse().map(r => `<tr>
+    <td style="font-size:10.5px;color:var(--text3)">${ts(r)}</td>
+    <td>${v(r,C.ds)}</td>
+    <td class="tb">${v(r,C.outlet)}</td>
+    <td><span class="b bb">${v(r,C.ptype)||'—'}</span></td>
+    <td>${v(r,C.photo1) ? '<span class="b bg">Photo uploaded</span>' : '<span class="b bgr">No photo</span>'}</td>
+  </tr>`).join('') || '<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text3)">No deployments logged yet</td></tr>';
+}
+
+// ── INIT ─────────────────────────────────────────────────────────
+loadData();
+setInterval(loadData, 5 * 60 * 1000);
+</script>
+</body>
+</html>
