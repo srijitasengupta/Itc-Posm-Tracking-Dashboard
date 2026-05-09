@@ -342,8 +342,9 @@ function v(row, col) { return (row[col] || '').trim(); }
 async function loadData() {
   document.getElementById('ut').textContent = 'Refreshing...';
   try {
-    const res  = await fetch(CSV_URL + '&t=' + Date.now());
-    const txt  = await res.text();
+    const proxy = "https://corsproxy.io/?" + encodeURIComponent(CSV_URL + '&t=' + Date.now());
+const res  = await fetch(proxy);
+const txt  = await res.text();
     DATA = parseCSV(txt);
     document.getElementById('ut').textContent = 'Updated ' + new Date().toLocaleTimeString();
   } catch(e) {
