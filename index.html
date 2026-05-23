@@ -2,829 +2,768 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>DRISHTI — ITC POSM | Nagpur</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DRISHTI — ITC POSM Tracking</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQtX16effBsYlRH7bceAIc0s51G6VpWx-Eeg4QGsecBEWsa_H7_fkr0XUvxUIksfLiKvGFvVcfSlpse/pub?gid=411503546&single=true&output=csv"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
-/* ── VARIABLES ─────────────────────────── */
-:root{
-  --navy:#00276B;--navy-d:#001A4A;--navy-l:#E8EEF8;
-  --gold:#D4920A;--gold-l:#FEF4E0;
-  --green:#0F7B41;--green-l:#E6F5ED;
-  --amber:#B85C00;--amber-l:#FEF0E0;
-  --red:#C0180C;--red-l:#FDECEA;
-  --blue:#1557CC;--blue-l:#EBF2FF;
-  --gray:#64748B;--gray-l:#F1F5F9;
-  --card:#FFFFFF;--bg:#F4F6FC;
-  --border:#E2E8F4;--text:#0F172A;--text2:#475569;--text3:#94A3B8;
-  --wdc1:#00276B;--wdc2:#1557CC;--wdc3:#B85C00;
-  --sh:0 1px 4px rgba(0,39,107,.07),0 4px 16px rgba(0,39,107,.05);
-  --r:12px;--r-s:8px;
+:root {
+  --navy:#003087; --navyd:#001f5c; --navyl:#e8eef8;
+  --gold:#c9880a; --goldl:#fef4e0;
+  --green:#0e7a40; --greenl:#e6f5ed;
+  --amber:#b45a00; --amberl:#fef0e0;
+  --red:#be1b0e; --redl:#fdecea;
+  --blue:#1450c0; --bluel:#ebf2ff;
+  --gray:#64748b; --grayl:#f1f5f9;
+  --bg:#f3f5fc; --card:#fff;
+  --border:#e0e8f4; --text:#0f172a; --text2:#475569; --text3:#94a3b8;
+  --sh: 0 1px 3px rgba(0,30,100,.06), 0 4px 12px rgba(0,30,100,.05);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-size:13px;-webkit-font-smoothing:antialiased}
 
-/* ── TOPBAR ────────────────────────────── */
-.topbar{
-  background:linear-gradient(135deg,var(--navy-d) 0%,var(--navy) 100%);
-  padding:0 20px;height:56px;display:flex;align-items:center;
-  justify-content:space-between;position:sticky;top:0;z-index:200;
-  box-shadow:0 2px 12px rgba(0,0,0,.25);
-}
-.brand{display:flex;align-items:center;gap:10px}
-.logo-pill{background:var(--gold);color:var(--navy-d);font-weight:700;font-size:13px;letter-spacing:1.5px;padding:4px 10px;border-radius:6px}
-.brand-text{color:rgba(255,255,255,.5);font-size:11px;line-height:1.3}
-.brand-text strong{color:#fff;display:block;font-size:12px;font-weight:600}
-.topbar-right{display:flex;align-items:center;gap:8px}
-.live-dot{width:7px;height:7px;border-radius:50%;background:#22c55e;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(.8)}}
-.status-text{font-size:10px;color:rgba(255,255,255,.5)}
-.cd-badge{font-size:10px;color:rgba(255,255,255,.4);background:rgba(255,255,255,.08);padding:3px 8px;border-radius:20px}
-.top-btn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.8);font-size:11px;font-family:inherit;padding:5px 12px;border-radius:6px;cursor:pointer;transition:.15s}
-.top-btn:hover{background:rgba(255,255,255,.2);color:#fff}
-.top-btn:active{transform:scale(.97)}
+/* TOPBAR */
+.topbar{background:linear-gradient(135deg,var(--navyd),var(--navy));padding:0 18px;height:54px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.2)}
+.logo{font-weight:700;font-size:14px;letter-spacing:1.5px;background:var(--gold);color:var(--navyd);padding:3px 10px;border-radius:5px}
+.brand-sub{font-size:10px;color:rgba(255,255,255,.45);margin-left:10px}
+.brand-sub strong{color:rgba(255,255,255,.8);font-weight:500}
+.top-right{display:flex;align-items:center;gap:8px}
+.live{display:flex;align-items:center;gap:5px;font-size:10px;color:#4ade80;background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.25);padding:3px 9px;border-radius:20px}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.status{font-size:10px;color:rgba(255,255,255,.4)}
+.cd{font-size:10px;color:rgba(255,255,255,.35);background:rgba(255,255,255,.07);padding:2px 8px;border-radius:12px}
+.rbtn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.75);font-size:11px;font-family:inherit;padding:5px 12px;border-radius:6px;cursor:pointer}
+.rbtn:hover{background:rgba(255,255,255,.18);color:#fff}
 
-/* ── NAV TABS ──────────────────────────── */
-.nav{background:var(--navy-d);display:flex;padding:0 12px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;border-bottom:1px solid rgba(255,255,255,.06)}
+/* NAV */
+.nav{background:var(--navyd);display:flex;padding:0 10px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;border-bottom:1px solid rgba(255,255,255,.05)}
 .nav::-webkit-scrollbar{display:none}
-.nav-btn{display:flex;align-items:center;gap:6px;padding:11px 14px;font-size:11.5px;font-weight:500;color:rgba(255,255,255,.45);cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;white-space:nowrap;font-family:inherit;transition:.15s;touch-action:manipulation}
-.nav-btn:hover{color:rgba(255,255,255,.75)}
-.nav-btn.active{color:#fff;border-bottom-color:var(--gold)}
-.nav-icon{font-size:13px}
+.ntab{display:flex;align-items:center;gap:6px;padding:11px 14px;font-size:11.5px;font-weight:500;color:rgba(255,255,255,.4);cursor:pointer;border:none;border-bottom:2px solid transparent;background:none;white-space:nowrap;font-family:inherit;transition:.15s}
+.ntab:hover{color:rgba(255,255,255,.7)}
+.ntab.on{color:#fff;border-bottom-color:var(--gold)}
 
-/* ── LAYOUT ────────────────────────────── */
-.page{padding:16px;max-width:1440px;margin:0 auto}
-.section{display:none}
-.section.active{display:block}
+/* PANELS */
+.page{padding:14px 16px;max-width:1400px;margin:0 auto}
+.panel{display:none}
+.panel.on{display:block}
 
-/* ── METRIC STRIP ──────────────────────── */
-.kpi-row{display:grid;gap:10px;margin-bottom:14px}
-.kpi-6{grid-template-columns:repeat(6,1fr)}
-.kpi-4{grid-template-columns:repeat(4,1fr)}
-.kpi-3{grid-template-columns:repeat(3,1fr)}
-.kpi{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;box-shadow:var(--sh);display:flex;flex-direction:column;gap:2px;position:relative;overflow:hidden}
-.kpi::before{content:attr(data-icon);position:absolute;right:12px;top:10px;font-size:22px;opacity:.12}
-.kpi-label{font-size:9.5px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.6px}
-.kpi-val{font-size:22px;font-weight:700;line-height:1;color:var(--navy)}
-.kpi-sub{font-size:10px;color:var(--text3)}
-.kpi.navy .kpi-val{color:var(--navy)}
-.kpi.green{border-top:3px solid var(--green)}.kpi.green .kpi-val{color:var(--green)}
-.kpi.gold{border-top:3px solid var(--gold)}.kpi.gold .kpi-val{color:var(--gold)}
-.kpi.amber{border-top:3px solid var(--amber)}.kpi.amber .kpi-val{color:var(--amber)}
-.kpi.red{border-top:3px solid var(--red)}.kpi.red .kpi-val{color:var(--red)}
-.kpi.blue{border-top:3px solid var(--blue)}.kpi.blue .kpi-val{color:var(--blue)}
+/* KPI GRID */
+.kgrid{display:grid;gap:9px;margin-bottom:12px}
+.k6{grid-template-columns:repeat(6,1fr)}
+.k4{grid-template-columns:repeat(4,1fr)}
+.k3{grid-template-columns:repeat(3,1fr)}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;box-shadow:var(--sh);border-top:3px solid var(--navy);position:relative;overflow:hidden}
+.kpi.green{border-top-color:var(--green)}.kpi.gold{border-top-color:var(--gold)}
+.kpi.amber{border-top-color:var(--amber)}.kpi.red{border-top-color:var(--red)}.kpi.blue{border-top-color:var(--blue)}
+.kpi-ico{position:absolute;right:10px;top:8px;font-size:20px;opacity:.12}
+.kpi-lbl{font-size:9.5px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
+.kpi-val{font-size:21px;font-weight:700;line-height:1;color:var(--navy)}
+.kpi.green .kpi-val{color:var(--green)}.kpi.gold .kpi-val{color:var(--gold)}
+.kpi.amber .kpi-val{color:var(--amber)}.kpi.red .kpi-val{color:var(--red)}.kpi.blue .kpi-val{color:var(--blue)}
+.kpi-sub{font-size:10px;color:var(--text3);margin-top:2px}
 
-/* ── CARD ──────────────────────────────── */
-.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--sh);margin-bottom:12px;overflow:hidden}
-.card-head{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:6px}
-.card-title{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.6px}
-.card-body{padding:14px 16px}
+/* CARD */
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;box-shadow:var(--sh);margin-bottom:11px;overflow:hidden}
+.ch{display:flex;align-items:center;justify-content:space-between;padding:11px 15px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:6px}
+.ct{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px}
+.cb{padding:14px 15px}
 
-/* ── GRID ──────────────────────────────── */
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+/* GRID */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:11px}
 
-/* ── BADGES ────────────────────────────── */
-.pill{display:inline-flex;align-items:center;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;white-space:nowrap}
-.pill-green{background:var(--green-l);color:var(--green)}
-.pill-amber{background:var(--amber-l);color:var(--amber)}
-.pill-red{background:var(--red-l);color:var(--red)}
-.pill-blue{background:var(--blue-l);color:var(--blue)}
-.pill-navy{background:var(--navy-l);color:var(--navy)}
-.pill-gold{background:var(--gold-l);color:var(--gold)}
-.pill-gray{background:var(--gray-l);color:var(--gray)}
-
-/* ── PROGRESS BAR ──────────────────────── */
-.prog-wrap{height:6px;background:var(--gray-l);border-radius:3px;overflow:hidden}
-.prog-fill{height:100%;border-radius:3px;transition:width .5s ease}
-.prog-navy{background:var(--navy)}
-.prog-green{background:var(--green)}
-.prog-amber{background:var(--amber)}
-.prog-red{background:var(--red)}
-.prog-gold{background:var(--gold)}
-
-/* ── TABLE ─────────────────────────────── */
-.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+/* TABLE */
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
 table{width:100%;border-collapse:collapse;font-size:11.5px}
-thead tr{background:var(--bg)}
-th{padding:8px 10px;text-align:left;font-size:9.5px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.4px;border-bottom:1.5px solid var(--border);white-space:nowrap}
-td{padding:8px 10px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:middle}
+th{padding:7px 9px;text-align:left;font-size:9.5px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.3px;border-bottom:1.5px solid var(--border);background:var(--bg);white-space:nowrap}
+td{padding:7px 9px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:middle}
 tr:last-child td{border-bottom:none}
-tbody tr:hover td{background:#FAFBFF}
-.td-name{font-weight:600;color:var(--text)}
+tbody tr:hover td{background:#fafbff}
+.tbn{font-weight:600;color:var(--text)}
 
-/* ── SCAN DOTS ─────────────────────────── */
-.scan-row{display:flex;gap:4px;align-items:center}
+/* PILLS */
+.pill{display:inline-flex;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;white-space:nowrap}
+.pg{background:var(--greenl);color:var(--green)}.pa{background:var(--amberl);color:var(--amber)}
+.pr{background:var(--redl);color:var(--red)}.pb{background:var(--bluel);color:var(--blue)}
+.pn{background:var(--navyl);color:var(--navy)}.pgr{background:var(--grayl);color:var(--gray)}
+
+/* PROGRESS */
+.pbar{height:6px;background:var(--grayl);border-radius:3px;overflow:hidden;margin-top:4px}
+.pfill{height:100%;border-radius:3px;transition:width .5s}
+.pf-navy{background:var(--navy)}.pf-green{background:var(--green)}
+.pf-gold{background:var(--gold)}.pf-amber{background:var(--amber)}
+
+/* SCAN DOTS */
+.sdots{display:flex;gap:3px}
 .sd{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#fff;flex-shrink:0}
-.sd-done{background:var(--green)}
-.sd-dep{background:var(--navy)}
-.sd-miss{background:#E2E8F0;color:#94A3B8}
+.sd-d{background:var(--navy)}.sd-h{background:var(--green)}.sd-x{background:#e2e8f0;color:#94a3b8}
 
-/* ── WD SECTION ────────────────────────── */
-.wd-block{margin-bottom:20px}
-.wd-header{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-radius:var(--r) var(--r) 0 0;margin-bottom:0}
-.wd-h1{background:linear-gradient(135deg,#00276B,#003494)}
-.wd-h2{background:linear-gradient(135deg,#1040A0,#1557CC)}
-.wd-h3{background:linear-gradient(135deg,#8B4000,#B85C00)}
-.wd-name{font-size:13px;font-weight:700;color:#fff;letter-spacing:.3px}
-.wd-stats{display:flex;gap:16px}
-.wd-stat{text-align:center}
-.wd-sv{font-size:18px;font-weight:700;color:#fff}
-.wd-sl{font-size:9px;color:rgba(255,255,255,.6);margin-top:1px}
-.wd-body{background:var(--card);border:1px solid var(--border);border-top:none;border-radius:0 0 var(--r) var(--r)}
+/* SCORE CHIP */
+.sc{padding:2px 8px;border-radius:20px;font-size:10.5px;font-weight:700}
+.sc-g{background:var(--greenl);color:var(--green)}.sc-a{background:var(--amberl);color:var(--amber)}.sc-r{background:var(--redl);color:var(--red)}
 
-/* ── DS CARD ───────────────────────────── */
-.ds-row{border-bottom:1px solid var(--border)}
-.ds-row:last-child{border-bottom:none}
-.ds-top{display:flex;align-items:center;gap:12px;padding:12px 16px;cursor:pointer;transition:.12s}
-.ds-top:hover{background:#FAFBFF}
-.ds-avatar{width:36px;height:36px;border-radius:50%;background:var(--navy-l);color:var(--navy);font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.ds-info{flex:1;min-width:0}
-.ds-name{font-size:12.5px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ds-meta{font-size:10px;color:var(--text3);margin-top:1px}
-.ds-earn{text-align:right;flex-shrink:0}
-.ds-earn-val{font-size:16px;font-weight:700;color:var(--gold)}
-.ds-earn-sub{font-size:9.5px;color:var(--text3)}
-.ds-prog{padding:0 16px 10px;display:none}
-.ds-prog.open{display:block}
-.outlet-list{background:var(--bg);border-radius:var(--r-s);padding:8px 0;margin-top:6px}
-.outlet-item{display:grid;grid-template-columns:1fr auto auto auto;gap:8px;align-items:center;padding:7px 12px;border-bottom:1px solid var(--border)}
-.outlet-item:last-child{border-bottom:none}
-.outlet-item:hover{background:#EAEFFE}
-.oi-name{font-size:11.5px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.oi-earn{font-size:11px;font-weight:700;color:var(--gold);min-width:36px;text-align:right}
+/* EARN HERO */
+.ehero{background:linear-gradient(135deg,var(--navyd),var(--navy));border-radius:10px;padding:16px 20px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.eh-main .eh-lbl{font-size:10px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}
+.eh-main .eh-val{font-size:30px;font-weight:700;color:var(--gold);line-height:1}
+.eh-main .eh-sub{font-size:10px;color:rgba(255,255,255,.4);margin-top:3px}
+.eh-right{text-align:right;color:#fff}
+.eh-right .er-lbl{font-size:9.5px;color:rgba(255,255,255,.4)}
+.eh-right .er-val{font-size:15px;font-weight:600;color:rgba(255,255,255,.9);margin-top:1px}
 
-/* ── EARN BANNER ───────────────────────── */
-.earn-hero{background:linear-gradient(135deg,var(--navy-d),var(--navy));border-radius:var(--r);padding:18px 20px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
-.earn-hero-main{color:#fff}
-.eh-label{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.5);margin-bottom:4px}
-.eh-val{font-size:32px;font-weight:700;color:var(--gold);line-height:1}
-.eh-sub{font-size:10.5px;color:rgba(255,255,255,.5);margin-top:4px}
-.earn-hero-right{text-align:right;color:#fff}
-.eh-r-label{font-size:10px;color:rgba(255,255,255,.4)}
-.eh-r-val{font-size:14px;font-weight:600;color:rgba(255,255,255,.9);margin-top:2px}
+/* WD BLOCK */
+.wdb{margin-bottom:18px;border-radius:10px;overflow:hidden;border:1px solid var(--border);box-shadow:var(--sh)}
+.wdh{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;flex-wrap:wrap;gap:8px}
+.wdh-name{font-size:13px;font-weight:700;color:#fff}
+.wdh-stats{display:flex;gap:18px}
+.wdhs{text-align:center}
+.wdhs-v{font-size:17px;font-weight:700;color:#fff}
+.wdhs-l{font-size:9px;color:rgba(255,255,255,.55);margin-top:1px}
+.wdb-body{background:var(--card)}
 
-/* ── ALERT ─────────────────────────────── */
-.alert-item{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:var(--r-s);margin-bottom:6px;font-size:11.5px;line-height:1.5}
-.ai-green{background:var(--green-l);color:var(--green)}
-.ai-amber{background:var(--amber-l);color:var(--amber)}
-.ai-red{background:var(--red-l);color:var(--red)}
-.ai-blue{background:var(--blue-l);color:var(--blue)}
+/* DS ROW */
+.dsr{border-bottom:1px solid var(--border)}
+.dsr:last-child{border-bottom:none}
+.dsr-top{display:flex;align-items:center;gap:12px;padding:12px 16px;cursor:pointer;transition:.12s;user-select:none}
+.dsr-top:hover{background:#fafbff}
+.dsr-avatar{width:36px;height:36px;border-radius:50%;background:var(--navyl);color:var(--navy);font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.dsr-info{flex:1;min-width:0}
+.dsr-name{font-size:12.5px;font-weight:600;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dsr-meta{font-size:10px;color:var(--text3);margin-top:1px}
+.dsr-earn{text-align:right;flex-shrink:0}
+.dsr-ev{font-size:17px;font-weight:700;color:var(--gold)}
+.dsr-el{font-size:9.5px;color:var(--text3);margin-top:1px}
+.dsr-outlets{display:none;background:#f8f9ff;border-top:1px solid var(--border)}
+.dsr-outlets.open{display:block}
+.ol-hdr{padding:8px 16px;font-size:9.5px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px}
+.oi{display:grid;grid-template-columns:1fr auto auto auto;gap:8px;align-items:center;padding:7px 16px;border-top:1px solid var(--border)}
+.oi:first-of-type{border-top:none}
+.oi:hover{background:#edf0ff}
+.oi-name{font-size:11.5px;font-weight:500;color:var(--text);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.oi-earn{font-size:11.5px;font-weight:700;color:var(--gold);min-width:36px;text-align:right}
 
-/* ── SCORE CHIP ────────────────────────── */
-.score-chip{padding:2px 8px;border-radius:20px;font-size:10.5px;font-weight:700}
-.sc-g{background:var(--green-l);color:var(--green)}
-.sc-a{background:var(--amber-l);color:var(--amber)}
-.sc-r{background:var(--red-l);color:var(--red)}
+/* ALERT */
+.al{display:flex;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:6px;font-size:11.5px;line-height:1.5}
+.al-g{background:var(--greenl);color:var(--green)}.al-a{background:var(--amberl);color:var(--amber)}
+.al-r{background:var(--redl);color:var(--red)}.al-b{background:var(--bluel);color:var(--blue)}
 
-/* ── LOADING ───────────────────────────── */
-#loading-overlay{position:fixed;inset:0;background:rgba(15,23,42,.7);z-index:999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px}
-.spinner{width:32px;height:32px;border:3px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
+/* LOADING */
+#overlay{position:fixed;inset:0;background:rgba(10,20,50,.75);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+.spin{width:30px;height:30px;border:3px solid rgba(255,255,255,.15);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.loading-text{color:rgba(255,255,255,.7);font-size:12px}
-#loading-overlay.hidden{display:none}
+#overlay.hide{display:none}
+.olt{color:rgba(255,255,255,.6);font-size:12px}
 
-/* ── RESPONSIVE ────────────────────────── */
-@media(max-width:900px){
-  .kpi-6{grid-template-columns:repeat(3,1fr)}
-  .g2,.g3{grid-template-columns:1fr}
-}
-@media(max-width:600px){
-  .kpi-6,.kpi-4{grid-template-columns:repeat(2,1fr)}
-  .kpi-3{grid-template-columns:repeat(2,1fr)}
-  .page{padding:10px}
-  .topbar{padding:0 12px;height:50px}
-  .brand-text{display:none}
-  .kpi-val{font-size:18px}
-  .cd-badge{display:none}
-}
-@media(max-width:380px){
-  .kpi-6,.kpi-4{grid-template-columns:repeat(2,1fr)}
-  .nav-btn{padding:10px 10px;font-size:10.5px}
-}
+/* RESPONSIVE */
+@media(max-width:900px){.k6{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:1fr}}
+@media(max-width:560px){.k6,.k4{grid-template-columns:repeat(2,1fr)}.k3{grid-template-columns:repeat(2,1fr)}.brand-sub{display:none}.page{padding:10px 11px}}
 </style>
 </head>
 <body>
 
-<div id="loading-overlay">
-  <div class="spinner"></div>
-  <div class="loading-text">Loading DRISHTI…</div>
-</div>
+<div id="overlay"><div class="spin"></div><div class="olt">Loading DRISHTI…</div></div>
 
-<!-- TOP BAR -->
 <div class="topbar">
-  <div class="brand">
-    <div class="logo-pill">DRISHTI</div>
-    <div class="brand-text"><strong>ITC TM&D · Nagpur</strong>Visibility Rush — POSM Tracker</div>
+  <div style="display:flex;align-items:center;gap:0">
+    <div class="logo">DRISHTI</div>
+    <div class="brand-sub" style="margin-left:10px"><strong>ITC TM&D · Nagpur</strong>Visibility Rush</div>
   </div>
-  <div class="topbar-right">
-    <div class="live-dot"></div>
-    <span class="status-text" id="utxt">Loading…</span>
-    <span class="cd-badge" id="cdtxt"></span>
-    <button class="top-btn" onclick="loadData()">↻ Refresh</button>
+  <div class="top-right">
+    <div class="live"><div class="live-dot"></div>Live</div>
+    <span class="status" id="ust">Loading…</span>
+    <span class="cd" id="cdt"></span>
+    <button class="rbtn" onclick="loadData()">↻ Refresh</button>
   </div>
 </div>
 
-<!-- NAV -->
 <div class="nav">
-  <button class="nav-btn active" onclick="nav(this,'overview')"><span class="nav-icon">📊</span>Overview</button>
-  <button class="nav-btn" onclick="nav(this,'dsoutlets')"><span class="nav-icon">👥</span>DS & Outlets</button>
-  <button class="nav-btn" onclick="nav(this,'hygiene')"><span class="nav-icon">🧹</span>Hygiene & Sell-Out</button>
-  <button class="nav-btn" onclick="nav(this,'log')"><span class="nav-icon">📋</span>Activity Log</button>
+  <button class="ntab on"  onclick="showTab(this,'t-overview')">📊 Overview</button>
+  <button class="ntab"     onclick="showTab(this,'t-ds')">👥 DS &amp; Outlets</button>
+  <button class="ntab"     onclick="showTab(this,'t-hygiene')">🧹 Hygiene &amp; Sell-Out</button>
+  <button class="ntab"     onclick="showTab(this,'t-log')">📋 Activity Log</button>
 </div>
 
 <div class="page">
 
   <!-- OVERVIEW -->
-  <div class="section active" id="overview">
-    <div class="kpi-row kpi-6" id="ov-kpis"></div>
-    <div class="kpi-row kpi-4" id="ov-kpis2"></div>
+  <div class="panel on" id="t-overview">
+    <div class="kgrid k6" id="ov1"></div>
+    <div class="kgrid k4" id="ov2"></div>
     <div class="g2">
       <div>
-        <div class="card">
-          <div class="card-head"><span class="card-title">WD-wise Summary</span></div>
-          <div id="ov-wd" style="padding:12px 16px"></div>
-        </div>
-        <div class="card">
-          <div class="card-head"><span class="card-title">Action Alerts</span></div>
-          <div id="ov-alerts" style="padding:12px 16px"></div>
-        </div>
+        <div class="card"><div class="ch"><span class="ct">WD-wise Summary</span></div><div class="cb" id="ov-wd"></div></div>
+        <div class="card"><div class="ch"><span class="ct">Action Alerts</span></div><div class="cb" id="ov-al"></div></div>
       </div>
       <div>
-        <div class="card">
-          <div class="card-head"><span class="card-title">Daily Scan Activity</span></div>
-          <div style="padding:12px 16px 14px"><canvas id="dayChart"></canvas></div>
-        </div>
-        <div class="card">
-          <div class="card-head"><span class="card-title">Outlet Completion Status</span></div>
-          <div style="padding:12px 16px 14px"><canvas id="statusDonut"></canvas></div>
-        </div>
+        <div class="card"><div class="ch"><span class="ct">Daily Scan Activity</span></div><div class="cb"><canvas id="ch-day"></canvas></div></div>
+        <div class="card"><div class="ch"><span class="ct">Outlet Status</span></div><div class="cb"><canvas id="ch-status"></canvas></div></div>
       </div>
     </div>
   </div>
 
   <!-- DS & OUTLETS -->
-  <div class="section" id="dsoutlets">
-    <div class="earn-hero">
-      <div class="earn-hero-main">
-        <div class="eh-label">Total DS Payout Committed — After 14th May 2026</div>
+  <div class="panel" id="t-ds">
+    <div class="ehero">
+      <div class="eh-main">
+        <div class="eh-lbl">Total DS Payout — After 14th May 2026</div>
         <div class="eh-val" id="eh-total">₹0</div>
         <div class="eh-sub">₹5 per scan · 4 scans per outlet · Max ₹800 per DS</div>
       </div>
-      <div class="earn-hero-right">
-        <div class="eh-r-label">Total Scans Logged</div>
-        <div class="eh-r-val" id="eh-scans">0 scans</div>
-        <div class="eh-r-label" style="margin-top:8px">Active DS</div>
-        <div class="eh-r-val" id="eh-ds">0 DS</div>
+      <div class="eh-right">
+        <div class="er-lbl">Total Scans</div><div class="er-val" id="eh-scans">0</div>
+        <div class="er-lbl" style="margin-top:8px">Active DS</div><div class="er-val" id="eh-ds">0</div>
       </div>
     </div>
-    <div id="wd-sections"></div>
+    <div id="ds-content"></div>
   </div>
 
   <!-- HYGIENE & SELL-OUT -->
-  <div class="section" id="hygiene">
-    <div class="kpi-row kpi-4" id="hy-kpis"></div>
+  <div class="panel" id="t-hygiene">
+    <div class="kgrid k4" id="hy-kpis"></div>
     <div class="g2">
       <div>
         <div class="card">
-          <div class="card-head">
-            <span class="card-title">Ladi Hygiene Scores</span>
-            <span class="pill pill-navy" id="hy-badge">0 checks</span>
-          </div>
-          <div class="tbl-wrap"><table>
-            <thead><tr><th>Outlet</th><th>DS</th><th>Checks</th><th>Avg</th><th>Last</th><th>Stock</th><th>Purity</th><th>Order?</th></tr></thead>
-            <tbody id="hy-table"></tbody>
-          </table></div>
+          <div class="ch"><span class="ct">Ladi Hygiene Scores</span><span class="pill pn" id="hy-ct">0 checks</span></div>
+          <div class="tw"><table><thead><tr><th>Outlet</th><th>DS</th><th>Checks</th><th>Avg Score</th><th>Last Score</th><th>Purity</th><th>Order?</th></tr></thead><tbody id="hy-tbl"></tbody></table></div>
         </div>
         <div class="card">
-          <div class="card-head"><span class="card-title">CTU Sell-Out</span></div>
-          <div class="tbl-wrap"><table>
-            <thead><tr><th>Outlet</th><th>DS</th><th>Current Stock</th><th>Sold</th><th>Order?</th><th>Status</th></tr></thead>
-            <tbody id="ctu-table"></tbody>
-          </table></div>
+          <div class="ch"><span class="ct">CTU Sell-Out</span></div>
+          <div class="tw"><table><thead><tr><th>Outlet</th><th>DS</th><th>Checks</th><th>Current Stock</th><th>Units Sold</th><th>Order?</th></tr></thead><tbody id="ctu-tbl"></tbody></table></div>
         </div>
       </div>
       <div>
-        <div class="card">
-          <div class="card-head"><span class="card-title">Score Distribution</span></div>
-          <div style="padding:12px 16px"><canvas id="scoreChart"></canvas></div>
-        </div>
-        <div class="card">
-          <div class="card-head"><span class="card-title">Ladi Purity Breakdown</span></div>
-          <div style="padding:12px 16px"><canvas id="purityChart"></canvas></div>
-        </div>
-        <div class="card">
-          <div class="card-head"><span class="card-title">Stock Level Distribution</span></div>
-          <div style="padding:12px 16px"><canvas id="stockLevelChart"></canvas></div>
-        </div>
+        <div class="card"><div class="ch"><span class="ct">Score Distribution</span></div><div class="cb"><canvas id="ch-score"></canvas></div></div>
+        <div class="card"><div class="ch"><span class="ct">Ladi Purity</span></div><div class="cb"><canvas id="ch-purity"></canvas></div></div>
       </div>
     </div>
   </div>
 
   <!-- LOG -->
-  <div class="section" id="log">
+  <div class="panel" id="t-log">
     <div class="card">
-      <div class="card-head">
-        <span class="card-title">All Scan Records — Newest First</span>
-        <span class="pill pill-blue" id="log-count">0 records</span>
-      </div>
-      <div class="tbl-wrap"><table>
-        <thead><tr><th>Date & Time</th><th>DS</th><th>Outlet</th><th>WD</th><th>Type</th><th>POSM</th><th>Score / Stock</th><th>Status</th></tr></thead>
-        <tbody id="log-body"></tbody>
-      </table></div>
+      <div class="ch"><span class="ct">All Scan Records — Newest First</span><span class="pill pb" id="log-ct">0 records</span></div>
+      <div class="tw"><table><thead><tr><th>Date & Time</th><th>DS</th><th>Outlet</th><th>WD</th><th>Type</th><th>POSM</th><th>Score</th><th>Status</th></tr></thead><tbody id="log-tbl"></tbody></table></div>
     </div>
   </div>
 
-</div><!-- /page -->
+</div>
 
 <script>
-// ── CONFIG ────────────────────────────────────────
-// Sheet must be published: File → Share → Publish to web → Sheet1 → CSV
+// ════════════════════════════════════════════════════════
+// PASTE YOUR PUBLISHED GOOGLE SHEET CSV URL BELOW
+// Steps: File → Share → Publish to web → Form Responses 1 → CSV → Publish
+// ════════════════════════════════════════════════════════
 const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQtX16effBsYlRH7bceAIc0s51G6VpWx-Eeg4QGsecBEWsa_H7_fkr0XUvxUIksfLiKvGFvVcfSlpse/pub?gid=411503546&single=true&output=csv";
-const EARN_PER_SCAN = 5;
-const MAX_EARN      = 800;
-const MAX_SCANS     = 4; // per outlet per DS
-const REFRESH_SEC   = 300;
 
-let DATA = [], cdTimer = null, cdLeft = REFRESH_SEC;
+const PER_SCAN = 5, MAX = 800, SECS = 300;
+let ROWS = [], timer = null, left = SECS, idN = 0, idMap = {};
 
-// ── COLUMN HELPERS ────────────────────────────────
-const v    = (r,i) => (r[i]||'').trim();
-const out  = r => v(r,2)||v(r,17)||v(r,20);
-const act  = r => v(r,3)||v(r,19)||v(r,22);
-const dsF  = r => v(r,1)||v(r,18)||v(r,21);
-const pNew = r => v(r,4);
-const pChk = r => v(r,6);
-const sc   = r => parseInt(v(r,23))||0;
-const stat = r => v(r,24);
-const stC  = r => v(r,8);
-const stL  = r => v(r,12);
-const pur  = r => v(r,15);
-const orL  = r => v(r,13);
-const orC  = r => v(r,9);
-const dmg  = r => v(r,14);
-const ph   = r => v(r,5);
-const ts   = r => v(r,0).slice(0,10);
+// ── SAFE ID (no btoa - fixes crash on Indian names) ──
+function sid(key){ if(!idMap[key]) idMap[key]='x'+(idN++); return idMap[key]; }
 
-function wd(r){
-  let w=v(r,16);
-  if(!w||w==='Deployed'||w===''){
-    if(v(r,2))  return 'GOKUL ENTERPRISES';
-    if(v(r,17)) return 'GOKUL TRADERS';
-    if(v(r,20)) return 'ORANGE CITY';
-    return 'GOKUL ENTERPRISES';
+// ── COLUMN READERS ────────────────────────────────────
+const g = (r,i) => (r[i]||'').trim();
+
+// Outlet: GE uses col2, GT uses col17, OC uses col20
+function getOutlet(r){ return g(r,2)||g(r,17)||g(r,20); }
+
+// DS: GE uses col1, GT uses col18, OC uses col21
+function getDS(r){ return g(r,1)||g(r,18)||g(r,21); }
+
+// Activity: GE uses col3, GT uses col19, OC uses col22
+function getAct(r){ return g(r,3)||g(r,19)||g(r,22); }
+
+// WD detection - col16 has WD name, else infer from which column is filled
+function getWD(r){
+  const w = g(r,16);
+  if(w && w !== 'Deployed'){
+    if(/GOKUL.*ENT/i.test(w)||(/GOKUL/i.test(w)&&!/TRAD/i.test(w))) return 'GOKUL ENTERPRISES';
+    if(/GOKUL.*TRAD/i.test(w)) return 'GOKUL TRADERS';
+    if(/ORANGE/i.test(w)) return 'ORANGE CITY';
   }
-  if(/GOKUL ENT/i.test(w))    return 'GOKUL ENTERPRISES';
-  if(/GOKUL TRAD/i.test(w))   return 'GOKUL TRADERS';
-  if(/ORANGE/i.test(w))       return 'ORANGE CITY';
-  return w;
+  // Infer from which outlet column is filled
+  if(g(r,2))  return 'GOKUL ENTERPRISES';
+  if(g(r,17)) return 'GOKUL TRADERS';
+  if(g(r,20)) return 'ORANGE CITY';
+  return 'GOKUL ENTERPRISES';
 }
-function dsShort(r){
-  let d=dsF(r), p=d.split(' ');
-  if(p.length>1&&/^\d{7,}$/.test(p[p.length-1])) p.pop();
-  return p.join(' ');
+
+// DS short name - remove trailing phone number
+function shortName(r){
+  const full = getDS(r);
+  const parts = full.split(' ');
+  if(parts.length > 1 && /^\d{7,}$/.test(parts[parts.length-1])) parts.pop();
+  return parts.join(' ').trim() || full;
 }
+
+// Initials for avatar
 function initials(name){
-  return name.split(' ').slice(0,2).map(w=>w[0]||'').join('').toUpperCase()||'?';
+  return name.trim().split(/\s+/).slice(0,2).map(w=>w[0]||'').join('').toUpperCase()||'?';
 }
 
-const isDep = r => /deploy/i.test(act(r));
-const isHyg = r => /hygiene/i.test(act(r));
-const isLadi= r => /ladi/i.test(pChk(r));
-const isCTU = r => /counter/i.test(pChk(r));
-const valid = r => out(r)&&(isDep(r)||isHyg(r));
+// Row type checks
+const isDep = r => /deploy/i.test(getAct(r));
+const isHyg = r => /hygiene/i.test(getAct(r));
+const isLadi= r => /ladi/i.test(g(r,6));
+const isCTU = r => /counter/i.test(g(r,6));
+const isOk  = r => getOutlet(r) && (isDep(r)||isHyg(r));
+const getTs = r => g(r,0).slice(0,10);
 
-// ── NAVIGATION ────────────────────────────────────
-function nav(el,id){
-  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById(id).classList.add('active');
+// ── TAB SWITCHING ─────────────────────────────────────
+function showTab(btn, panelId){
+  document.querySelectorAll('.ntab').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
+  btn.classList.add('on');
+  const el = document.getElementById(panelId);
+  if(el) el.classList.add('on');
 }
 
-// ── CSV PARSE ─────────────────────────────────────
-function parseCSV(txt){
-  return txt.trim().split('\n').slice(1).map(line=>{
-    const cols=[];let cur='',q=false;
-    for(let i=0;i<line.length;i++){
-      if(line[i]==='"'){q=!q;}
-      else if(line[i]===','&&!q){cols.push(cur);cur='';}
-      else cur+=line[i];
+// ── CSV PARSER ────────────────────────────────────────
+function parseCSV(text){
+  const lines = text.trim().split('\n');
+  return lines.slice(1).map(line => {
+    const cols = []; let cur = '', q = false;
+    for(let i = 0; i < line.length; i++){
+      if(line[i] === '"'){ q = !q; continue; }
+      if(line[i] === ',' && !q){ cols.push(cur.trim()); cur = ''; continue; }
+      cur += line[i];
     }
-    cols.push(cur);
+    cols.push(cur.trim());
     return cols;
-  });
+  }).filter(r => r.length > 3);
 }
 
-// ── AGGREGATION ───────────────────────────────────
+// ── DATA AGGREGATION ──────────────────────────────────
 function aggregate(){
-  const rows = DATA.filter(valid);
+  const rows = ROWS.filter(isOk);
 
-  // wdDsOut: { wd → { ds → { outlet → {dep,hyg,scores,stocks,purities,orders} } } }
-  const wdo={};
-  // flat DS map for earnings
-  const dsMap={};
-  // flat outlet map for hygiene/CTU
-  const outMap={};
+  // wdMap: { WD → { DS → { short, inits, dep, hyg, outlets:{name→{dep,hyg}} } } }
+  const wdMap = {};
+  // outMap: { outlet → { wd, ds, short, dep, hyg, ladiSc, ctuSt, purs, ordsL, ordsC } }
+  const outMap = {};
 
-  rows.forEach(r=>{
-    const W=wd(r), D=dsF(r), Ds=dsShort(r), O=out(r), W2=wd(r);
-    if(!wdo[W]) wdo[W]={};
-    if(!wdo[W][D]) wdo[W][D]={short:Ds,inits:initials(Ds),outlets:{}};
-    if(!wdo[W][D].outlets[O]) wdo[W][D].outlets[O]={dep:0,hyg:0,ladiSc:[],ctuSt:[],purs:[],ords:[]};
+  rows.forEach(r => {
+    const outlet = getOutlet(r);
+    const ds     = getDS(r);
+    const short  = shortName(r);
+    const wdKey  = getWD(r);
 
-    if(!dsMap[D]) dsMap[D]={short:Ds,inits:initials(Ds),wd:W,dep:0,hyg:0,total:0,earn:0};
-    if(!outMap[O]) outMap[O]={name:O,ds:Ds,wd:W,dep:false,hyg:0,ladiSc:[],ctuSt:[],purs:[],ordsL:[],ordsC:[],dmgs:[]};
+    // Init WD
+    if(!wdMap[wdKey]) wdMap[wdKey] = {};
+    // Init DS under WD
+    if(!wdMap[wdKey][ds]) wdMap[wdKey][ds] = { short, inits: initials(short), dep:0, hyg:0, outlets:{} };
+    // Init outlet under DS
+    if(!wdMap[wdKey][ds].outlets[outlet]) wdMap[wdKey][ds].outlets[outlet] = { dep:0, hyg:0 };
+
+    // Init outlet map
+    if(!outMap[outlet]) outMap[outlet] = { name:outlet, wd:wdKey, ds:short, dep:0, hyg:0, ladiSc:[], ctuSt:[], purs:[], ordsL:[], ordsC:[] };
 
     if(isDep(r)){
-      wdo[W][D].outlets[O].dep++;
-      dsMap[D].dep++; dsMap[D].total++;
-      outMap[O].dep=true; outMap[O].ds=Ds; outMap[O].wd=W;
+      wdMap[wdKey][ds].dep++;
+      wdMap[wdKey][ds].outlets[outlet].dep++;
+      outMap[outlet].dep++;
+      outMap[outlet].ds = short;
+      outMap[outlet].wd = wdKey;
     }
     if(isHyg(r)){
-      wdo[W][D].outlets[O].hyg++;
-      dsMap[D].hyg++; dsMap[D].total++;
-      outMap[O].hyg++;
+      wdMap[wdKey][ds].hyg++;
+      wdMap[wdKey][ds].outlets[outlet].hyg++;
+      outMap[outlet].hyg++;
       if(isLadi(r)){
-        const s=sc(r); if(s>0) wdo[W][D].outlets[O].ladiSc.push(s);
-        if(s>0) outMap[O].ladiSc.push(s);
-        const p=pur(r); if(p){wdo[W][D].outlets[O].purs.push(p);outMap[O].purs.push(p);}
-        const o=orL(r); if(o){wdo[W][D].outlets[O].ords.push(o);outMap[O].ordsL.push(o);}
-        const dm=dmg(r); if(dm) outMap[O].dmgs.push(dm);
-        const sl=stL(r); // stock text
+        const sc = parseInt(g(r,23))||0;
+        if(sc > 0){ wdMap[wdKey][ds].outlets[outlet].ladiSc = wdMap[wdKey][ds].outlets[outlet].ladiSc||[]; wdMap[wdKey][ds].outlets[outlet].ladiSc.push(sc); outMap[outlet].ladiSc.push(sc); }
+        const pu = g(r,15); if(pu) outMap[outlet].purs.push(pu);
+        const ol = g(r,13); if(ol) outMap[outlet].ordsL.push(ol);
       }
       if(isCTU(r)){
-        const s=stC(r); if(s!==''){wdo[W][D].outlets[O].ctuSt.push(parseInt(s)||0);outMap[O].ctuSt.push(parseInt(s)||0);}
-        const o=orC(r); if(o) outMap[O].ordsC.push(o);
+        const st = g(r,8); if(st !== '') outMap[outlet].ctuSt.push(parseInt(st)||0);
+        const oc = g(r,9); if(oc) outMap[outlet].ordsC.push(oc);
       }
     }
   });
 
-  // Calc DS earnings
-  Object.values(dsMap).forEach(d=>{
-    d.earn = Math.min(d.total * EARN_PER_SCAN, MAX_EARN);
-  });
-
-  // Calc per-outlet-per-DS earnings for display
-  Object.values(wdo).forEach(wdEntry=>{
-    Object.values(wdEntry).forEach(dsEntry=>{
-      let dsTotalScans=0;
-      Object.values(dsEntry.outlets).forEach(o=>{
-        const scans = Math.min(o.dep+o.hyg, MAX_SCANS);
-        o.earn = scans * EARN_PER_SCAN;
-        o.scans = scans;
-        dsTotalScans += o.dep + o.hyg;
-      });
-      dsEntry.totalScans = dsTotalScans;
-      dsEntry.earn = Math.min(dsTotalScans * EARN_PER_SCAN, MAX_EARN);
+  // Compute DS earnings
+  const dsList = [];
+  Object.entries(wdMap).forEach(([wdKey, dsEntries]) => {
+    Object.entries(dsEntries).forEach(([dsKey, d]) => {
+      const totalScans = d.dep + d.hyg;
+      const earn = Math.min(totalScans * PER_SCAN, MAX);
+      dsList.push({ key:dsKey, short:d.short, inits:d.inits, wd:wdKey, dep:d.dep, hyg:d.hyg, totalScans, earn, outlets:d.outlets });
     });
   });
+  dsList.sort((a,b) => b.earn - a.earn);
 
-  return {rows,wdo,dsMap,outMap};
+  const outList = Object.values(outMap).sort((a,b) => (b.dep+b.hyg)-(a.dep+a.hyg));
+
+  return { rows, wdMap, dsList, outList };
 }
 
-// ── CHART DESTROY ─────────────────────────────────
-function kc(id){const c=Chart.getChart(id);if(c)c.destroy();}
+// ── DESTROY CHART ─────────────────────────────────────
+function kc(id){ const c = Chart.getChart(id); if(c) c.destroy(); }
 
-// ── BUILD ALL ─────────────────────────────────────
-function buildAll(){
-  if(!DATA.length) return;
-  const {rows,wdo,dsMap,outMap} = aggregate();
-  const dsList  = Object.values(dsMap).sort((a,b)=>b.earn-a.earn);
-  const outList = Object.values(outMap).sort((a,b)=>(b.dep+b.hyg)-(a.dep+a.hyg));
-  buildOverview(rows,dsList,outList);
-  buildDSOutlets(wdo,dsList);
-  buildHygiene(outList,rows);
-  buildLog(rows);
-}
+// ── BUILD OVERVIEW ────────────────────────────────────
+function buildOverview(rows, dsList, outList){
+  const totalDep   = rows.filter(isDep).length;
+  const totalHyg   = rows.filter(isHyg).length;
+  const totalScans = totalDep + totalHyg;
+  const totalEarn  = dsList.reduce((s,d) => s + d.earn, 0);
+  const complete   = outList.filter(o => o.dep>0 && o.hyg>=3).length;
+  const dsActive   = dsList.filter(d => d.totalScans > 0).length;
 
-// ── OVERVIEW ──────────────────────────────────────
-function buildOverview(rows,dsList,outList){
-  const deps     = rows.filter(isDep).length;
-  const hygs     = rows.filter(isHyg).length;
-  const total    = deps+hygs;
-  const totalEarn= dsList.reduce((s,d)=>s+d.earn,0);
-  const complete = outList.filter(o=>o.dep&&o.hyg>=3).length;
-  const todayStr = new Date().toISOString().slice(0,10);
-  const todayN   = rows.filter(r=>valid(r)&&ts(r).split('/').reverse().join('-')===todayStr).length;
-  const avgSc    = (()=>{const a=outList.flatMap(o=>o.ladiSc);return a.length?Math.round(a.reduce((s,x)=>s+x,0)/a.length):null;})();
-  const orders   = outList.reduce((s,o)=>s+o.ordsL.filter(x=>x==='Yes').length+o.ordsC.filter(x=>x==='Yes').length,0);
-  const dsActive = dsList.filter(d=>d.total>0).length;
-  const noHyg    = outList.filter(o=>o.dep&&o.hyg===0).length;
+  // Today's scans
+  const today = new Date().toISOString().slice(0,10);
+  const todayN = rows.filter(r => isOk(r) && getTs(r).split('/').reverse().join('-') === today).length;
 
-  document.getElementById('ov-kpis').innerHTML=`
-    <div class="kpi navy" data-icon="🏪"><div class="kpi-label">Outlets Deployed</div><div class="kpi-val">${deps}</div><div class="kpi-sub">Ladi placed in field</div></div>
-    <div class="kpi green" data-icon="✅"><div class="kpi-label">Hygiene Scans</div><div class="kpi-val">${hygs}</div><div class="kpi-sub">₹${hygs*EARN_PER_SCAN} earned so far</div></div>
-    <div class="kpi gold" data-icon="📊"><div class="kpi-label">Total Scans</div><div class="kpi-val">${total}</div><div class="kpi-sub">All activities</div></div>
-    <div class="kpi blue" data-icon="🏆"><div class="kpi-label">Complete (4/4)</div><div class="kpi-val">${complete}/${outList.length}</div><div class="kpi-sub">${outList.length?Math.round(complete/outList.length*100):0}% outlets done</div></div>
-    <div class="kpi gold" data-icon="💰"><div class="kpi-label">DS Earnings</div><div class="kpi-val">₹${totalEarn}</div><div class="kpi-sub">After 14th May 2026</div></div>
-    <div class="kpi ${todayN>0?'green':'amber'}" data-icon="📅"><div class="kpi-label">Scans Today</div><div class="kpi-val">${todayN}</div><div class="kpi-sub">Activity today</div></div>
+  const allScores = outList.flatMap(o => o.ladiSc);
+  const avgSc = allScores.length ? Math.round(allScores.reduce((s,x)=>s+x,0)/allScores.length) : null;
+  const orders = outList.reduce((s,o) => s + o.ordsL.filter(x=>x==='Yes').length + o.ordsC.filter(x=>x==='Yes').length, 0);
+  const noHyg  = outList.filter(o => o.dep>0 && o.hyg===0).length;
+
+  document.getElementById('ov1').innerHTML = `
+    <div class="kpi"><div class="kpi-ico">🏪</div><div class="kpi-lbl">Outlets Deployed</div><div class="kpi-val">${totalDep}</div><div class="kpi-sub">Ladi placed</div></div>
+    <div class="kpi green"><div class="kpi-ico">✅</div><div class="kpi-lbl">Hygiene Scans</div><div class="kpi-val">${totalHyg}</div><div class="kpi-sub">₹${totalHyg*PER_SCAN} earned</div></div>
+    <div class="kpi gold"><div class="kpi-ico">📊</div><div class="kpi-lbl">Total Scans</div><div class="kpi-val">${totalScans}</div><div class="kpi-sub">All activities</div></div>
+    <div class="kpi blue"><div class="kpi-ico">🏆</div><div class="kpi-lbl">Complete (4/4)</div><div class="kpi-val">${complete}/${outList.length}</div><div class="kpi-sub">${outList.length?Math.round(complete/outList.length*100):0}% done</div></div>
+    <div class="kpi gold"><div class="kpi-ico">💰</div><div class="kpi-lbl">DS Earnings</div><div class="kpi-val">₹${totalEarn}</div><div class="kpi-sub">After 14 May</div></div>
+    <div class="kpi ${todayN>0?'green':'amber'}"><div class="kpi-ico">📅</div><div class="kpi-lbl">Scans Today</div><div class="kpi-val">${todayN}</div><div class="kpi-sub">Today's activity</div></div>
   `;
-  document.getElementById('ov-kpis2').innerHTML=`
-    <div class="kpi ${dsActive>0?'blue':'amber'}" data-icon="👥"><div class="kpi-label">Active DS</div><div class="kpi-val">${dsActive}</div><div class="kpi-sub">Submitted at least 1 scan</div></div>
-    <div class="kpi ${avgSc===null?'amber':avgSc>=70?'green':avgSc>=45?'amber':'red'}" data-icon="🧹"><div class="kpi-label">Avg Hygiene Score</div><div class="kpi-val">${avgSc===null?'—':avgSc+'/100'}</div><div class="kpi-sub">Ladi checks average</div></div>
-    <div class="kpi green" data-icon="🛒"><div class="kpi-label">Orders via POSM</div><div class="kpi-val">${orders}</div><div class="kpi-sub">Retailers ordered same visit</div></div>
-    <div class="kpi ${noHyg>0?'red':'green'}" data-icon="⚠️"><div class="kpi-label">Deployed, No Hygiene</div><div class="kpi-val">${noHyg}</div><div class="kpi-sub">Need first hygiene scan</div></div>
+  document.getElementById('ov2').innerHTML = `
+    <div class="kpi blue"><div class="kpi-ico">👥</div><div class="kpi-lbl">Active DS</div><div class="kpi-val">${dsActive}</div><div class="kpi-sub">Scanned at least once</div></div>
+    <div class="kpi ${avgSc===null?'amber':avgSc>=70?'green':avgSc>=45?'amber':'red'}"><div class="kpi-ico">🧹</div><div class="kpi-lbl">Avg Hygiene Score</div><div class="kpi-val">${avgSc===null?'—':avgSc+'/100'}</div><div class="kpi-sub">Ladi checks</div></div>
+    <div class="kpi green"><div class="kpi-ico">🛒</div><div class="kpi-lbl">Orders via POSM</div><div class="kpi-val">${orders}</div><div class="kpi-sub">Same-visit orders</div></div>
+    <div class="kpi ${noHyg>0?'red':'green'}"><div class="kpi-ico">⚠️</div><div class="kpi-lbl">No Hygiene Yet</div><div class="kpi-val">${noHyg}</div><div class="kpi-sub">Deployed, unchecked</div></div>
   `;
 
   // WD summary
-  const wdCfg=[
-    {key:'GOKUL ENTERPRISES',cls:'wd-h1'},
-    {key:'GOKUL TRADERS',cls:'wd-h2'},
-    {key:'ORANGE CITY',cls:'wd-h3'}
-  ];
-  const wdMap={};
-  rows.filter(valid).forEach(r=>{const w=wd(r);if(!wdMap[w])wdMap[w]={dep:0,hyg:0,ds:new Set()};if(isDep(r))wdMap[w].dep++;if(isHyg(r))wdMap[w].hyg++;wdMap[w].ds.add(dsF(r));});
-
-  document.getElementById('ov-wd').innerHTML = Object.entries(wdMap).map(([name,s])=>{
-    const cfg = wdCfg.find(c=>name.includes(c.key.split(' ')[0]))||wdCfg[0];
-    return `
-    <div style="border-radius:var(--r-s);overflow:hidden;margin-bottom:8px;border:1px solid var(--border)">
-      <div style="background:${name.includes('GOKUL E')?'#00276B':name.includes('GOKUL T')?'#1557CC':'#B85C00'};padding:8px 14px;display:flex;align-items:center;justify-content:space-between">
+  const wdBg = {'GOKUL ENTERPRISES':'#00276B','GOKUL TRADERS':'#1557CC','ORANGE CITY':'#B85C00'};
+  const wdRows = {};
+  rows.filter(isOk).forEach(r => {
+    const w = getWD(r);
+    if(!wdRows[w]) wdRows[w] = { dep:0, hyg:0, ds:new Set() };
+    if(isDep(r)) wdRows[w].dep++;
+    if(isHyg(r)) wdRows[w].hyg++;
+    wdRows[w].ds.add(getDS(r));
+  });
+  document.getElementById('ov-wd').innerHTML = Object.entries(wdRows).map(([name,s]) => `
+    <div style="border-radius:8px;overflow:hidden;margin-bottom:8px;border:1px solid var(--border)">
+      <div style="background:${wdBg[name]||'#003087'};padding:8px 14px;display:flex;align-items:center;justify-content:space-between">
         <div style="color:#fff;font-size:12px;font-weight:600">${name}</div>
-        <div style="color:rgba(255,255,255,.6);font-size:10px">${s.ds.size} DS active</div>
+        <div style="color:rgba(255,255,255,.5);font-size:10px">${s.ds.size} DS active</div>
       </div>
-      <div style="padding:10px 14px;display:flex;gap:20px;background:var(--card)">
-        <div><div style="font-size:18px;font-weight:700;color:var(--navy)">${s.dep}</div><div style="font-size:9.5px;color:var(--text3)">Deployed</div></div>
-        <div><div style="font-size:18px;font-weight:700;color:var(--green)">${s.hyg}</div><div style="font-size:9.5px;color:var(--text3)">Hygiene</div></div>
-        <div><div style="font-size:18px;font-weight:700;color:var(--gold)">${s.dep+s.hyg}</div><div style="font-size:9.5px;color:var(--text3)">Total Scans</div></div>
+      <div style="padding:10px 14px;display:flex;gap:20px;align-items:center;background:var(--card)">
+        <div><div style="font-size:17px;font-weight:700;color:var(--navy)">${s.dep}</div><div style="font-size:9.5px;color:var(--text3)">Deployed</div></div>
+        <div><div style="font-size:17px;font-weight:700;color:var(--green)">${s.hyg}</div><div style="font-size:9.5px;color:var(--text3)">Hygiene</div></div>
+        <div><div style="font-size:17px;font-weight:700;color:var(--gold)">${s.dep+s.hyg}</div><div style="font-size:9.5px;color:var(--text3)">Total Scans</div></div>
         <div style="flex:1">
-          <div style="font-size:9.5px;color:var(--text3);margin-bottom:4px">Completion</div>
-          <div class="prog-wrap"><div class="prog-fill prog-navy" style="width:${s.dep+s.hyg>0?Math.min(100,Math.round(s.hyg/(Math.max(s.dep,1)*3)*100)):0}%"></div></div>
+          <div style="font-size:9.5px;color:var(--text3);margin-bottom:3px">Hygiene completion</div>
+          <div class="pbar"><div class="pfill pf-navy" style="width:${s.dep>0?Math.min(100,Math.round(s.hyg/(s.dep*3)*100)):0}%"></div></div>
         </div>
       </div>
-    </div>`;
-  }).join('') || '<div style="color:var(--text3);padding:8px;font-size:11px">No data yet</div>';
+    </div>
+  `).join('') || '<div style="color:var(--text3);font-size:11px">No data yet</div>';
 
   // Alerts
-  const alerts=[];
-  const noHygOuts=outList.filter(o=>o.dep&&o.hyg===0);
-  const critOuts=outList.filter(o=>o.ladiSc.length&&Math.round(o.ladiSc.reduce((s,x)=>s+x,0)/o.ladiSc.length)<45);
-  const compOuts=outList.filter(o=>o.purs.length&&o.purs[o.purs.length-1]==='Competitors Mostly');
-  const nearDone=outList.filter(o=>!o.dep||o.hyg<3).filter(o=>(o.dep?1:0)+o.hyg===3);
-  if(noHygOuts.length) alerts.push(`<div class="alert-item ai-amber">⚠️ <strong>${noHygOuts.length} outlet(s)</strong> deployed but hygiene not started yet — ${noHygOuts.slice(0,2).map(o=>o.name.split(' ')[0]).join(', ')}${noHygOuts.length>2?'…':''}</div>`);
-  if(critOuts.length) alerts.push(`<div class="alert-item ai-red">🔴 <strong>${critOuts.length} outlet(s)</strong> with critical hygiene score (below 45)</div>`);
-  if(compOuts.length) alerts.push(`<div class="alert-item ai-red">🔴 <strong>${compOuts.length} ladi(s)</strong> showing competitor products — action needed</div>`);
-  if(nearDone.length) alerts.push(`<div class="alert-item ai-blue">📌 <strong>${nearDone.length} outlet(s)</strong> at 3/4 scans — one more to complete</div>`);
-  if(!alerts.length) alerts.push('<div class="alert-item ai-green">✅ All clear — no critical issues</div>');
-  document.getElementById('ov-alerts').innerHTML = alerts.join('');
+  const als = [];
+  const noHygOuts = outList.filter(o => o.dep>0 && o.hyg===0);
+  const critOuts  = outList.filter(o => { const a=o.ladiSc.length?Math.round(o.ladiSc.reduce((s,x)=>s+x,0)/o.ladiSc.length):null; return a!==null&&a<45; });
+  const compOuts  = outList.filter(o => o.purs.length && o.purs[o.purs.length-1]==='Competitors Mostly');
+  const nearDone  = outList.filter(o => (o.dep?1:0)+o.hyg===3 && o.hyg<3);
+  if(noHygOuts.length) als.push(`<div class="al al-a">⚠️ <strong>${noHygOuts.length} outlet(s)</strong> deployed but no hygiene check yet</div>`);
+  if(critOuts.length)  als.push(`<div class="al al-r">🔴 <strong>${critOuts.length} outlet(s)</strong> with critical hygiene score below 45</div>`);
+  if(compOuts.length)  als.push(`<div class="al al-r">🔴 <strong>${compOuts.length} ladi(s)</strong> showing competitor products — action needed</div>`);
+  if(nearDone.length)  als.push(`<div class="al al-b">📌 <strong>${nearDone.length} outlet(s)</strong> at 3/4 scans — one scan away from completing</div>`);
+  if(!als.length) als.push('<div class="al al-g">✅ No critical issues — all clear</div>');
+  document.getElementById('ov-al').innerHTML = als.join('');
 
   // Day chart
-  const dayMap={};
-  rows.filter(valid).forEach(r=>{const d=ts(r);if(!dayMap[d])dayMap[d]={dep:0,hyg:0};if(isDep(r))dayMap[d].dep++;if(isHyg(r))dayMap[d].hyg++;});
-  const days=Object.keys(dayMap).sort();
-  kc('dayChart');
-  new Chart(document.getElementById('dayChart'),{
+  const dayMap = {};
+  rows.filter(isOk).forEach(r => {
+    const d = getTs(r);
+    if(!dayMap[d]) dayMap[d] = { dep:0, hyg:0 };
+    if(isDep(r)) dayMap[d].dep++;
+    if(isHyg(r)) dayMap[d].hyg++;
+  });
+  const days = Object.keys(dayMap).sort();
+  kc('ch-day');
+  new Chart(document.getElementById('ch-day'), {
     type:'bar',
-    data:{labels:days.map(d=>d.slice(5)),datasets:[
-      {label:'Deploy',data:days.map(d=>dayMap[d].dep),backgroundColor:'#00276B',borderRadius:4},
-      {label:'Hygiene',data:days.map(d=>dayMap[d].hyg),backgroundColor:'#0F7B41',borderRadius:4}
+    data:{ labels: days.map(d=>d.slice(5)), datasets:[
+      { label:'Deploy',  data:days.map(d=>dayMap[d].dep), backgroundColor:'#003087', borderRadius:3 },
+      { label:'Hygiene', data:days.map(d=>dayMap[d].hyg), backgroundColor:'#0e7a40', borderRadius:3 }
     ]},
-    options:{responsive:true,plugins:{legend:{labels:{font:{size:10},boxWidth:10}}},
-      scales:{x:{stacked:true,ticks:{font:{size:9}}},y:{stacked:true,beginAtZero:true,ticks:{stepSize:1,font:{size:9}}}}}
+    options:{ responsive:true, plugins:{legend:{labels:{font:{size:10},boxWidth:10}}},
+      scales:{ x:{stacked:true,ticks:{font:{size:9}}}, y:{stacked:true,beginAtZero:true,ticks:{stepSize:1,font:{size:9}}} }}
   });
 
   // Status donut
-  const comp=outList.filter(o=>o.dep&&o.hyg>=3).length;
-  const inprog=outList.filter(o=>(o.dep||o.hyg>0)&&!(o.dep&&o.hyg>=3)).length;
-  const none=outList.filter(o=>!o.dep&&o.hyg===0).length;
-  kc('statusDonut');
-  new Chart(document.getElementById('statusDonut'),{
+  const comp = outList.filter(o=>o.dep>0&&o.hyg>=3).length;
+  const inp  = outList.filter(o=>(o.dep>0||o.hyg>0)&&!(o.dep>0&&o.hyg>=3)).length;
+  const none = outList.filter(o=>o.dep===0&&o.hyg===0).length;
+  kc('ch-status');
+  new Chart(document.getElementById('ch-status'), {
     type:'doughnut',
-    data:{labels:['Complete','In Progress','Not Started'],
-      datasets:[{data:[comp,inprog,none],backgroundColor:['#0F7B41','#D4920A','#CBD5E1'],borderWidth:0,hoverOffset:4}]},
-    options:{responsive:true,plugins:{legend:{labels:{font:{size:10},boxWidth:10}}}}
+    data:{ labels:['Complete (4/4)','In Progress','Not Started'],
+      datasets:[{ data:[comp,inp,none], backgroundColor:['#0e7a40','#c9880a','#cbd5e1'], borderWidth:0, hoverOffset:4 }]},
+    options:{ responsive:true, plugins:{legend:{labels:{font:{size:10},boxWidth:10}}} }
   });
 }
 
-// ── DS & OUTLETS (WD-WISE) ────────────────────────
-function buildDSOutlets(wdo,dsList){
-  const totalEarn = dsList.reduce((s,d)=>s+d.earn,0);
-  const totalScans= dsList.reduce((s,d)=>s+d.total,0);
-  document.getElementById('eh-total').textContent = '₹'+totalEarn;
-  document.getElementById('eh-scans').textContent = totalScans+' scans';
-  document.getElementById('eh-ds').textContent = dsList.filter(d=>d.total>0).length+' DS';
+// ── BUILD DS & OUTLETS ────────────────────────────────
+function buildDS(wdMap, dsList){
+  const totalEarn  = dsList.reduce((s,d) => s + d.earn, 0);
+  const totalScans = dsList.reduce((s,d) => s + d.totalScans, 0);
+  document.getElementById('eh-total').textContent = '₹' + totalEarn;
+  document.getElementById('eh-scans').textContent = totalScans;
+  document.getElementById('eh-ds').textContent    = dsList.filter(d=>d.totalScans>0).length;
 
-  const wdOrder=['GOKUL ENTERPRISES','GOKUL TRADERS','ORANGE CITY'];
-  const wdColors=['wd-h1','wd-h2','wd-h3'];
-  const wdBg=['#00276B','#1557CC','#B85C00'];
+  const wdOrder  = ['GOKUL ENTERPRISES','GOKUL TRADERS','ORANGE CITY'];
+  const wdBg     = {'GOKUL ENTERPRISES':'#00276B','GOKUL TRADERS':'#1557CC','ORANGE CITY':'#B85C00'};
 
-  let html='';
-  wdOrder.forEach((wdName,wi)=>{
-    const dsEntries = wdo[wdName];
+  const allWDs = [...new Set([...wdOrder.filter(w=>wdMap[w]), ...Object.keys(wdMap).filter(w=>!wdOrder.includes(w))])];
+
+  let html = '';
+  allWDs.forEach(wdName => {
+    const dsEntries = wdMap[wdName];
     if(!dsEntries) return;
-    const dsArr = Object.entries(dsEntries).sort((a,b)=>b[1].earn-a[1].earn);
+
+    const dsArr = Object.entries(dsEntries).sort((a,b) => {
+      const ea = Math.min((a[1].dep+a[1].hyg)*PER_SCAN, MAX);
+      const eb = Math.min((b[1].dep+b[1].hyg)*PER_SCAN, MAX);
+      return eb - ea;
+    });
     if(!dsArr.length) return;
 
-    const wdDep = dsArr.reduce((s,[,d])=>s+Object.values(d.outlets).reduce((ss,o)=>ss+(o.dep>0?1:0),0),0);
-    const wdHyg = dsArr.reduce((s,[,d])=>s+Object.values(d.outlets).reduce((ss,o)=>ss+o.hyg,0),0);
-    const wdEarn= dsArr.reduce((s,[,d])=>s+d.earn,0);
+    const wdTotalDep  = dsArr.reduce((s,[,d]) => s + d.dep, 0);
+    const wdTotalHyg  = dsArr.reduce((s,[,d]) => s + d.hyg, 0);
+    const wdTotalEarn = dsArr.reduce((s,[,d]) => s + Math.min((d.dep+d.hyg)*PER_SCAN, MAX), 0);
+    const bg = wdBg[wdName]||'#003087';
 
-    html+=`<div class="wd-block">
-      <div class="wd-header" style="background:linear-gradient(135deg,${wdBg[wi]},${wdBg[wi]}CC)">
-        <div class="wd-name">${wdName}</div>
-        <div class="wd-stats">
-          <div class="wd-stat"><div class="wd-sv">${wdDep}</div><div class="wd-sl">Deployed</div></div>
-          <div class="wd-stat"><div class="wd-sv">${wdHyg}</div><div class="wd-sl">Hygiene</div></div>
-          <div class="wd-stat"><div class="wd-sv" style="color:#FFD700">₹${wdEarn}</div><div class="wd-sl">Earned</div></div>
+    html += `
+    <div class="wdb">
+      <div class="wdh" style="background:linear-gradient(135deg,${bg},${bg}dd)">
+        <div class="wdh-name">${wdName}</div>
+        <div class="wdh-stats">
+          <div class="wdhs"><div class="wdhs-v">${wdTotalDep}</div><div class="wdhs-l">Deployed</div></div>
+          <div class="wdhs"><div class="wdhs-v">${wdTotalHyg}</div><div class="wdhs-l">Hygiene</div></div>
+          <div class="wdhs"><div class="wdhs-v" style="color:#ffd700">₹${wdTotalEarn}</div><div class="wdhs-l">Earned</div></div>
         </div>
       </div>
-      <div class="wd-body">`;
+      <div class="wdb-body">`;
 
-    dsArr.forEach(([dsKey,dsData])=>{
-      const pct = Math.round(dsData.earn/MAX_EARN*100);
-      const outArr = Object.entries(dsData.outlets).sort((a,b)=>b[1].scans-a[1].scans);
-      const totalOutletScans = outArr.reduce((s,[,o])=>s+o.dep+o.hyg,0);
-      const dsId = 'ds-'+btoa(dsKey).replace(/[^a-z0-9]/gi,'').slice(0,8);
+    dsArr.forEach(([dsKey, d]) => {
+      const totalSc = d.dep + d.hyg;
+      const earn    = Math.min(totalSc * PER_SCAN, MAX);
+      const pct     = Math.round(earn / MAX * 100);
+      const id      = sid(dsKey + wdName); // unique per DS+WD
+      const outArr  = Object.entries(d.outlets).sort((a,b)=>(b[1].dep+b[1].hyg)-(a[1].dep+a[1].hyg));
 
-      html+=`<div class="ds-row">
-        <div class="ds-top" onclick="toggleDS('${dsId}')">
-          <div class="ds-avatar">${dsData.inits}</div>
-          <div class="ds-info">
-            <div class="ds-name">${dsData.short}</div>
-            <div class="ds-meta">${outArr.length} outlets · ${dsData.dep} deployed · ${dsData.hyg} hygiene · ${totalOutletScans} total scans</div>
-            <div style="margin-top:5px">
-              <div class="prog-wrap" style="width:140px;display:inline-block">
-                <div class="prog-fill ${pct>=80?'prog-green':pct>=40?'prog-gold':'prog-amber'}" style="width:${pct}%"></div>
-              </div>
-              <span style="font-size:9.5px;color:var(--text3);margin-left:6px">${pct}% of ₹${MAX_EARN} cap</span>
+      html += `
+      <div class="dsr">
+        <div class="dsr-top" onclick="document.getElementById('${id}').classList.toggle('open')">
+          <div class="dsr-avatar">${d.inits}</div>
+          <div class="dsr-info">
+            <div class="dsr-name">${d.short}</div>
+            <div class="dsr-meta">${outArr.length} outlet(s) · ${d.dep} deployed · ${d.hyg} hygiene checks · ${totalSc} total scans</div>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:5px">
+              <div class="pbar" style="width:110px"><div class="pfill ${pct>=80?'pf-green':pct>=40?'pf-gold':'pf-amber'}" style="width:${pct}%"></div></div>
+              <span style="font-size:9.5px;color:var(--text3)">${pct}% of ₹${MAX} cap</span>
             </div>
           </div>
-          <div class="ds-earn">
-            <div class="ds-earn-val">₹${dsData.earn}</div>
-            <div class="ds-earn-sub">earned · tap for outlets</div>
+          <div class="dsr-earn">
+            <div class="dsr-ev">₹${earn}</div>
+            <div class="dsr-el">tap to expand ▾</div>
           </div>
         </div>
-        <div class="ds-prog" id="${dsId}">
-          <div class="outlet-list">`;
+        <div class="dsr-outlets" id="${id}">
+          <div class="ol-hdr">Outlets (${outArr.length})</div>`;
 
-      outArr.forEach(([outName,o])=>{
-        const totalSc = Math.min(o.dep+o.hyg, MAX_SCANS);
-        const outEarn = totalSc * EARN_PER_SCAN;
-        html+=`<div class="outlet-item">
-          <div class="oi-name">${outName}</div>
-          <div class="scan-row">
-            <div class="sd ${o.dep>0?'sd-dep':'sd-miss'}" title="Deploy">${o.dep>0?'D':'·'}</div>
-            <div class="sd ${o.hyg>=1?'sd-done':'sd-miss'}" title="H1">${o.hyg>=1?'✓':'·'}</div>
-            <div class="sd ${o.hyg>=2?'sd-done':'sd-miss'}" title="H2">${o.hyg>=2?'✓':'·'}</div>
-            <div class="sd ${o.hyg>=3?'sd-done':'sd-miss'}" title="H3">${o.hyg>=3?'✓':'·'}</div>
-          </div>
-          <div style="font-size:10px;color:var(--text3);min-width:36px;text-align:center">${totalSc}/4</div>
-          <div class="oi-earn">₹${outEarn}</div>
-        </div>`;
+      outArr.forEach(([outName, o]) => {
+        const sc = Math.min(o.dep + o.hyg, 4);
+        const oe = sc * PER_SCAN;
+        html += `
+          <div class="oi">
+            <div class="oi-name">${outName}</div>
+            <div class="sdots">
+              <div class="sd ${o.dep>0?'sd-d':'sd-x'}" title="Deploy">${o.dep>0?'D':'·'}</div>
+              <div class="sd ${o.hyg>=1?'sd-h':'sd-x'}" title="Hygiene 1">${o.hyg>=1?'✓':'·'}</div>
+              <div class="sd ${o.hyg>=2?'sd-h':'sd-x'}" title="Hygiene 2">${o.hyg>=2?'✓':'·'}</div>
+              <div class="sd ${o.hyg>=3?'sd-h':'sd-x'}" title="Hygiene 3">${o.hyg>=3?'✓':'·'}</div>
+            </div>
+            <div style="font-size:10px;color:var(--text3);min-width:28px;text-align:center">${sc}/4</div>
+            <div class="oi-earn">₹${oe}</div>
+          </div>`;
       });
 
-      html+=`</div></div></div>`;
+      html += `</div></div>`;
     });
 
-    html+=`</div></div>`;
+    html += `</div></div>`;
   });
 
-  document.getElementById('wd-sections').innerHTML = html || '<div style="padding:20px;text-align:center;color:var(--text3)">No data yet</div>';
+  document.getElementById('ds-content').innerHTML = html ||
+    '<div style="padding:30px;text-align:center;color:var(--text3)">No data available</div>';
 }
 
-function toggleDS(id){
-  const el=document.getElementById(id);
-  if(el) el.classList.toggle('open');
-}
+// ── BUILD HYGIENE ─────────────────────────────────────
+function buildHygiene(outList, rows){
+  const lRows = rows.filter(r => isHyg(r) && isLadi(r));
+  const good  = lRows.filter(r => (parseInt(g(r,23))||0) >= 75).length;
+  const watch = lRows.filter(r => { const s=parseInt(g(r,23))||0; return s>=45&&s<75; }).length;
+  const crit  = lRows.filter(r => { const s=parseInt(g(r,23))||0; return s>0&&s<45; }).length;
+  const noChk = outList.filter(o => o.dep>0 && o.ladiSc.length===0).length;
+  const orders= outList.reduce((s,o) => s+o.ordsL.filter(x=>x==='Yes').length, 0);
 
-// ── HYGIENE & SELL-OUT ────────────────────────────
-function buildHygiene(outList,rows){
-  const lRows = rows.filter(r=>isHyg(r)&&isLadi(r));
-  const good  = lRows.filter(r=>sc(r)>=75).length;
-  const watch = lRows.filter(r=>sc(r)>=45&&sc(r)<75).length;
-  const crit  = lRows.filter(r=>sc(r)>0&&sc(r)<45).length;
-  const noChk = outList.filter(o=>o.dep&&!o.ladiSc.length).length;
-  const ordersPlaced = outList.reduce((s,o)=>s+o.ordsL.filter(x=>x==='Yes').length,0);
-
-  document.getElementById('hy-kpis').innerHTML=`
-    <div class="kpi green" data-icon="✅"><div class="kpi-label">Good Score (≥75)</div><div class="kpi-val">${good}</div><div class="kpi-sub">Ladi checks</div></div>
-    <div class="kpi amber" data-icon="⚠️"><div class="kpi-label">Watch (45–74)</div><div class="kpi-val">${watch}</div><div class="kpi-sub">Needs monitoring</div></div>
-    <div class="kpi red" data-icon="🔴"><div class="kpi-label">Critical (<45)</div><div class="kpi-val">${crit}</div><div class="kpi-sub">Immediate action</div></div>
-    <div class="kpi blue" data-icon="🛒"><div class="kpi-label">Orders via Visit</div><div class="kpi-val">${ordersPlaced}</div><div class="kpi-sub">Retailer ordered same visit</div></div>
+  document.getElementById('hy-kpis').innerHTML = `
+    <div class="kpi green"><div class="kpi-ico">✅</div><div class="kpi-lbl">Good Score (≥75)</div><div class="kpi-val">${good}</div><div class="kpi-sub">Ladi checks</div></div>
+    <div class="kpi amber"><div class="kpi-ico">⚠️</div><div class="kpi-lbl">Watch (45–74)</div><div class="kpi-val">${watch}</div><div class="kpi-sub">Monitor these</div></div>
+    <div class="kpi red"><div class="kpi-ico">🔴</div><div class="kpi-lbl">Critical (<45)</div><div class="kpi-val">${crit}</div><div class="kpi-sub">Immediate action</div></div>
+    <div class="kpi blue"><div class="kpi-ico">🛒</div><div class="kpi-lbl">Orders via Visit</div><div class="kpi-val">${orders}</div><div class="kpi-sub">Retailer ordered same visit</div></div>
   `;
-  document.getElementById('hy-badge').textContent = lRows.length+' checks';
+  document.getElementById('hy-ct').textContent = lRows.length + ' checks';
 
   // Ladi table
-  const ladiOuts = outList.filter(o=>o.ladiSc.length>0);
-  const noLadi   = outList.filter(o=>o.dep&&!o.ladiSc.length);
-
-  document.getElementById('hy-table').innerHTML=[
-    ...ladiOuts.map(o=>{
-      const avg=Math.round(o.ladiSc.reduce((s,x)=>s+x,0)/o.ladiSc.length);
-      const last=o.ladiSc[o.ladiSc.length-1];
-      const lp=o.purs[o.purs.length-1]||'—';
-      const lo=o.ordsL[o.ordsL.length-1]||'—';
+  const ladiOuts = outList.filter(o => o.ladiSc.length>0);
+  const noLadiOuts = outList.filter(o => o.dep>0 && o.ladiSc.length===0);
+  document.getElementById('hy-tbl').innerHTML = [
+    ...ladiOuts.map(o => {
+      const avg = Math.round(o.ladiSc.reduce((s,x)=>s+x,0)/o.ladiSc.length);
+      const last = o.ladiSc[o.ladiSc.length-1];
+      const lp   = o.purs[o.purs.length-1]||'—';
+      const lo   = o.ordsL[o.ordsL.length-1]||'—';
       return `<tr>
-        <td class="td-name">${o.name}</td><td>${o.ds}</td><td>${o.ladiSc.length}</td>
-        <td><span class="score-chip ${avg>=75?'sc-g':avg>=45?'sc-a':'sc-r'}">${avg}/100</span></td>
-        <td><span class="score-chip ${last>=75?'sc-g':last>=45?'sc-a':'sc-r'}">${last}/100</span></td>
-        <td style="font-size:11px">${stL(rows.find(r=>isHyg(r)&&isLadi(r)&&out(r)===o.name))||'—'}</td>
-        <td><span class="pill ${lp==='100% ITC'?'pill-green':lp==='Mixed'?'pill-amber':'pill-red'}">${lp}</span></td>
-        <td><span class="pill ${lo==='Yes'?'pill-green':'pill-gray'}">${lo}</span></td>
+        <td class="tbn">${o.name}</td><td>${o.ds}</td><td>${o.ladiSc.length}</td>
+        <td><span class="sc ${avg>=75?'sc-g':avg>=45?'sc-a':'sc-r'}">${avg}/100</span></td>
+        <td><span class="sc ${last>=75?'sc-g':last>=45?'sc-a':'sc-r'}">${last}/100</span></td>
+        <td><span class="pill ${lp==='100% ITC'?'pg':lp==='Mixed'?'pa':'pr'}">${lp}</span></td>
+        <td><span class="pill ${lo==='Yes'?'pg':'pgr'}">${lo}</span></td>
       </tr>`;
     }),
-    ...noLadi.map(o=>`<tr style="opacity:.55"><td class="td-name">${o.name}</td><td>${o.ds}</td><td>0</td><td colspan="5"><span class="pill pill-amber">No hygiene check yet</span></td></tr>`)
-  ].join('');
+    ...noLadiOuts.map(o => `<tr style="opacity:.55"><td class="tbn">${o.name}</td><td>${o.ds}</td><td>0</td><td colspan="4"><span class="pill pa">No check yet</span></td></tr>`)
+  ].join('') || '<tr><td colspan="7" style="padding:20px;text-align:center;color:var(--text3)">No hygiene data yet</td></tr>';
 
   // CTU table
-  const ctuOuts = outList.filter(o=>o.ctuSt.length>0);
-  document.getElementById('ctu-table').innerHTML = ctuOuts.length ? ctuOuts.map(o=>{
-    const cur=o.ctuSt[o.ctuSt.length-1];
-    const sold=o.ctuSt.length>1?Math.max(0,o.ctuSt[0]-cur):null;
-    const lo=o.ordsC[o.ordsC.length-1]||'—';
+  const ctuOuts = outList.filter(o => o.ctuSt.length>0);
+  document.getElementById('ctu-tbl').innerHTML = ctuOuts.length ? ctuOuts.map(o => {
+    const cur  = o.ctuSt[o.ctuSt.length-1];
+    const sold = o.ctuSt.length>1 ? Math.max(0, o.ctuSt[0]-cur) : null;
+    const lo   = o.ordsC[o.ordsC.length-1]||'—';
     return `<tr>
-      <td class="td-name">${o.name}</td><td>${o.ds}</td>
+      <td class="tbn">${o.name}</td><td>${o.ds}</td><td>${o.ctuSt.length}</td>
       <td>${cur}</td>
       <td><strong style="color:${sold>0?'var(--green)':'var(--text3)'}">${sold!==null?sold:'—'}</strong></td>
-      <td><span class="pill ${lo==='Yes'?'pill-green':'pill-gray'}">${lo}</span></td>
-      <td><span class="pill ${sold>0?'pill-green':sold===0?'pill-amber':'pill-blue'}">${sold===null?'First entry':sold>0?sold+' sold':'No movement'}</span></td>
+      <td><span class="pill ${lo==='Yes'?'pg':'pgr'}">${lo}</span></td>
     </tr>`;
-  }).join('') : `<tr><td colspan="6" style="padding:20px;text-align:center;color:var(--text3)">No CTU checks yet</td></tr>`;
+  }).join('') : '<tr><td colspan="6" style="padding:20px;text-align:center;color:var(--text3)">No CTU checks yet</td></tr>';
 
-  // Score chart
-  kc('scoreChart');
-  new Chart(document.getElementById('scoreChart'),{
+  // Score donut
+  kc('ch-score');
+  new Chart(document.getElementById('ch-score'), {
     type:'doughnut',
-    data:{labels:['Good (≥75)','Watch (45–74)','Critical (<45)','No check'],
-      datasets:[{data:[good,watch,crit,noChk],backgroundColor:['#0F7B41','#D4920A','#C0180C','#CBD5E1'],borderWidth:0,hoverOffset:4}]},
-    options:{responsive:true,plugins:{legend:{labels:{font:{size:10},boxWidth:10}}}}
+    data:{ labels:['Good (≥75)','Watch (45–74)','Critical (<45)','No check'],
+      datasets:[{ data:[good,watch,crit,noChk], backgroundColor:['#0e7a40','#c9880a','#be1b0e','#cbd5e1'], borderWidth:0, hoverOffset:4 }]},
+    options:{ responsive:true, plugins:{legend:{labels:{font:{size:10},boxWidth:10}}} }
   });
 
-  // Purity chart
-  const pCounts={ITC:0,Mixed:0,Comp:0};
-  outList.forEach(o=>o.purs.forEach(p=>{if(p==='100% ITC')pCounts.ITC++;else if(p==='Mixed')pCounts.Mixed++;else pCounts.Comp++;}));
-  kc('purityChart');
-  new Chart(document.getElementById('purityChart'),{
+  // Purity bar
+  const pc = {ITC:0,Mixed:0,Comp:0};
+  outList.forEach(o => o.purs.forEach(p => { if(p==='100% ITC')pc.ITC++; else if(p==='Mixed')pc.Mixed++; else pc.Comp++; }));
+  kc('ch-purity');
+  new Chart(document.getElementById('ch-purity'), {
     type:'bar',
-    data:{labels:['100% ITC','Mixed','Competitors'],
-      datasets:[{data:[pCounts.ITC,pCounts.Mixed,pCounts.Comp],backgroundColor:['#0F7B41','#D4920A','#C0180C'],borderRadius:5,barThickness:40}]},
-    options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1,font:{size:9}}},x:{ticks:{font:{size:10}}}}}
-  });
-
-  // Stock level chart (Ladi)
-  const slMap={'Not Sold':0,'Avg 5':0,'Avg 8':0,'Almost Empty':0};
-  rows.filter(r=>isHyg(r)&&isLadi(r)).forEach(r=>{const s=stL(r);if(slMap[s]!==undefined)slMap[s]++;});
-  kc('stockLevelChart');
-  new Chart(document.getElementById('stockLevelChart'),{
-    type:'bar',
-    data:{labels:Object.keys(slMap),
-      datasets:[{data:Object.values(slMap),backgroundColor:['#C0180C','#D4920A','#0F7B41','#B85C00'],borderRadius:5,barThickness:36}]},
-    options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1,font:{size:9}}},x:{ticks:{font:{size:10}}}}}
+    data:{ labels:['100% ITC','Mixed','Competitors'],
+      datasets:[{ data:[pc.ITC,pc.Mixed,pc.Comp], backgroundColor:['#0e7a40','#c9880a','#be1b0e'], borderRadius:5, barThickness:40 }]},
+    options:{ responsive:true, plugins:{legend:{display:false}},
+      scales:{ y:{beginAtZero:true,ticks:{stepSize:1,font:{size:9}}}, x:{ticks:{font:{size:10}}} }}
   });
 }
 
-// ── LOG ───────────────────────────────────────────
+// ── BUILD LOG ─────────────────────────────────────────
 function buildLog(rows){
-  const valid2=rows.filter(r=>isDep(r)||isHyg(r));
-  document.getElementById('log-count').textContent=valid2.length+' records';
-  document.getElementById('log-body').innerHTML=valid2.slice().reverse().map(r=>{
-    const dep=isDep(r), score=sc(r), posm=dep?pNew(r):pChk(r);
+  const valid = rows.filter(isOk);
+  document.getElementById('log-ct').textContent = valid.length + ' records';
+  document.getElementById('log-tbl').innerHTML = valid.slice().reverse().map(r => {
+    const dep  = isDep(r);
+    const sc   = parseInt(g(r,23))||0;
+    const posm = dep ? g(r,4) : g(r,6);
     return `<tr>
-      <td style="white-space:nowrap;font-size:10.5px">${v(r,0).slice(0,16)}</td>
-      <td>${dsShort(r)}</td>
-      <td class="td-name">${out(r)}</td>
-      <td><span class="pill pill-navy" style="font-size:9px">${wd(r).split(' ')[0]}</span></td>
-      <td><span class="pill ${dep?'pill-blue':'pill-green'}">${dep?'Deploy':'Hygiene'}</span></td>
+      <td style="white-space:nowrap;font-size:10.5px">${g(r,0).slice(0,16)}</td>
+      <td>${shortName(r)}</td>
+      <td class="tbn">${getOutlet(r)}</td>
+      <td><span class="pill pn" style="font-size:9px">${getWD(r).split(' ')[0]}</span></td>
+      <td><span class="pill ${dep?'pb':'pg'}">${dep?'Deploy':'Hygiene'}</span></td>
       <td style="font-size:11px">${posm}</td>
-      <td>${score>0?`<span class="score-chip ${score>=75?'sc-g':score>=45?'sc-a':'sc-r'}">${score}/100</span>`:'<span style="color:var(--text3)">—</span>'}</td>
-      <td style="font-size:10.5px;color:var(--text2)">${stat(r)||(dep?'✅ Deployed':'—')}</td>
+      <td>${sc>0?`<span class="sc ${sc>=75?'sc-g':sc>=45?'sc-a':'sc-r'}">${sc}/100</span>`:'<span style="color:var(--text3)">—</span>'}</td>
+      <td style="font-size:10.5px">${g(r,24)||(dep?'✅ Deployed':'—')}</td>
     </tr>`;
-  }).join('');
+  }).join('') || '<tr><td colspan="8" style="padding:20px;text-align:center;color:var(--text3)">No records yet</td></tr>';
 }
 
-// ── COUNTDOWN ─────────────────────────────────────
-function startCountdown(){
-  if(cdTimer) clearInterval(cdTimer);
-  cdLeft=REFRESH_SEC;
-  cdTimer=setInterval(()=>{
-    cdLeft--;
-    if(cdLeft<=0){cdLeft=REFRESH_SEC;loadData();}
-    const m=Math.floor(cdLeft/60),s=cdLeft%60;
-    document.getElementById('cdtxt').textContent=`↻ ${m}:${s.toString().padStart(2,'0')}`;
-  },1000);
-}
-
-// ── LOAD DATA ─────────────────────────────────────
-async function loadData(){
-  document.getElementById('utxt').textContent='Loading…';
-  try{
-    const res=await fetch(CSV_URL+'&t='+Date.now());
-    if(!res.ok) throw new Error('HTTP '+res.status);
-    const txt=await res.text();
-    DATA=parseCSV(txt);
-    buildAll();
-    document.getElementById('utxt').textContent='Updated '+new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
-    document.getElementById('loading-overlay').classList.add('hidden');
-    startCountdown();
-  }catch(e){
-    document.getElementById('utxt').textContent='Tap refresh';
-    document.getElementById('loading-overlay').classList.add('hidden');
-    console.error(e);
+// ── BUILD ALL ─────────────────────────────────────────
+function buildAll(){
+  if(!ROWS || ROWS.length === 0) return;
+  try {
+    const { rows, wdMap, dsList, outList } = aggregate();
+    buildOverview(rows, dsList, outList);
+    buildDS(wdMap, dsList);
+    buildHygiene(outList, rows);
+    buildLog(rows);
+  } catch(e){
+    console.error('buildAll error:', e);
+    showError('Error building dashboard: ' + e.message);
   }
 }
 
+// ── ERROR DISPLAY ─────────────────────────────────────
+function showError(msg){
+  const html = `<div style="background:var(--redl);border:1px solid #fca5a5;border-radius:10px;padding:16px 20px;margin:12px 0">
+    <div style="font-weight:700;color:#991b1b;margin-bottom:6px">⚠ ${msg}</div>
+    <div style="font-size:11px;color:#7f1d1d">
+      <strong>Fix:</strong> Make sure your Google Sheet is published:<br>
+      File → Share → Publish to web → Form Responses 1 → CSV → Publish<br>
+      Then copy the URL and update CSV_URL in the HTML file.
+    </div>
+  </div>`;
+  ['ov1','ov2','ov-wd','ov-al','ds-content','hy-kpis','log-tbl'].forEach(id=>{
+    const el = document.getElementById(id); if(el) el.innerHTML = html;
+  });
+}
+
+// ── COUNTDOWN ─────────────────────────────────────────
+function startCountdown(){
+  if(timer) clearInterval(timer);
+  left = SECS;
+  timer = setInterval(() => {
+    left--;
+    if(left <= 0){ left = SECS; loadData(); return; }
+    const m = Math.floor(left/60), s = left%60;
+    document.getElementById('cdt').textContent = `↻ ${m}:${s.toString().padStart(2,'0')}`;
+  }, 1000);
+}
+
+// ── LOAD DATA ─────────────────────────────────────────
+async function loadData(){
+  idMap = {}; idN = 0; // reset IDs
+  document.getElementById('ust').textContent = 'Loading…';
+  try {
+    const res = await fetch(CSV_URL + '&t=' + Date.now());
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    const txt = await res.text();
+    if(!txt || txt.length < 10) throw new Error('Empty response from sheet');
+    ROWS = parseCSV(txt);
+    buildAll();
+    const t = new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+    document.getElementById('ust').textContent = 'Updated ' + t + ' · ' + ROWS.length + ' rows';
+    document.getElementById('overlay').classList.add('hide');
+    startCountdown();
+  } catch(e){
+    console.error('loadData:', e);
+    document.getElementById('ust').textContent = '⚠ Failed — tap Refresh';
+    document.getElementById('overlay').classList.add('hide');
+    showError('Could not load data — ' + e.message);
+  }
+}
+
+// ── INIT ──────────────────────────────────────────────
 loadData();
 </script>
 </body>
