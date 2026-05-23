@@ -164,7 +164,11 @@ tbody tr:hover td{background:#fafbff}
 .al-g{background:var(--greenl);color:var(--green)}.al-a{background:var(--amberl);color:var(--amber)}
 .al-r{background:var(--redl);color:var(--red)}.al-b{background:var(--bluel);color:var(--blue)}
 
-/* LOADING */
+/* OUTLET BLOCK TOGGLE */
+.outlet-block .asset-rows{display:none}
+.outlet-block .asset-rows.open{display:block}
+.outlet-toggle-arrow{transition:transform .2s}
+.outlet-name-row.open .outlet-toggle-arrow{transform:rotate(180deg)}
 #overlay{position:fixed;inset:0;background:rgba(10,20,50,.75);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
 .spin{width:28px;height:28px;border:3px solid rgba(255,255,255,.15);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -438,25 +442,26 @@ function aggregate(){
     }
   });
 
-  // Build DS list with per-asset earnings
+  // Build DS list — compute totals from wdMap
   const dsList=[];
   Object.entries(wdMap).forEach(([wdK,dsEntries])=>{
     Object.entries(dsEntries).forEach(([dsKey,d])=>{
-      let totalScans=0;
-      // Count scans per outlet per asset (max 4 each)
+      let totalDep=0, totalHyg=0, totalScans=0;
       Object.values(d.outlets).forEach(assets=>{
         ['Ladi','CTU'].forEach(a=>{
-          const o=assets[a];
-          if(o.dep>0||o.hyg>0){
-            totalScans+=Math.min(o.dep+o.hyg,4);
-          }
+          totalDep  += assets[a].dep;
+          totalHyg  += assets[a].hyg;
+          if(assets[a].dep>0||assets[a].hyg>0)
+            totalScans += Math.min(assets[a].dep+assets[a].hyg, 4);
         });
       });
-      const earn=Math.min(totalScans*PER_SCAN,MAX);
-      const outCount=Object.keys(d.outlets).length;
-      let totalDep=0,totalHyg=0;
-      Object.values(d.outlets).forEach(assets=>{['Ladi','CTU'].forEach(a=>{totalDep+=assets[a].dep;totalHyg+=assets[a].hyg;});});
-      dsList.push({key:dsKey,short:d.short,inits:d.inits,wd:wdK,totalScans,earn,outCount,totalDep,totalHyg,outlets:d.outlets});
+      const earn = Math.min(totalScans * PER_SCAN, MAX);
+      dsList.push({
+        key:dsKey, short:d.short, inits:d.inits, wd:wdK,
+        totalDep, totalHyg, totalScans, earn,
+        outCount: Object.keys(d.outlets).length,
+        outlets: d.outlets
+      });
     });
   });
   dsList.sort((a,b)=>b.earn-a.earn);
@@ -566,83 +571,125 @@ function buildOverview(rows,dsList,outList){
   });
 }
 
+// ── HELPER: calc DS totals from outlets ───────────
+function calcDSTotals(outlets){
+  let dep=0,hyg=0,scans=0;
+  Object.values(outlets).forEach(assets=>{
+    ['Ladi','CTU'].forEach(a=>{
+      dep  += assets[a].dep;
+      hyg  += assets[a].hyg;
+      if(assets[a].dep>0||assets[a].hyg>0)
+        scans += Math.min(assets[a].dep+assets[a].hyg, 4);
+    });
+  });
+  return {dep, hyg, scans, earn: Math.min(scans*PER_SCAN, MAX)};
+}
+
 // ── BUILD DS & OUTLETS ────────────────────────────
-function buildDS(wdMap,dsList){
-  document.getElementById('eh-total').textContent='₹'+dsList.reduce((s,d)=>s+d.earn,0);
-  document.getElementById('eh-scans').textContent=dsList.reduce((s,d)=>s+d.totalScans,0);
-  document.getElementById('eh-ds').textContent=dsList.filter(d=>d.totalScans>0).length;
+function buildDS(wdMap, dsList){
+  // Use dsList for totals (pre-computed in aggregate)
+  const totalEarn  = dsList.reduce((s,d)=>s+d.earn, 0);
+  const totalScans = dsList.reduce((s,d)=>s+d.totalScans, 0);
+  document.getElementById('eh-total').textContent = '₹'+totalEarn;
+  document.getElementById('eh-scans').textContent = totalScans;
+  document.getElementById('eh-ds').textContent    = dsList.filter(d=>d.totalScans>0).length;
 
-  const wdOrder=['GOKUL ENTERPRISES','GOKUL TRADERS','ORANGE CITY'];
-  const wdBg={'GOKUL ENTERPRISES':'#00276B','GOKUL TRADERS':'#1557CC','ORANGE CITY':'#B85C00'};
-  const allWDs=[...new Set([...wdOrder.filter(w=>wdMap[w]),...Object.keys(wdMap).filter(w=>!wdOrder.includes(w))])];
+  const wdOrder = ['GOKUL ENTERPRISES','GOKUL TRADERS','ORANGE CITY'];
+  const wdBg    = {'GOKUL ENTERPRISES':'#00276B','GOKUL TRADERS':'#1557CC','ORANGE CITY':'#B85C00'};
+  const allWDs  = [...new Set([...wdOrder.filter(w=>wdMap[w]), ...Object.keys(wdMap).filter(w=>!wdOrder.includes(w))])];
 
-  let html='';
+  let html = '';
   allWDs.forEach(wdName=>{
-    const dsEntries=wdMap[wdName];
+    const dsEntries = wdMap[wdName];
     if(!dsEntries) return;
-    const dsArr=Object.entries(dsEntries).sort((a,b)=>{
-      const ea=Math.min(Object.values(b[1].outlets).reduce((s,oa)=>s+(['Ladi','CTU'].reduce((ss,k)=>ss+Math.min(oa[k].dep+oa[k].hyg,4),0)),0)*PER_SCAN,MAX);
-      const eb=Math.min(Object.values(a[1].outlets).reduce((s,oa)=>s+(['Ladi','CTU'].reduce((ss,k)=>ss+Math.min(oa[k].dep+oa[k].hyg,4),0)),0)*PER_SCAN,MAX);
-      return ea-eb;
+
+    // Calculate WD totals directly from outlets (avoids undefined)
+    let wdDep=0, wdHyg=0, wdEarn=0;
+    Object.values(dsEntries).forEach(d=>{
+      const t = calcDSTotals(d.outlets);
+      wdDep  += t.dep;
+      wdHyg  += t.hyg;
+      wdEarn += t.earn;
+    });
+
+    // Sort DS by earnings descending
+    const dsArr = Object.entries(dsEntries).sort((a,b)=>{
+      return calcDSTotals(b[1].outlets).earn - calcDSTotals(a[1].outlets).earn;
     });
     if(!dsArr.length) return;
 
-    const wdTotDep =dsArr.reduce((s,[,d])=>s+d.totalDep,0);
-    const wdTotHyg =dsArr.reduce((s,[,d])=>s+d.totalHyg,0);
-    const wdTotEarn=dsArr.reduce((s,[,d])=>s+d.earn,0);
-    const bg=wdBg[wdName]||'#003087';
+    const bg = wdBg[wdName]||'#003087';
 
-    html+=`<div class="wdb">
+    html += `<div class="wdb">
       <div class="wdh" style="background:linear-gradient(135deg,${bg},${bg}dd)">
         <div class="wdh-name">${wdName}</div>
         <div class="wdh-stats">
-          <div class="wdhs"><div class="wdhs-v">${wdTotDep}</div><div class="wdhs-l">Deployed</div></div>
-          <div class="wdhs"><div class="wdhs-v">${wdTotHyg}</div><div class="wdhs-l">Hygiene</div></div>
-          <div class="wdhs"><div class="wdhs-v" style="color:#ffd700">₹${wdTotEarn}</div><div class="wdhs-l">Earned</div></div>
+          <div class="wdhs"><div class="wdhs-v">${wdDep}</div><div class="wdhs-l">Deployed</div></div>
+          <div class="wdhs"><div class="wdhs-v">${wdHyg}</div><div class="wdhs-l">Hygiene</div></div>
+          <div class="wdhs"><div class="wdhs-v" style="color:#ffd700">₹${wdEarn}</div><div class="wdhs-l">Earned</div></div>
         </div>
       </div>
       <div class="wdb-body">`;
 
-    dsArr.forEach(([dsKey,d])=>{
-      const id=sid(dsKey+wdName);
-      const pct=Math.round(d.earn/MAX*100);
-      const outArr=Object.entries(d.outlets).sort((a,b)=>{
-        const sa=['Ladi','CTU'].reduce((s,k)=>s+a[1][k].dep+a[1][k].hyg,0);
-        const sb=['Ladi','CTU'].reduce((s,k)=>s+b[1][k].dep+b[1][k].hyg,0);
-        return sb-sa;
+    dsArr.forEach(([dsKey, d])=>{
+      const t   = calcDSTotals(d.outlets);
+      const id  = sid(dsKey + wdName);
+      const outArr = Object.entries(d.outlets).sort((a,b)=>{
+        const sa = ['Ladi','CTU'].reduce((s,k)=>s+a[1][k].dep+a[1][k].hyg, 0);
+        const sb = ['Ladi','CTU'].reduce((s,k)=>s+b[1][k].dep+b[1][k].hyg, 0);
+        return sb - sa;
       });
 
-      html+=`<div class="dsr">
+      html += `<div class="dsr">
         <div class="dsr-top" onclick="document.getElementById('${id}').classList.toggle('open')">
           <div class="dsr-avatar">${d.inits}</div>
           <div class="dsr-info">
             <div class="dsr-name">${d.short}</div>
-            <div class="dsr-meta">${outArr.length} outlet(s) · ${d.totalDep} deployed · ${d.totalHyg} hygiene · ${d.totalScans} scans</div>
-            <div style="display:flex;align-items:center;gap:7px;margin-top:4px;flex-wrap:wrap">
-              <div class="pbar" style="width:100px"><div class="pfill ${pct>=80?'pf-green':pct>=40?'pf-gold':'pf-amber'}" style="width:${pct}%"></div></div>
-              <span style="font-size:9px;color:var(--text3)">${pct}% of ₹${MAX}</span>
-            </div>
+            <div class="dsr-meta">${outArr.length} outlet(s) · ${t.dep} deployed · ${t.hyg} hygiene · ${t.scans} scans</div>
           </div>
-          <div class="dsr-earn"><div class="dsr-ev">₹${d.earn}</div><div class="dsr-el">tap ▾</div></div>
+          <div class="dsr-earn">
+            <div class="dsr-ev">₹${t.earn}</div>
+            <div class="dsr-el">tap to expand ▾</div>
+          </div>
         </div>
         <div class="dsr-outlets" id="${id}">
-          <div class="ol-hdr">Outlets — ${outArr.length} · ₹5 per scan per asset</div>`;
+          <div class="ol-hdr">Outlets — ${outArr.length} &nbsp;·&nbsp; ₹5 per scan per asset</div>`;
 
-      outArr.forEach(([outName,assets])=>{
-        // Check which assets have any activity
-        const activePOSMs=(['Ladi','CTU']).filter(a=>assets[a].dep>0||assets[a].hyg>0);
+      outArr.forEach(([outName, assets])=>{
+        // Only show assets that have activity
+        const activePOSMs = ['Ladi','CTU'].filter(a => assets[a].dep>0 || assets[a].hyg>0);
         if(!activePOSMs.length) return;
 
-        html+=`<div class="outlet-block">
-          <div class="outlet-name-row">📍 ${outName}</div>`;
+        // Total scans across all assets for this outlet
+        const outTotalSc = activePOSMs.reduce((s,a)=>s+Math.min(assets[a].dep+assets[a].hyg,4), 0);
+        const outEarn    = outTotalSc * PER_SCAN;
+        const outId      = sid(dsKey + wdName + outName);
+
+        html += `<div class="outlet-block">
+          <!-- Outlet header row — clickable dropdown -->
+          <div class="outlet-name-row" onclick="document.getElementById('${outId}').classList.toggle('open')"
+               style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:7px 15px 7px;border-top:1px solid var(--border)">
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="font-size:11px">📍</span>
+              <span style="font-size:11.5px;font-weight:600;color:var(--text)">${outName}</span>
+              <span class="pill pgr" style="font-size:8.5px">${activePOSMs.length} asset${activePOSMs.length>1?'s':''}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <span style="font-size:10px;color:var(--text3)">${outTotalSc} scan${outTotalSc!==1?'s':''}</span>
+              <span style="font-size:11.5px;font-weight:700;color:var(--gold)">₹${outEarn}</span>
+              <span style="font-size:9px;color:var(--text3)">▾</span>
+            </div>
+          </div>
+
+          <!-- Asset rows — hidden by default, shown on click -->
+          <div id="${outId}" style="display:none;background:#f0f3ff;padding:2px 0 4px">`;
 
         activePOSMs.forEach(asset=>{
-          const o=assets[asset];
-          const sc=Math.min(o.dep+o.hyg,4);
-          const oe=sc*PER_SCAN;
-          const isCTUasset=asset==='CTU';
-          html+=`<div class="asset-row">
-            <span class="asset-tag ${isCTUasset?'ctu':''}">${asset}</span>
+          const o   = assets[asset];
+          const sc  = Math.min(o.dep+o.hyg, 4);
+          const oe  = sc * PER_SCAN;
+          html += `<div class="asset-row">
+            <span class="asset-tag ${asset==='CTU'?'ctu':''}">${asset}</span>
             <div class="sdots">
               <div class="sd ${o.dep>0?'sd-d':'sd-x'}" title="Deploy">${o.dep>0?'D':'·'}</div>
               <div class="sd ${o.hyg>=1?'sd-h':'sd-x'}" title="H1">${o.hyg>=1?'✓':'·'}</div>
@@ -650,20 +697,21 @@ function buildDS(wdMap,dsList){
               <div class="sd ${o.hyg>=3?'sd-h':'sd-x'}" title="H3">${o.hyg>=3?'✓':'·'}</div>
             </div>
             <div style="font-size:9.5px;color:var(--text3);min-width:24px;text-align:center">${sc}/4</div>
-            <div class="oi-earn asset-earn" style="font-size:11px;font-weight:700;color:var(--gold);min-width:32px;text-align:right">₹${oe}</div>
+            <div style="font-size:11px;font-weight:700;color:var(--gold);min-width:32px;text-align:right">₹${oe}</div>
           </div>`;
         });
 
-        html+=`</div>`; // outlet-block
+        html += `</div></div>`; // asset rows div + outlet-block
       });
 
-      html+=`</div></div>`; // dsr-outlets + dsr
+      html += `</div></div>`; // dsr-outlets + dsr
     });
 
-    html+=`</div></div>`; // wdb-body + wdb
+    html += `</div></div>`; // wdb-body + wdb
   });
 
-  document.getElementById('ds-content').innerHTML=html||'<div style="padding:30px;text-align:center;color:var(--text3)">No data available</div>';
+  document.getElementById('ds-content').innerHTML = html ||
+    '<div style="padding:30px;text-align:center;color:var(--text3)">No data available</div>';
 }
 
 // ── BUILD HYGIENE ─────────────────────────────────
