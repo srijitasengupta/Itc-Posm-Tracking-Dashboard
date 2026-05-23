@@ -8,155 +8,204 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
 :root {
-  --navy:#003087; --navyd:#001f5c; --navyl:#e8eef8;
-  --gold:#c9880a; --goldl:#fef4e0;
-  --green:#0e7a40; --greenl:#e6f5ed;
-  --amber:#b45a00; --amberl:#fef0e0;
-  --red:#be1b0e; --redl:#fdecea;
-  --blue:#1450c0; --bluel:#ebf2ff;
-  --gray:#64748b; --grayl:#f1f5f9;
-  --bg:#f3f5fc; --card:#fff;
-  --border:#e0e8f4; --text:#0f172a; --text2:#475569; --text3:#94a3b8;
-  --sh: 0 1px 3px rgba(0,30,100,.06), 0 4px 12px rgba(0,30,100,.05);
+  --navy:#003087;--navyd:#001f5c;--navyl:#e8eef8;
+  --gold:#c9880a;--goldl:#fef4e0;
+  --green:#0e7a40;--greenl:#e6f5ed;
+  --amber:#b45a00;--amberl:#fef0e0;
+  --red:#be1b0e;--redl:#fdecea;
+  --blue:#1450c0;--bluel:#ebf2ff;
+  --gray:#64748b;--grayl:#f1f5f9;
+  --bg:#f3f5fc;--card:#fff;
+  --border:#e0e8f4;--text:#0f172a;--text2:#475569;--text3:#94a3b8;
+  --sh:0 1px 3px rgba(0,30,100,.06),0 4px 12px rgba(0,30,100,.05);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-size:13px;-webkit-font-smoothing:antialiased}
 
 /* TOPBAR */
-.topbar{background:linear-gradient(135deg,var(--navyd),var(--navy));padding:0 18px;height:54px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.2)}
-.logo{font-weight:700;font-size:14px;letter-spacing:1.5px;background:var(--gold);color:var(--navyd);padding:3px 10px;border-radius:5px}
-.brand-sub{font-size:10px;color:rgba(255,255,255,.45);margin-left:10px}
-.brand-sub strong{color:rgba(255,255,255,.8);font-weight:500}
-.top-right{display:flex;align-items:center;gap:8px}
-.live{display:flex;align-items:center;gap:5px;font-size:10px;color:#4ade80;background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.25);padding:3px 9px;border-radius:20px}
-.live-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;animation:blink 2s infinite}
+.topbar{background:linear-gradient(135deg,var(--navyd),var(--navy));padding:0 16px;height:52px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.2)}
+.logo{font-weight:700;font-size:13px;letter-spacing:1.5px;background:var(--gold);color:var(--navyd);padding:3px 9px;border-radius:5px;flex-shrink:0}
+.brand-sub{font-size:10px;color:rgba(255,255,255,.45);margin-left:10px;line-height:1.3}
+.brand-sub strong{color:rgba(255,255,255,.75);font-weight:500;display:block}
+.top-right{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.live{display:flex;align-items:center;gap:4px;font-size:10px;color:#4ade80;background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.25);padding:3px 8px;border-radius:20px;white-space:nowrap}
+.live-dot{width:5px;height:5px;border-radius:50%;background:#4ade80;animation:blink 2s infinite;flex-shrink:0}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-.status{font-size:10px;color:rgba(255,255,255,.4)}
-.cd{font-size:10px;color:rgba(255,255,255,.35);background:rgba(255,255,255,.07);padding:2px 8px;border-radius:12px}
-.rbtn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.75);font-size:11px;font-family:inherit;padding:5px 12px;border-radius:6px;cursor:pointer}
+.status{font-size:10px;color:rgba(255,255,255,.4);white-space:nowrap}
+.cd{font-size:10px;color:rgba(255,255,255,.3);background:rgba(255,255,255,.07);padding:2px 7px;border-radius:12px;white-space:nowrap}
+.rbtn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.75);font-size:11px;font-family:inherit;padding:5px 10px;border-radius:6px;cursor:pointer;white-space:nowrap;touch-action:manipulation}
 .rbtn:hover{background:rgba(255,255,255,.18);color:#fff}
+.rbtn:active{transform:scale(.97)}
 
 /* NAV */
-.nav{background:var(--navyd);display:flex;padding:0 10px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;border-bottom:1px solid rgba(255,255,255,.05)}
+.nav{background:var(--navyd);display:flex;padding:0 8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;border-bottom:1px solid rgba(255,255,255,.05)}
 .nav::-webkit-scrollbar{display:none}
-.ntab{display:flex;align-items:center;gap:6px;padding:11px 14px;font-size:11.5px;font-weight:500;color:rgba(255,255,255,.4);cursor:pointer;border:none;border-bottom:2px solid transparent;background:none;white-space:nowrap;font-family:inherit;transition:.15s}
+.ntab{display:flex;align-items:center;gap:5px;padding:10px 12px;font-size:11px;font-weight:500;color:rgba(255,255,255,.4);cursor:pointer;border:none;border-bottom:2px solid transparent;background:none;white-space:nowrap;font-family:inherit;transition:.15s;touch-action:manipulation}
 .ntab:hover{color:rgba(255,255,255,.7)}
 .ntab.on{color:#fff;border-bottom-color:var(--gold)}
 
-/* PANELS */
-.page{padding:14px 16px;max-width:1400px;margin:0 auto}
+/* PAGE */
+.page{padding:12px 14px;max-width:1400px;margin:0 auto}
 .panel{display:none}
 .panel.on{display:block}
 
-/* KPI GRID */
-.kgrid{display:grid;gap:9px;margin-bottom:12px}
+/* KPI GRIDS */
+.kgrid{display:grid;gap:8px;margin-bottom:10px}
 .k6{grid-template-columns:repeat(6,1fr)}
 .k4{grid-template-columns:repeat(4,1fr)}
 .k3{grid-template-columns:repeat(3,1fr)}
-.kpi{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;box-shadow:var(--sh);border-top:3px solid var(--navy);position:relative;overflow:hidden}
+
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:11px 13px;box-shadow:var(--sh);border-top:3px solid var(--navy);position:relative;overflow:hidden}
 .kpi.green{border-top-color:var(--green)}.kpi.gold{border-top-color:var(--gold)}
 .kpi.amber{border-top-color:var(--amber)}.kpi.red{border-top-color:var(--red)}.kpi.blue{border-top-color:var(--blue)}
-.kpi-ico{position:absolute;right:10px;top:8px;font-size:20px;opacity:.12}
-.kpi-lbl{font-size:9.5px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
-.kpi-val{font-size:21px;font-weight:700;line-height:1;color:var(--navy)}
+.kpi-ico{position:absolute;right:9px;top:8px;font-size:18px;opacity:.11}
+.kpi-lbl{font-size:9px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
+.kpi-val{font-size:20px;font-weight:700;line-height:1;color:var(--navy)}
 .kpi.green .kpi-val{color:var(--green)}.kpi.gold .kpi-val{color:var(--gold)}
 .kpi.amber .kpi-val{color:var(--amber)}.kpi.red .kpi-val{color:var(--red)}.kpi.blue .kpi-val{color:var(--blue)}
-.kpi-sub{font-size:10px;color:var(--text3);margin-top:2px}
+.kpi-sub{font-size:9.5px;color:var(--text3);margin-top:2px}
 
 /* CARD */
-.card{background:var(--card);border:1px solid var(--border);border-radius:10px;box-shadow:var(--sh);margin-bottom:11px;overflow:hidden}
-.ch{display:flex;align-items:center;justify-content:space-between;padding:11px 15px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:6px}
-.ct{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px}
-.cb{padding:14px 15px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;box-shadow:var(--sh);margin-bottom:10px;overflow:hidden}
+.ch{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:5px}
+.ct{font-size:9.5px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px}
+.cb{padding:12px 14px}
 
 /* GRID */
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* CHART WRAPPER — smaller */
+.chart-wrap{position:relative;height:180px;max-height:180px}
+.chart-wrap-sm{position:relative;height:150px;max-height:150px}
 
 /* TABLE */
 .tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
-table{width:100%;border-collapse:collapse;font-size:11.5px}
-th{padding:7px 9px;text-align:left;font-size:9.5px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.3px;border-bottom:1.5px solid var(--border);background:var(--bg);white-space:nowrap}
-td{padding:7px 9px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:middle}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{padding:7px 8px;text-align:left;font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.3px;border-bottom:1.5px solid var(--border);background:var(--bg);white-space:nowrap}
+td{padding:7px 8px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:middle}
 tr:last-child td{border-bottom:none}
 tbody tr:hover td{background:#fafbff}
 .tbn{font-weight:600;color:var(--text)}
 
 /* PILLS */
-.pill{display:inline-flex;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;white-space:nowrap}
+.pill{display:inline-flex;padding:2px 7px;border-radius:20px;font-size:9.5px;font-weight:600;white-space:nowrap}
 .pg{background:var(--greenl);color:var(--green)}.pa{background:var(--amberl);color:var(--amber)}
 .pr{background:var(--redl);color:var(--red)}.pb{background:var(--bluel);color:var(--blue)}
 .pn{background:var(--navyl);color:var(--navy)}.pgr{background:var(--grayl);color:var(--gray)}
+.pgold{background:var(--goldl);color:var(--gold)}
 
-/* PROGRESS */
-.pbar{height:6px;background:var(--grayl);border-radius:3px;overflow:hidden;margin-top:4px}
+/* PBAR */
+.pbar{height:5px;background:var(--grayl);border-radius:3px;overflow:hidden;margin-top:4px}
 .pfill{height:100%;border-radius:3px;transition:width .5s}
 .pf-navy{background:var(--navy)}.pf-green{background:var(--green)}
 .pf-gold{background:var(--gold)}.pf-amber{background:var(--amber)}
 
 /* SCAN DOTS */
-.sdots{display:flex;gap:3px}
-.sd{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#fff;flex-shrink:0}
+.sdots{display:flex;gap:3px;align-items:center}
+.sd{width:17px;height:17px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#fff;flex-shrink:0}
 .sd-d{background:var(--navy)}.sd-h{background:var(--green)}.sd-x{background:#e2e8f0;color:#94a3b8}
 
 /* SCORE CHIP */
-.sc{padding:2px 8px;border-radius:20px;font-size:10.5px;font-weight:700}
+.sc{padding:2px 7px;border-radius:20px;font-size:10px;font-weight:700}
 .sc-g{background:var(--greenl);color:var(--green)}.sc-a{background:var(--amberl);color:var(--amber)}.sc-r{background:var(--redl);color:var(--red)}
 
+/* ASSET TAG */
+.asset-tag{display:inline-flex;padding:1px 6px;border-radius:4px;font-size:9px;font-weight:700;white-space:nowrap;background:var(--navyl);color:var(--navy);min-width:36px;justify-content:center}
+.asset-tag.ctu{background:var(--amberl);color:var(--amber)}
+
 /* EARN HERO */
-.ehero{background:linear-gradient(135deg,var(--navyd),var(--navy));border-radius:10px;padding:16px 20px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
-.eh-main .eh-lbl{font-size:10px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}
-.eh-main .eh-val{font-size:30px;font-weight:700;color:var(--gold);line-height:1}
-.eh-main .eh-sub{font-size:10px;color:rgba(255,255,255,.4);margin-top:3px}
+.ehero{background:linear-gradient(135deg,var(--navyd),var(--navy));border-radius:10px;padding:14px 18px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.eh-lbl{font-size:9.5px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px}
+.eh-val{font-size:28px;font-weight:700;color:var(--gold);line-height:1}
+.eh-sub{font-size:9.5px;color:rgba(255,255,255,.35);margin-top:3px}
 .eh-right{text-align:right;color:#fff}
-.eh-right .er-lbl{font-size:9.5px;color:rgba(255,255,255,.4)}
-.eh-right .er-val{font-size:15px;font-weight:600;color:rgba(255,255,255,.9);margin-top:1px}
+.er-lbl{font-size:9.5px;color:rgba(255,255,255,.4)}
+.er-val{font-size:14px;font-weight:600;color:rgba(255,255,255,.9);margin-top:1px}
 
 /* WD BLOCK */
-.wdb{margin-bottom:18px;border-radius:10px;overflow:hidden;border:1px solid var(--border);box-shadow:var(--sh)}
-.wdh{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;flex-wrap:wrap;gap:8px}
-.wdh-name{font-size:13px;font-weight:700;color:#fff}
-.wdh-stats{display:flex;gap:18px}
+.wdb{margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid var(--border);box-shadow:var(--sh)}
+.wdh{display:flex;align-items:center;justify-content:space-between;padding:10px 15px;flex-wrap:wrap;gap:8px}
+.wdh-name{font-size:12.5px;font-weight:700;color:#fff}
+.wdh-stats{display:flex;gap:14px;flex-wrap:wrap}
 .wdhs{text-align:center}
-.wdhs-v{font-size:17px;font-weight:700;color:#fff}
-.wdhs-l{font-size:9px;color:rgba(255,255,255,.55);margin-top:1px}
+.wdhs-v{font-size:16px;font-weight:700;color:#fff}
+.wdhs-l{font-size:9px;color:rgba(255,255,255,.5);margin-top:1px}
 .wdb-body{background:var(--card)}
 
 /* DS ROW */
 .dsr{border-bottom:1px solid var(--border)}
 .dsr:last-child{border-bottom:none}
-.dsr-top{display:flex;align-items:center;gap:12px;padding:12px 16px;cursor:pointer;transition:.12s;user-select:none}
+.dsr-top{display:flex;align-items:flex-start;gap:11px;padding:11px 15px;cursor:pointer;transition:.12s;user-select:none}
 .dsr-top:hover{background:#fafbff}
-.dsr-avatar{width:36px;height:36px;border-radius:50%;background:var(--navyl);color:var(--navy);font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.dsr-avatar{width:34px;height:34px;border-radius:50%;background:var(--navyl);color:var(--navy);font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
 .dsr-info{flex:1;min-width:0}
-.dsr-name{font-size:12.5px;font-weight:600;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.dsr-meta{font-size:10px;color:var(--text3);margin-top:1px}
+.dsr-name{font-size:12px;font-weight:600;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dsr-meta{font-size:9.5px;color:var(--text3);margin-top:2px;line-height:1.4}
 .dsr-earn{text-align:right;flex-shrink:0}
-.dsr-ev{font-size:17px;font-weight:700;color:var(--gold)}
-.dsr-el{font-size:9.5px;color:var(--text3);margin-top:1px}
-.dsr-outlets{display:none;background:#f8f9ff;border-top:1px solid var(--border)}
+.dsr-ev{font-size:16px;font-weight:700;color:var(--gold)}
+.dsr-el{font-size:9px;color:var(--text3);margin-top:1px}
+
+/* OUTLET EXPANDABLE */
+.dsr-outlets{display:none;background:#f7f8fd;border-top:1px solid var(--border)}
 .dsr-outlets.open{display:block}
-.ol-hdr{padding:8px 16px;font-size:9.5px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px}
-.oi{display:grid;grid-template-columns:1fr auto auto auto;gap:8px;align-items:center;padding:7px 16px;border-top:1px solid var(--border)}
-.oi:first-of-type{border-top:none}
-.oi:hover{background:#edf0ff}
-.oi-name{font-size:11.5px;font-weight:500;color:var(--text);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.oi-earn{font-size:11.5px;font-weight:700;color:var(--gold);min-width:36px;text-align:right}
+.ol-hdr{padding:7px 15px;font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border)}
+
+/* OUTLET ITEM — per outlet */
+.outlet-block{border-bottom:1px solid var(--border)}
+.outlet-block:last-child{border-bottom:none}
+.outlet-name-row{padding:7px 15px 3px;font-size:11.5px;font-weight:600;color:var(--text)}
+
+/* ASSET ROW — per asset inside outlet */
+.asset-row{display:grid;grid-template-columns:auto 1fr auto auto auto;gap:8px;align-items:center;padding:4px 15px 6px 24px}
+.asset-row:hover{background:#eef0ff}
 
 /* ALERT */
-.al{display:flex;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:6px;font-size:11.5px;line-height:1.5}
+.al{display:flex;gap:8px;padding:8px 11px;border-radius:8px;margin-bottom:6px;font-size:11px;line-height:1.5}
 .al-g{background:var(--greenl);color:var(--green)}.al-a{background:var(--amberl);color:var(--amber)}
 .al-r{background:var(--redl);color:var(--red)}.al-b{background:var(--bluel);color:var(--blue)}
 
 /* LOADING */
 #overlay{position:fixed;inset:0;background:rgba(10,20,50,.75);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
-.spin{width:30px;height:30px;border:3px solid rgba(255,255,255,.15);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
+.spin{width:28px;height:28px;border:3px solid rgba(255,255,255,.15);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 #overlay.hide{display:none}
 .olt{color:rgba(255,255,255,.6);font-size:12px}
 
-/* RESPONSIVE */
-@media(max-width:900px){.k6{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:1fr}}
-@media(max-width:560px){.k6,.k4{grid-template-columns:repeat(2,1fr)}.k3{grid-template-columns:repeat(2,1fr)}.brand-sub{display:none}.page{padding:10px 11px}}
+/* ── RESPONSIVE ────────────────────────── */
+@media(max-width:900px){
+  .k6{grid-template-columns:repeat(3,1fr)}
+  .g2{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .k6,.k4{grid-template-columns:repeat(2,1fr)}
+  .k3{grid-template-columns:repeat(2,1fr)}
+  .page{padding:8px 10px}
+  .kpi-val{font-size:17px}
+  .kpi{padding:9px 11px}
+  .brand-sub{display:none}
+  .topbar{height:46px;padding:0 12px}
+  .logo{font-size:12px}
+  .status{display:none}
+  .chart-wrap{height:150px;max-height:150px}
+  .chart-wrap-sm{height:130px;max-height:130px}
+  .wdh{padding:8px 12px}
+  .dsr-top{padding:9px 12px;gap:8px}
+  .dsr-avatar{width:30px;height:30px;font-size:11px}
+  .asset-row{grid-template-columns:auto 1fr auto auto;gap:6px;padding:4px 12px 5px 18px}
+  .outlet-name-row{padding:6px 12px 2px}
+  .ol-hdr{padding:6px 12px}
+  .ehero{padding:12px 14px}
+  .eh-val{font-size:24px}
+}
+@media(max-width:380px){
+  .k6,.k4,.k3{grid-template-columns:repeat(2,1fr)}
+  .ntab{padding:9px 10px;font-size:10.5px}
+  .kpi-val{font-size:16px}
+  .wdh-stats{gap:10px}
+  .wdhs-v{font-size:14px}
+  .asset-row{grid-template-columns:auto 1fr auto;gap:5px}
+  .asset-earn{display:none}
+}
 </style>
 </head>
 <body>
@@ -164,7 +213,7 @@ tbody tr:hover td{background:#fafbff}
 <div id="overlay"><div class="spin"></div><div class="olt">Loading DRISHTI…</div></div>
 
 <div class="topbar">
-  <div style="display:flex;align-items:center;gap:0">
+  <div style="display:flex;align-items:center;min-width:0">
     <div class="logo">DRISHTI</div>
     <div class="brand-sub" style="margin-left:10px"><strong>ITC TM&D · Nagpur</strong>Visibility Rush</div>
   </div>
@@ -172,7 +221,7 @@ tbody tr:hover td{background:#fafbff}
     <div class="live"><div class="live-dot"></div>Live</div>
     <span class="status" id="ust">Loading…</span>
     <span class="cd" id="cdt"></span>
-    <button class="rbtn" onclick="loadData()">↻ Refresh</button>
+    <button class="rbtn" onclick="loadData()">↻</button>
   </div>
 </div>
 
@@ -180,7 +229,7 @@ tbody tr:hover td{background:#fafbff}
   <button class="ntab on"  onclick="showTab(this,'t-overview')">📊 Overview</button>
   <button class="ntab"     onclick="showTab(this,'t-ds')">👥 DS &amp; Outlets</button>
   <button class="ntab"     onclick="showTab(this,'t-hygiene')">🧹 Hygiene &amp; Sell-Out</button>
-  <button class="ntab"     onclick="showTab(this,'t-log')">📋 Activity Log</button>
+  <button class="ntab"     onclick="showTab(this,'t-log')">📋 Log</button>
 </div>
 
 <div class="page">
@@ -195,8 +244,14 @@ tbody tr:hover td{background:#fafbff}
         <div class="card"><div class="ch"><span class="ct">Action Alerts</span></div><div class="cb" id="ov-al"></div></div>
       </div>
       <div>
-        <div class="card"><div class="ch"><span class="ct">Daily Scan Activity</span></div><div class="cb"><canvas id="ch-day"></canvas></div></div>
-        <div class="card"><div class="ch"><span class="ct">Outlet Status</span></div><div class="cb"><canvas id="ch-status"></canvas></div></div>
+        <div class="card">
+          <div class="ch"><span class="ct">Daily Scan Activity</span></div>
+          <div class="cb"><div class="chart-wrap"><canvas id="ch-day"></canvas></div></div>
+        </div>
+        <div class="card">
+          <div class="ch"><span class="ct">Outlet Status</span></div>
+          <div class="cb"><div class="chart-wrap-sm"><canvas id="ch-status"></canvas></div></div>
+        </div>
       </div>
     </div>
   </div>
@@ -204,14 +259,14 @@ tbody tr:hover td{background:#fafbff}
   <!-- DS & OUTLETS -->
   <div class="panel" id="t-ds">
     <div class="ehero">
-      <div class="eh-main">
+      <div>
         <div class="eh-lbl">Total DS Payout — After 14th May 2026</div>
         <div class="eh-val" id="eh-total">₹0</div>
-        <div class="eh-sub">₹5 per scan · 4 scans per outlet · Max ₹800 per DS</div>
+        <div class="eh-sub">₹5 per scan · 4 scans per asset per outlet · Max ₹800 per DS</div>
       </div>
       <div class="eh-right">
         <div class="er-lbl">Total Scans</div><div class="er-val" id="eh-scans">0</div>
-        <div class="er-lbl" style="margin-top:8px">Active DS</div><div class="er-val" id="eh-ds">0</div>
+        <div class="er-lbl" style="margin-top:7px">Active DS</div><div class="er-val" id="eh-ds">0</div>
       </div>
     </div>
     <div id="ds-content"></div>
@@ -224,7 +279,7 @@ tbody tr:hover td{background:#fafbff}
       <div>
         <div class="card">
           <div class="ch"><span class="ct">Ladi Hygiene Scores</span><span class="pill pn" id="hy-ct">0 checks</span></div>
-          <div class="tw"><table><thead><tr><th>Outlet</th><th>DS</th><th>Checks</th><th>Avg Score</th><th>Last Score</th><th>Purity</th><th>Order?</th></tr></thead><tbody id="hy-tbl"></tbody></table></div>
+          <div class="tw"><table><thead><tr><th>Outlet</th><th>DS</th><th>Checks</th><th>Avg Score</th><th>Last</th><th>Purity</th><th>Order?</th></tr></thead><tbody id="hy-tbl"></tbody></table></div>
         </div>
         <div class="card">
           <div class="ch"><span class="ct">CTU Sell-Out</span></div>
@@ -232,8 +287,18 @@ tbody tr:hover td{background:#fafbff}
         </div>
       </div>
       <div>
-        <div class="card"><div class="ch"><span class="ct">Score Distribution</span></div><div class="cb"><canvas id="ch-score"></canvas></div></div>
-        <div class="card"><div class="ch"><span class="ct">Ladi Purity</span></div><div class="cb"><canvas id="ch-purity"></canvas></div></div>
+        <div class="card">
+          <div class="ch"><span class="ct">Score Distribution</span></div>
+          <div class="cb"><div class="chart-wrap-sm"><canvas id="ch-score"></canvas></div></div>
+        </div>
+        <div class="card">
+          <div class="ch"><span class="ct">Ladi Purity</span></div>
+          <div class="cb"><div class="chart-wrap-sm"><canvas id="ch-purity"></canvas></div></div>
+        </div>
+        <div class="card">
+          <div class="ch"><span class="ct">Asset Mix</span></div>
+          <div class="cb"><div class="chart-wrap-sm"><canvas id="ch-asset"></canvas></div></div>
+        </div>
       </div>
     </div>
   </div>
@@ -242,528 +307,520 @@ tbody tr:hover td{background:#fafbff}
   <div class="panel" id="t-log">
     <div class="card">
       <div class="ch"><span class="ct">All Scan Records — Newest First</span><span class="pill pb" id="log-ct">0 records</span></div>
-      <div class="tw"><table><thead><tr><th>Date & Time</th><th>DS</th><th>Outlet</th><th>WD</th><th>Type</th><th>POSM</th><th>Score</th><th>Status</th></tr></thead><tbody id="log-tbl"></tbody></table></div>
+      <div class="tw"><table><thead><tr><th>Date & Time</th><th>DS</th><th>Outlet</th><th>WD</th><th>Type</th><th>Asset</th><th>Score</th><th>Status</th></tr></thead><tbody id="log-tbl"></tbody></table></div>
     </div>
   </div>
 
 </div>
 
 <script>
-// ════════════════════════════════════════════════════════
-// PASTE YOUR PUBLISHED GOOGLE SHEET CSV URL BELOW
-// Steps: File → Share → Publish to web → Form Responses 1 → CSV → Publish
-// ════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════
+// UPDATE THIS URL — File → Share → Publish to web → Form Responses 1 → CSV
+// ════════════════════════════════════════════════════
 const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQtX16effBsYlRH7bceAIc0s51G6VpWx-Eeg4QGsecBEWsa_H7_fkr0XUvxUIksfLiKvGFvVcfSlpse/pub?gid=411503546&single=true&output=csv";
 
-const PER_SCAN = 5, MAX = 800, SECS = 300;
-let ROWS = [], timer = null, left = SECS, idN = 0, idMap = {};
+const PER_SCAN=5, MAX=800, REFRESH=300;
+let ROWS=[], tmr=null, left=REFRESH, idc=0, idm={};
 
-// ── SAFE ID (no btoa - fixes crash on Indian names) ──
-function sid(key){ if(!idMap[key]) idMap[key]='x'+(idN++); return idMap[key]; }
+// ── SAFE ID ───────────────────────────────────────
+function sid(k){ if(!idm[k]) idm[k]='x'+(idc++); return idm[k]; }
 
-// ── COLUMN READERS ────────────────────────────────────
-const g = (r,i) => (r[i]||'').trim();
+// ── COLUMN READERS ────────────────────────────────
+const g    = (r,i)   => (r[i]||'').trim();
+const gOut = r       => g(r,2)||g(r,17)||g(r,20);
+const gDS  = r       => g(r,1)||g(r,18)||g(r,21);
+const gAct = r       => g(r,3)||g(r,19)||g(r,22);
+const gTs  = r       => g(r,0).slice(0,10);
 
-// Outlet: GE uses col2, GT uses col17, OC uses col20
-function getOutlet(r){ return g(r,2)||g(r,17)||g(r,20); }
+// Asset type: 'Ladi' or 'CTU'
+function gAsset(r){
+  const dep = g(r,4); // POSM type when deploying
+  const hyg = g(r,6); // POSM type when hygiene
+  const raw = dep||hyg;
+  if(/counter|ctu/i.test(raw)) return 'CTU';
+  return 'Ladi';
+}
 
-// DS: GE uses col1, GT uses col18, OC uses col21
-function getDS(r){ return g(r,1)||g(r,18)||g(r,21); }
-
-// Activity: GE uses col3, GT uses col19, OC uses col22
-function getAct(r){ return g(r,3)||g(r,19)||g(r,22); }
-
-// WD detection - col16 has WD name, else infer from which column is filled
-function getWD(r){
-  const w = g(r,16);
-  if(w && w !== 'Deployed'){
+function gWD(r){
+  const w=g(r,16);
+  if(w&&w!=='Deployed'){
     if(/GOKUL.*ENT/i.test(w)||(/GOKUL/i.test(w)&&!/TRAD/i.test(w))) return 'GOKUL ENTERPRISES';
     if(/GOKUL.*TRAD/i.test(w)) return 'GOKUL TRADERS';
     if(/ORANGE/i.test(w)) return 'ORANGE CITY';
   }
-  // Infer from which outlet column is filled
   if(g(r,2))  return 'GOKUL ENTERPRISES';
   if(g(r,17)) return 'GOKUL TRADERS';
   if(g(r,20)) return 'ORANGE CITY';
   return 'GOKUL ENTERPRISES';
 }
 
-// DS short name - remove trailing phone number
-function shortName(r){
-  const full = getDS(r);
-  const parts = full.split(' ');
-  if(parts.length > 1 && /^\d{7,}$/.test(parts[parts.length-1])) parts.pop();
-  return parts.join(' ').trim() || full;
+function gShort(r){
+  const parts=gDS(r).split(' ');
+  if(parts.length>1&&/^\d{7,}$/.test(parts[parts.length-1])) parts.pop();
+  return parts.join(' ').trim()||gDS(r);
 }
 
-// Initials for avatar
-function initials(name){
-  return name.trim().split(/\s+/).slice(0,2).map(w=>w[0]||'').join('').toUpperCase()||'?';
-}
+function gInit(n){ return n.trim().split(/\s+/).slice(0,2).map(w=>w[0]||'').join('').toUpperCase()||'?'; }
 
-// Row type checks
-const isDep = r => /deploy/i.test(getAct(r));
-const isHyg = r => /hygiene/i.test(getAct(r));
+const isDep = r => /deploy/i.test(gAct(r));
+const isHyg = r => /hygiene/i.test(gAct(r));
 const isLadi= r => /ladi/i.test(g(r,6));
-const isCTU = r => /counter/i.test(g(r,6));
-const isOk  = r => getOutlet(r) && (isDep(r)||isHyg(r));
-const getTs = r => g(r,0).slice(0,10);
+const isCTU = r => /counter|ctu/i.test(g(r,6));
+const isOk  = r => gOut(r)&&(isDep(r)||isHyg(r));
 
-// ── TAB SWITCHING ─────────────────────────────────────
-function showTab(btn, panelId){
-  document.querySelectorAll('.ntab').forEach(b => b.classList.remove('on'));
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
+// ── TAB SWITCH ────────────────────────────────────
+function showTab(btn,pid){
+  document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
   btn.classList.add('on');
-  const el = document.getElementById(panelId);
+  const el=document.getElementById(pid);
   if(el) el.classList.add('on');
 }
 
-// ── CSV PARSER ────────────────────────────────────────
-function parseCSV(text){
-  const lines = text.trim().split('\n');
-  return lines.slice(1).map(line => {
-    const cols = []; let cur = '', q = false;
-    for(let i = 0; i < line.length; i++){
-      if(line[i] === '"'){ q = !q; continue; }
-      if(line[i] === ',' && !q){ cols.push(cur.trim()); cur = ''; continue; }
-      cur += line[i];
+// ── CSV PARSE ─────────────────────────────────────
+function parseCSV(txt){
+  return txt.trim().split('\n').slice(1).map(line=>{
+    const cols=[];let cur='',q=false;
+    for(let i=0;i<line.length;i++){
+      if(line[i]==='"'){q=!q;continue;}
+      if(line[i]===','&&!q){cols.push(cur.trim());cur='';continue;}
+      cur+=line[i];
     }
     cols.push(cur.trim());
     return cols;
-  }).filter(r => r.length > 3);
+  }).filter(r=>r.length>3);
 }
 
-// ── DATA AGGREGATION ──────────────────────────────────
+// ── AGGREGATE ─────────────────────────────────────
+// Tracks per DS → per outlet → per asset (Ladi / CTU)
 function aggregate(){
-  const rows = ROWS.filter(isOk);
+  const rows=ROWS.filter(isOk);
 
-  // wdMap: { WD → { DS → { short, inits, dep, hyg, outlets:{name→{dep,hyg}} } } }
-  const wdMap = {};
-  // outMap: { outlet → { wd, ds, short, dep, hyg, ladiSc, ctuSt, purs, ordsL, ordsC } }
-  const outMap = {};
+  // wdMap: { WD → { DS_key → { short, inits, outlets:{ outName → { Ladi:{dep,hyg}, CTU:{dep,hyg} } } } } }
+  const wdMap={};
+  // outMap: { outName → { wd, ds, dep, hyg, ladiSc, ctuSt, purs, ordsL, ordsC } }
+  const outMap={};
 
-  rows.forEach(r => {
-    const outlet = getOutlet(r);
-    const ds     = getDS(r);
-    const short  = shortName(r);
-    const wdKey  = getWD(r);
+  rows.forEach(r=>{
+    const out  = gOut(r);
+    const ds   = gDS(r);
+    const sh   = gShort(r);
+    const wdK  = gWD(r);
+    const asset= gAsset(r);
 
     // Init WD
-    if(!wdMap[wdKey]) wdMap[wdKey] = {};
-    // Init DS under WD
-    if(!wdMap[wdKey][ds]) wdMap[wdKey][ds] = { short, inits: initials(short), dep:0, hyg:0, outlets:{} };
-    // Init outlet under DS
-    if(!wdMap[wdKey][ds].outlets[outlet]) wdMap[wdKey][ds].outlets[outlet] = { dep:0, hyg:0 };
-
-    // Init outlet map
-    if(!outMap[outlet]) outMap[outlet] = { name:outlet, wd:wdKey, ds:short, dep:0, hyg:0, ladiSc:[], ctuSt:[], purs:[], ordsL:[], ordsC:[] };
+    if(!wdMap[wdK]) wdMap[wdK]={};
+    // Init DS
+    if(!wdMap[wdK][ds]) wdMap[wdK][ds]={short:sh,inits:gInit(sh),outlets:{}};
+    // Init outlet
+    if(!wdMap[wdK][ds].outlets[out]) wdMap[wdK][ds].outlets[out]={Ladi:{dep:0,hyg:0},CTU:{dep:0,hyg:0}};
+    // Init outMap
+    if(!outMap[out]) outMap[out]={name:out,wd:wdK,ds:sh,dep:0,hyg:0,ladiSc:[],ctuSt:[],purs:[],ordsL:[],ordsC:[]};
 
     if(isDep(r)){
-      wdMap[wdKey][ds].dep++;
-      wdMap[wdKey][ds].outlets[outlet].dep++;
-      outMap[outlet].dep++;
-      outMap[outlet].ds = short;
-      outMap[outlet].wd = wdKey;
+      wdMap[wdK][ds].outlets[out][asset].dep++;
+      outMap[out].dep++;
+      outMap[out].ds=sh; outMap[out].wd=wdK;
     }
     if(isHyg(r)){
-      wdMap[wdKey][ds].hyg++;
-      wdMap[wdKey][ds].outlets[outlet].hyg++;
-      outMap[outlet].hyg++;
+      wdMap[wdK][ds].outlets[out][asset].hyg++;
+      outMap[out].hyg++;
       if(isLadi(r)){
-        const sc = parseInt(g(r,23))||0;
-        if(sc > 0){ wdMap[wdKey][ds].outlets[outlet].ladiSc = wdMap[wdKey][ds].outlets[outlet].ladiSc||[]; wdMap[wdKey][ds].outlets[outlet].ladiSc.push(sc); outMap[outlet].ladiSc.push(sc); }
-        const pu = g(r,15); if(pu) outMap[outlet].purs.push(pu);
-        const ol = g(r,13); if(ol) outMap[outlet].ordsL.push(ol);
+        const sc=parseInt(g(r,23))||0;
+        if(sc>0) outMap[out].ladiSc.push(sc);
+        const pu=g(r,15); if(pu) outMap[out].purs.push(pu);
+        const ol=g(r,13); if(ol) outMap[out].ordsL.push(ol);
       }
       if(isCTU(r)){
-        const st = g(r,8); if(st !== '') outMap[outlet].ctuSt.push(parseInt(st)||0);
-        const oc = g(r,9); if(oc) outMap[outlet].ordsC.push(oc);
+        const st=g(r,8); if(st!=='') outMap[out].ctuSt.push(parseInt(st)||0);
+        const oc=g(r,9); if(oc) outMap[out].ordsC.push(oc);
       }
     }
   });
 
-  // Compute DS earnings
-  const dsList = [];
-  Object.entries(wdMap).forEach(([wdKey, dsEntries]) => {
-    Object.entries(dsEntries).forEach(([dsKey, d]) => {
-      const totalScans = d.dep + d.hyg;
-      const earn = Math.min(totalScans * PER_SCAN, MAX);
-      dsList.push({ key:dsKey, short:d.short, inits:d.inits, wd:wdKey, dep:d.dep, hyg:d.hyg, totalScans, earn, outlets:d.outlets });
+  // Build DS list with per-asset earnings
+  const dsList=[];
+  Object.entries(wdMap).forEach(([wdK,dsEntries])=>{
+    Object.entries(dsEntries).forEach(([dsKey,d])=>{
+      let totalScans=0;
+      // Count scans per outlet per asset (max 4 each)
+      Object.values(d.outlets).forEach(assets=>{
+        ['Ladi','CTU'].forEach(a=>{
+          const o=assets[a];
+          if(o.dep>0||o.hyg>0){
+            totalScans+=Math.min(o.dep+o.hyg,4);
+          }
+        });
+      });
+      const earn=Math.min(totalScans*PER_SCAN,MAX);
+      const outCount=Object.keys(d.outlets).length;
+      let totalDep=0,totalHyg=0;
+      Object.values(d.outlets).forEach(assets=>{['Ladi','CTU'].forEach(a=>{totalDep+=assets[a].dep;totalHyg+=assets[a].hyg;});});
+      dsList.push({key:dsKey,short:d.short,inits:d.inits,wd:wdK,totalScans,earn,outCount,totalDep,totalHyg,outlets:d.outlets});
     });
   });
-  dsList.sort((a,b) => b.earn - a.earn);
+  dsList.sort((a,b)=>b.earn-a.earn);
 
-  const outList = Object.values(outMap).sort((a,b) => (b.dep+b.hyg)-(a.dep+a.hyg));
-
-  return { rows, wdMap, dsList, outList };
+  const outList=Object.values(outMap).sort((a,b)=>(b.dep+b.hyg)-(a.dep+a.hyg));
+  return {rows,wdMap,dsList,outList};
 }
 
-// ── DESTROY CHART ─────────────────────────────────────
-function kc(id){ const c = Chart.getChart(id); if(c) c.destroy(); }
+// ── CHART DESTROY ─────────────────────────────────
+function kc(id){const c=Chart.getChart(id);if(c)c.destroy();}
+const chartOpts={responsive:true,maintainAspectRatio:false};
 
-// ── BUILD OVERVIEW ────────────────────────────────────
-function buildOverview(rows, dsList, outList){
+// ── BUILD OVERVIEW ────────────────────────────────
+function buildOverview(rows,dsList,outList){
   const totalDep   = rows.filter(isDep).length;
   const totalHyg   = rows.filter(isHyg).length;
-  const totalScans = totalDep + totalHyg;
-  const totalEarn  = dsList.reduce((s,d) => s + d.earn, 0);
-  const complete   = outList.filter(o => o.dep>0 && o.hyg>=3).length;
-  const dsActive   = dsList.filter(d => d.totalScans > 0).length;
+  const totalScans = totalDep+totalHyg;
+  const totalEarn  = dsList.reduce((s,d)=>s+d.earn,0);
+  const complete   = outList.filter(o=>o.dep>0&&o.hyg>=3).length;
+  const dsActive   = dsList.filter(d=>d.totalScans>0).length;
+  const today      = new Date().toISOString().slice(0,10);
+  const todayN     = rows.filter(r=>isOk(r)&&gTs(r).split('/').reverse().join('-')===today).length;
+  const allSc      = outList.flatMap(o=>o.ladiSc);
+  const avgSc      = allSc.length?Math.round(allSc.reduce((s,x)=>s+x,0)/allSc.length):null;
+  const orders     = outList.reduce((s,o)=>s+o.ordsL.filter(x=>x==='Yes').length+o.ordsC.filter(x=>x==='Yes').length,0);
+  const noHyg      = outList.filter(o=>o.dep>0&&o.hyg===0).length;
 
-  // Today's scans
-  const today = new Date().toISOString().slice(0,10);
-  const todayN = rows.filter(r => isOk(r) && getTs(r).split('/').reverse().join('-') === today).length;
-
-  const allScores = outList.flatMap(o => o.ladiSc);
-  const avgSc = allScores.length ? Math.round(allScores.reduce((s,x)=>s+x,0)/allScores.length) : null;
-  const orders = outList.reduce((s,o) => s + o.ordsL.filter(x=>x==='Yes').length + o.ordsC.filter(x=>x==='Yes').length, 0);
-  const noHyg  = outList.filter(o => o.dep>0 && o.hyg===0).length;
-
-  document.getElementById('ov1').innerHTML = `
-    <div class="kpi"><div class="kpi-ico">🏪</div><div class="kpi-lbl">Outlets Deployed</div><div class="kpi-val">${totalDep}</div><div class="kpi-sub">Ladi placed</div></div>
+  document.getElementById('ov1').innerHTML=`
+    <div class="kpi"><div class="kpi-ico">🏪</div><div class="kpi-lbl">Deployed</div><div class="kpi-val">${totalDep}</div><div class="kpi-sub">Assets placed</div></div>
     <div class="kpi green"><div class="kpi-ico">✅</div><div class="kpi-lbl">Hygiene Scans</div><div class="kpi-val">${totalHyg}</div><div class="kpi-sub">₹${totalHyg*PER_SCAN} earned</div></div>
     <div class="kpi gold"><div class="kpi-ico">📊</div><div class="kpi-lbl">Total Scans</div><div class="kpi-val">${totalScans}</div><div class="kpi-sub">All activities</div></div>
-    <div class="kpi blue"><div class="kpi-ico">🏆</div><div class="kpi-lbl">Complete (4/4)</div><div class="kpi-val">${complete}/${outList.length}</div><div class="kpi-sub">${outList.length?Math.round(complete/outList.length*100):0}% done</div></div>
+    <div class="kpi blue"><div class="kpi-ico">🏆</div><div class="kpi-lbl">Complete</div><div class="kpi-val">${complete}/${outList.length}</div><div class="kpi-sub">${outList.length?Math.round(complete/outList.length*100):0}% outlets</div></div>
     <div class="kpi gold"><div class="kpi-ico">💰</div><div class="kpi-lbl">DS Earnings</div><div class="kpi-val">₹${totalEarn}</div><div class="kpi-sub">After 14 May</div></div>
-    <div class="kpi ${todayN>0?'green':'amber'}"><div class="kpi-ico">📅</div><div class="kpi-lbl">Scans Today</div><div class="kpi-val">${todayN}</div><div class="kpi-sub">Today's activity</div></div>
+    <div class="kpi ${todayN>0?'green':'amber'}"><div class="kpi-ico">📅</div><div class="kpi-lbl">Scans Today</div><div class="kpi-val">${todayN}</div><div class="kpi-sub">Today</div></div>
   `;
-  document.getElementById('ov2').innerHTML = `
-    <div class="kpi blue"><div class="kpi-ico">👥</div><div class="kpi-lbl">Active DS</div><div class="kpi-val">${dsActive}</div><div class="kpi-sub">Scanned at least once</div></div>
-    <div class="kpi ${avgSc===null?'amber':avgSc>=70?'green':avgSc>=45?'amber':'red'}"><div class="kpi-ico">🧹</div><div class="kpi-lbl">Avg Hygiene Score</div><div class="kpi-val">${avgSc===null?'—':avgSc+'/100'}</div><div class="kpi-sub">Ladi checks</div></div>
+  document.getElementById('ov2').innerHTML=`
+    <div class="kpi blue"><div class="kpi-ico">👥</div><div class="kpi-lbl">Active DS</div><div class="kpi-val">${dsActive}</div><div class="kpi-sub">Scanned ≥1 time</div></div>
+    <div class="kpi ${avgSc===null?'amber':avgSc>=70?'green':avgSc>=45?'amber':'red'}"><div class="kpi-ico">🧹</div><div class="kpi-lbl">Avg Score</div><div class="kpi-val">${avgSc===null?'—':avgSc+'/100'}</div><div class="kpi-sub">Ladi hygiene</div></div>
     <div class="kpi green"><div class="kpi-ico">🛒</div><div class="kpi-lbl">Orders via POSM</div><div class="kpi-val">${orders}</div><div class="kpi-sub">Same-visit orders</div></div>
-    <div class="kpi ${noHyg>0?'red':'green'}"><div class="kpi-ico">⚠️</div><div class="kpi-lbl">No Hygiene Yet</div><div class="kpi-val">${noHyg}</div><div class="kpi-sub">Deployed, unchecked</div></div>
+    <div class="kpi ${noHyg>0?'red':'green'}"><div class="kpi-ico">⚠️</div><div class="kpi-lbl">No Hygiene Yet</div><div class="kpi-val">${noHyg}</div><div class="kpi-sub">Action needed</div></div>
   `;
 
   // WD summary
-  const wdBg = {'GOKUL ENTERPRISES':'#00276B','GOKUL TRADERS':'#1557CC','ORANGE CITY':'#B85C00'};
-  const wdRows = {};
-  rows.filter(isOk).forEach(r => {
-    const w = getWD(r);
-    if(!wdRows[w]) wdRows[w] = { dep:0, hyg:0, ds:new Set() };
+  const wdBg={'GOKUL ENTERPRISES':'#00276B','GOKUL TRADERS':'#1557CC','ORANGE CITY':'#B85C00'};
+  const wdRows={};
+  rows.filter(isOk).forEach(r=>{
+    const w=gWD(r);
+    if(!wdRows[w]) wdRows[w]={dep:0,hyg:0,ds:new Set()};
     if(isDep(r)) wdRows[w].dep++;
     if(isHyg(r)) wdRows[w].hyg++;
-    wdRows[w].ds.add(getDS(r));
+    wdRows[w].ds.add(gDS(r));
   });
-  document.getElementById('ov-wd').innerHTML = Object.entries(wdRows).map(([name,s]) => `
+  document.getElementById('ov-wd').innerHTML=Object.entries(wdRows).map(([name,s])=>`
     <div style="border-radius:8px;overflow:hidden;margin-bottom:8px;border:1px solid var(--border)">
-      <div style="background:${wdBg[name]||'#003087'};padding:8px 14px;display:flex;align-items:center;justify-content:space-between">
-        <div style="color:#fff;font-size:12px;font-weight:600">${name}</div>
-        <div style="color:rgba(255,255,255,.5);font-size:10px">${s.ds.size} DS active</div>
+      <div style="background:${wdBg[name]||'#003087'};padding:8px 13px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px">
+        <div style="color:#fff;font-size:11.5px;font-weight:600">${name}</div>
+        <div style="color:rgba(255,255,255,.5);font-size:9.5px">${s.ds.size} DS active</div>
       </div>
-      <div style="padding:10px 14px;display:flex;gap:20px;align-items:center;background:var(--card)">
-        <div><div style="font-size:17px;font-weight:700;color:var(--navy)">${s.dep}</div><div style="font-size:9.5px;color:var(--text3)">Deployed</div></div>
-        <div><div style="font-size:17px;font-weight:700;color:var(--green)">${s.hyg}</div><div style="font-size:9.5px;color:var(--text3)">Hygiene</div></div>
-        <div><div style="font-size:17px;font-weight:700;color:var(--gold)">${s.dep+s.hyg}</div><div style="font-size:9.5px;color:var(--text3)">Total Scans</div></div>
-        <div style="flex:1">
-          <div style="font-size:9.5px;color:var(--text3);margin-bottom:3px">Hygiene completion</div>
+      <div style="padding:9px 13px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;background:var(--card)">
+        <div><div style="font-size:16px;font-weight:700;color:var(--navy)">${s.dep}</div><div style="font-size:9px;color:var(--text3)">Deployed</div></div>
+        <div><div style="font-size:16px;font-weight:700;color:var(--green)">${s.hyg}</div><div style="font-size:9px;color:var(--text3)">Hygiene</div></div>
+        <div><div style="font-size:16px;font-weight:700;color:var(--gold)">${s.dep+s.hyg}</div><div style="font-size:9px;color:var(--text3)">Total Scans</div></div>
+        <div style="flex:1;min-width:80px">
+          <div style="font-size:9px;color:var(--text3);margin-bottom:3px">Hygiene progress</div>
           <div class="pbar"><div class="pfill pf-navy" style="width:${s.dep>0?Math.min(100,Math.round(s.hyg/(s.dep*3)*100)):0}%"></div></div>
         </div>
       </div>
     </div>
-  `).join('') || '<div style="color:var(--text3);font-size:11px">No data yet</div>';
+  `).join('')||'<div style="color:var(--text3);font-size:11px">No data yet</div>';
 
   // Alerts
-  const als = [];
-  const noHygOuts = outList.filter(o => o.dep>0 && o.hyg===0);
-  const critOuts  = outList.filter(o => { const a=o.ladiSc.length?Math.round(o.ladiSc.reduce((s,x)=>s+x,0)/o.ladiSc.length):null; return a!==null&&a<45; });
-  const compOuts  = outList.filter(o => o.purs.length && o.purs[o.purs.length-1]==='Competitors Mostly');
-  const nearDone  = outList.filter(o => (o.dep?1:0)+o.hyg===3 && o.hyg<3);
-  if(noHygOuts.length) als.push(`<div class="al al-a">⚠️ <strong>${noHygOuts.length} outlet(s)</strong> deployed but no hygiene check yet</div>`);
-  if(critOuts.length)  als.push(`<div class="al al-r">🔴 <strong>${critOuts.length} outlet(s)</strong> with critical hygiene score below 45</div>`);
-  if(compOuts.length)  als.push(`<div class="al al-r">🔴 <strong>${compOuts.length} ladi(s)</strong> showing competitor products — action needed</div>`);
-  if(nearDone.length)  als.push(`<div class="al al-b">📌 <strong>${nearDone.length} outlet(s)</strong> at 3/4 scans — one scan away from completing</div>`);
+  const als=[];
+  const noHygOuts=outList.filter(o=>o.dep>0&&o.hyg===0);
+  const critOuts=outList.filter(o=>{const a=o.ladiSc.length?Math.round(o.ladiSc.reduce((s,x)=>s+x,0)/o.ladiSc.length):null;return a!==null&&a<45;});
+  const compOuts=outList.filter(o=>o.purs.length&&o.purs[o.purs.length-1]==='Competitors Mostly');
+  if(noHygOuts.length) als.push(`<div class="al al-a">⚠️ <strong>${noHygOuts.length} outlet(s)</strong> deployed but no hygiene yet</div>`);
+  if(critOuts.length)  als.push(`<div class="al al-r">🔴 <strong>${critOuts.length} outlet(s)</strong> critical hygiene score below 45</div>`);
+  if(compOuts.length)  als.push(`<div class="al al-r">🔴 <strong>${compOuts.length} ladi(s)</strong> showing competitor products</div>`);
   if(!als.length) als.push('<div class="al al-g">✅ No critical issues — all clear</div>');
-  document.getElementById('ov-al').innerHTML = als.join('');
+  document.getElementById('ov-al').innerHTML=als.join('');
 
   // Day chart
-  const dayMap = {};
-  rows.filter(isOk).forEach(r => {
-    const d = getTs(r);
-    if(!dayMap[d]) dayMap[d] = { dep:0, hyg:0 };
-    if(isDep(r)) dayMap[d].dep++;
-    if(isHyg(r)) dayMap[d].hyg++;
-  });
-  const days = Object.keys(dayMap).sort();
+  const dayMap={};
+  rows.filter(isOk).forEach(r=>{const d=gTs(r);if(!dayMap[d])dayMap[d]={dep:0,hyg:0};if(isDep(r))dayMap[d].dep++;if(isHyg(r))dayMap[d].hyg++;});
+  const days=Object.keys(dayMap).sort();
   kc('ch-day');
-  new Chart(document.getElementById('ch-day'), {
+  new Chart(document.getElementById('ch-day'),{
     type:'bar',
-    data:{ labels: days.map(d=>d.slice(5)), datasets:[
-      { label:'Deploy',  data:days.map(d=>dayMap[d].dep), backgroundColor:'#003087', borderRadius:3 },
-      { label:'Hygiene', data:days.map(d=>dayMap[d].hyg), backgroundColor:'#0e7a40', borderRadius:3 }
+    data:{labels:days.map(d=>d.slice(5)),datasets:[
+      {label:'Deploy',data:days.map(d=>dayMap[d].dep),backgroundColor:'#003087',borderRadius:3},
+      {label:'Hygiene',data:days.map(d=>dayMap[d].hyg),backgroundColor:'#0e7a40',borderRadius:3}
     ]},
-    options:{ responsive:true, plugins:{legend:{labels:{font:{size:10},boxWidth:10}}},
-      scales:{ x:{stacked:true,ticks:{font:{size:9}}}, y:{stacked:true,beginAtZero:true,ticks:{stepSize:1,font:{size:9}}} }}
+    options:{...chartOpts,plugins:{legend:{labels:{font:{size:9},boxWidth:8}}},
+      scales:{x:{stacked:true,ticks:{font:{size:8}}},y:{stacked:true,beginAtZero:true,ticks:{stepSize:1,font:{size:8}}}}}
   });
 
   // Status donut
-  const comp = outList.filter(o=>o.dep>0&&o.hyg>=3).length;
-  const inp  = outList.filter(o=>(o.dep>0||o.hyg>0)&&!(o.dep>0&&o.hyg>=3)).length;
-  const none = outList.filter(o=>o.dep===0&&o.hyg===0).length;
+  const comp=outList.filter(o=>o.dep>0&&o.hyg>=3).length;
+  const inp=outList.filter(o=>(o.dep>0||o.hyg>0)&&!(o.dep>0&&o.hyg>=3)).length;
+  const none=outList.filter(o=>o.dep===0&&o.hyg===0).length;
   kc('ch-status');
-  new Chart(document.getElementById('ch-status'), {
+  new Chart(document.getElementById('ch-status'),{
     type:'doughnut',
-    data:{ labels:['Complete (4/4)','In Progress','Not Started'],
-      datasets:[{ data:[comp,inp,none], backgroundColor:['#0e7a40','#c9880a','#cbd5e1'], borderWidth:0, hoverOffset:4 }]},
-    options:{ responsive:true, plugins:{legend:{labels:{font:{size:10},boxWidth:10}}} }
+    data:{labels:['Complete','In Progress','Not Started'],
+      datasets:[{data:[comp,inp,none],backgroundColor:['#0e7a40','#c9880a','#cbd5e1'],borderWidth:0,hoverOffset:3}]},
+    options:{...chartOpts,plugins:{legend:{labels:{font:{size:9},boxWidth:8}}}}
   });
 }
 
-// ── BUILD DS & OUTLETS ────────────────────────────────
-function buildDS(wdMap, dsList){
-  const totalEarn  = dsList.reduce((s,d) => s + d.earn, 0);
-  const totalScans = dsList.reduce((s,d) => s + d.totalScans, 0);
-  document.getElementById('eh-total').textContent = '₹' + totalEarn;
-  document.getElementById('eh-scans').textContent = totalScans;
-  document.getElementById('eh-ds').textContent    = dsList.filter(d=>d.totalScans>0).length;
+// ── BUILD DS & OUTLETS ────────────────────────────
+function buildDS(wdMap,dsList){
+  document.getElementById('eh-total').textContent='₹'+dsList.reduce((s,d)=>s+d.earn,0);
+  document.getElementById('eh-scans').textContent=dsList.reduce((s,d)=>s+d.totalScans,0);
+  document.getElementById('eh-ds').textContent=dsList.filter(d=>d.totalScans>0).length;
 
-  const wdOrder  = ['GOKUL ENTERPRISES','GOKUL TRADERS','ORANGE CITY'];
-  const wdBg     = {'GOKUL ENTERPRISES':'#00276B','GOKUL TRADERS':'#1557CC','ORANGE CITY':'#B85C00'};
+  const wdOrder=['GOKUL ENTERPRISES','GOKUL TRADERS','ORANGE CITY'];
+  const wdBg={'GOKUL ENTERPRISES':'#00276B','GOKUL TRADERS':'#1557CC','ORANGE CITY':'#B85C00'};
+  const allWDs=[...new Set([...wdOrder.filter(w=>wdMap[w]),...Object.keys(wdMap).filter(w=>!wdOrder.includes(w))])];
 
-  const allWDs = [...new Set([...wdOrder.filter(w=>wdMap[w]), ...Object.keys(wdMap).filter(w=>!wdOrder.includes(w))])];
-
-  let html = '';
-  allWDs.forEach(wdName => {
-    const dsEntries = wdMap[wdName];
+  let html='';
+  allWDs.forEach(wdName=>{
+    const dsEntries=wdMap[wdName];
     if(!dsEntries) return;
-
-    const dsArr = Object.entries(dsEntries).sort((a,b) => {
-      const ea = Math.min((a[1].dep+a[1].hyg)*PER_SCAN, MAX);
-      const eb = Math.min((b[1].dep+b[1].hyg)*PER_SCAN, MAX);
-      return eb - ea;
+    const dsArr=Object.entries(dsEntries).sort((a,b)=>{
+      const ea=Math.min(Object.values(b[1].outlets).reduce((s,oa)=>s+(['Ladi','CTU'].reduce((ss,k)=>ss+Math.min(oa[k].dep+oa[k].hyg,4),0)),0)*PER_SCAN,MAX);
+      const eb=Math.min(Object.values(a[1].outlets).reduce((s,oa)=>s+(['Ladi','CTU'].reduce((ss,k)=>ss+Math.min(oa[k].dep+oa[k].hyg,4),0)),0)*PER_SCAN,MAX);
+      return ea-eb;
     });
     if(!dsArr.length) return;
 
-    const wdTotalDep  = dsArr.reduce((s,[,d]) => s + d.dep, 0);
-    const wdTotalHyg  = dsArr.reduce((s,[,d]) => s + d.hyg, 0);
-    const wdTotalEarn = dsArr.reduce((s,[,d]) => s + Math.min((d.dep+d.hyg)*PER_SCAN, MAX), 0);
-    const bg = wdBg[wdName]||'#003087';
+    const wdTotDep =dsArr.reduce((s,[,d])=>s+d.totalDep,0);
+    const wdTotHyg =dsArr.reduce((s,[,d])=>s+d.totalHyg,0);
+    const wdTotEarn=dsArr.reduce((s,[,d])=>s+d.earn,0);
+    const bg=wdBg[wdName]||'#003087';
 
-    html += `
-    <div class="wdb">
+    html+=`<div class="wdb">
       <div class="wdh" style="background:linear-gradient(135deg,${bg},${bg}dd)">
         <div class="wdh-name">${wdName}</div>
         <div class="wdh-stats">
-          <div class="wdhs"><div class="wdhs-v">${wdTotalDep}</div><div class="wdhs-l">Deployed</div></div>
-          <div class="wdhs"><div class="wdhs-v">${wdTotalHyg}</div><div class="wdhs-l">Hygiene</div></div>
-          <div class="wdhs"><div class="wdhs-v" style="color:#ffd700">₹${wdTotalEarn}</div><div class="wdhs-l">Earned</div></div>
+          <div class="wdhs"><div class="wdhs-v">${wdTotDep}</div><div class="wdhs-l">Deployed</div></div>
+          <div class="wdhs"><div class="wdhs-v">${wdTotHyg}</div><div class="wdhs-l">Hygiene</div></div>
+          <div class="wdhs"><div class="wdhs-v" style="color:#ffd700">₹${wdTotEarn}</div><div class="wdhs-l">Earned</div></div>
         </div>
       </div>
       <div class="wdb-body">`;
 
-    dsArr.forEach(([dsKey, d]) => {
-      const totalSc = d.dep + d.hyg;
-      const earn    = Math.min(totalSc * PER_SCAN, MAX);
-      const pct     = Math.round(earn / MAX * 100);
-      const id      = sid(dsKey + wdName); // unique per DS+WD
-      const outArr  = Object.entries(d.outlets).sort((a,b)=>(b[1].dep+b[1].hyg)-(a[1].dep+a[1].hyg));
+    dsArr.forEach(([dsKey,d])=>{
+      const id=sid(dsKey+wdName);
+      const pct=Math.round(d.earn/MAX*100);
+      const outArr=Object.entries(d.outlets).sort((a,b)=>{
+        const sa=['Ladi','CTU'].reduce((s,k)=>s+a[1][k].dep+a[1][k].hyg,0);
+        const sb=['Ladi','CTU'].reduce((s,k)=>s+b[1][k].dep+b[1][k].hyg,0);
+        return sb-sa;
+      });
 
-      html += `
-      <div class="dsr">
+      html+=`<div class="dsr">
         <div class="dsr-top" onclick="document.getElementById('${id}').classList.toggle('open')">
           <div class="dsr-avatar">${d.inits}</div>
           <div class="dsr-info">
             <div class="dsr-name">${d.short}</div>
-            <div class="dsr-meta">${outArr.length} outlet(s) · ${d.dep} deployed · ${d.hyg} hygiene checks · ${totalSc} total scans</div>
-            <div style="display:flex;align-items:center;gap:8px;margin-top:5px">
-              <div class="pbar" style="width:110px"><div class="pfill ${pct>=80?'pf-green':pct>=40?'pf-gold':'pf-amber'}" style="width:${pct}%"></div></div>
-              <span style="font-size:9.5px;color:var(--text3)">${pct}% of ₹${MAX} cap</span>
+            <div class="dsr-meta">${outArr.length} outlet(s) · ${d.totalDep} deployed · ${d.totalHyg} hygiene · ${d.totalScans} scans</div>
+            <div style="display:flex;align-items:center;gap:7px;margin-top:4px;flex-wrap:wrap">
+              <div class="pbar" style="width:100px"><div class="pfill ${pct>=80?'pf-green':pct>=40?'pf-gold':'pf-amber'}" style="width:${pct}%"></div></div>
+              <span style="font-size:9px;color:var(--text3)">${pct}% of ₹${MAX}</span>
             </div>
           </div>
-          <div class="dsr-earn">
-            <div class="dsr-ev">₹${earn}</div>
-            <div class="dsr-el">tap to expand ▾</div>
-          </div>
+          <div class="dsr-earn"><div class="dsr-ev">₹${d.earn}</div><div class="dsr-el">tap ▾</div></div>
         </div>
         <div class="dsr-outlets" id="${id}">
-          <div class="ol-hdr">Outlets (${outArr.length})</div>`;
+          <div class="ol-hdr">Outlets — ${outArr.length} · ₹5 per scan per asset</div>`;
 
-      outArr.forEach(([outName, o]) => {
-        const sc = Math.min(o.dep + o.hyg, 4);
-        const oe = sc * PER_SCAN;
-        html += `
-          <div class="oi">
-            <div class="oi-name">${outName}</div>
+      outArr.forEach(([outName,assets])=>{
+        // Check which assets have any activity
+        const activePOSMs=(['Ladi','CTU']).filter(a=>assets[a].dep>0||assets[a].hyg>0);
+        if(!activePOSMs.length) return;
+
+        html+=`<div class="outlet-block">
+          <div class="outlet-name-row">📍 ${outName}</div>`;
+
+        activePOSMs.forEach(asset=>{
+          const o=assets[asset];
+          const sc=Math.min(o.dep+o.hyg,4);
+          const oe=sc*PER_SCAN;
+          const isCTUasset=asset==='CTU';
+          html+=`<div class="asset-row">
+            <span class="asset-tag ${isCTUasset?'ctu':''}">${asset}</span>
             <div class="sdots">
               <div class="sd ${o.dep>0?'sd-d':'sd-x'}" title="Deploy">${o.dep>0?'D':'·'}</div>
-              <div class="sd ${o.hyg>=1?'sd-h':'sd-x'}" title="Hygiene 1">${o.hyg>=1?'✓':'·'}</div>
-              <div class="sd ${o.hyg>=2?'sd-h':'sd-x'}" title="Hygiene 2">${o.hyg>=2?'✓':'·'}</div>
-              <div class="sd ${o.hyg>=3?'sd-h':'sd-x'}" title="Hygiene 3">${o.hyg>=3?'✓':'·'}</div>
+              <div class="sd ${o.hyg>=1?'sd-h':'sd-x'}" title="H1">${o.hyg>=1?'✓':'·'}</div>
+              <div class="sd ${o.hyg>=2?'sd-h':'sd-x'}" title="H2">${o.hyg>=2?'✓':'·'}</div>
+              <div class="sd ${o.hyg>=3?'sd-h':'sd-x'}" title="H3">${o.hyg>=3?'✓':'·'}</div>
             </div>
-            <div style="font-size:10px;color:var(--text3);min-width:28px;text-align:center">${sc}/4</div>
-            <div class="oi-earn">₹${oe}</div>
+            <div style="font-size:9.5px;color:var(--text3);min-width:24px;text-align:center">${sc}/4</div>
+            <div class="oi-earn asset-earn" style="font-size:11px;font-weight:700;color:var(--gold);min-width:32px;text-align:right">₹${oe}</div>
           </div>`;
+        });
+
+        html+=`</div>`; // outlet-block
       });
 
-      html += `</div></div>`;
+      html+=`</div></div>`; // dsr-outlets + dsr
     });
 
-    html += `</div></div>`;
+    html+=`</div></div>`; // wdb-body + wdb
   });
 
-  document.getElementById('ds-content').innerHTML = html ||
-    '<div style="padding:30px;text-align:center;color:var(--text3)">No data available</div>';
+  document.getElementById('ds-content').innerHTML=html||'<div style="padding:30px;text-align:center;color:var(--text3)">No data available</div>';
 }
 
-// ── BUILD HYGIENE ─────────────────────────────────────
-function buildHygiene(outList, rows){
-  const lRows = rows.filter(r => isHyg(r) && isLadi(r));
-  const good  = lRows.filter(r => (parseInt(g(r,23))||0) >= 75).length;
-  const watch = lRows.filter(r => { const s=parseInt(g(r,23))||0; return s>=45&&s<75; }).length;
-  const crit  = lRows.filter(r => { const s=parseInt(g(r,23))||0; return s>0&&s<45; }).length;
-  const noChk = outList.filter(o => o.dep>0 && o.ladiSc.length===0).length;
-  const orders= outList.reduce((s,o) => s+o.ordsL.filter(x=>x==='Yes').length, 0);
+// ── BUILD HYGIENE ─────────────────────────────────
+function buildHygiene(outList,rows){
+  const lRows=rows.filter(r=>isHyg(r)&&isLadi(r));
+  const good =lRows.filter(r=>(parseInt(g(r,23))||0)>=75).length;
+  const watch=lRows.filter(r=>{const s=parseInt(g(r,23))||0;return s>=45&&s<75;}).length;
+  const crit =lRows.filter(r=>{const s=parseInt(g(r,23))||0;return s>0&&s<45;}).length;
+  const noChk=outList.filter(o=>o.dep>0&&o.ladiSc.length===0).length;
+  const orders=outList.reduce((s,o)=>s+o.ordsL.filter(x=>x==='Yes').length,0);
 
-  document.getElementById('hy-kpis').innerHTML = `
-    <div class="kpi green"><div class="kpi-ico">✅</div><div class="kpi-lbl">Good Score (≥75)</div><div class="kpi-val">${good}</div><div class="kpi-sub">Ladi checks</div></div>
+  document.getElementById('hy-kpis').innerHTML=`
+    <div class="kpi green"><div class="kpi-ico">✅</div><div class="kpi-lbl">Good (≥75)</div><div class="kpi-val">${good}</div><div class="kpi-sub">Ladi checks</div></div>
     <div class="kpi amber"><div class="kpi-ico">⚠️</div><div class="kpi-lbl">Watch (45–74)</div><div class="kpi-val">${watch}</div><div class="kpi-sub">Monitor these</div></div>
-    <div class="kpi red"><div class="kpi-ico">🔴</div><div class="kpi-lbl">Critical (<45)</div><div class="kpi-val">${crit}</div><div class="kpi-sub">Immediate action</div></div>
-    <div class="kpi blue"><div class="kpi-ico">🛒</div><div class="kpi-lbl">Orders via Visit</div><div class="kpi-val">${orders}</div><div class="kpi-sub">Retailer ordered same visit</div></div>
+    <div class="kpi red"><div class="kpi-ico">🔴</div><div class="kpi-lbl">Critical (<45)</div><div class="kpi-val">${crit}</div><div class="kpi-sub">Act now</div></div>
+    <div class="kpi blue"><div class="kpi-ico">🛒</div><div class="kpi-lbl">Orders via Visit</div><div class="kpi-val">${orders}</div><div class="kpi-sub">Same-visit orders</div></div>
   `;
-  document.getElementById('hy-ct').textContent = lRows.length + ' checks';
+  document.getElementById('hy-ct').textContent=lRows.length+' checks';
 
-  // Ladi table
-  const ladiOuts = outList.filter(o => o.ladiSc.length>0);
-  const noLadiOuts = outList.filter(o => o.dep>0 && o.ladiSc.length===0);
-  document.getElementById('hy-tbl').innerHTML = [
-    ...ladiOuts.map(o => {
-      const avg = Math.round(o.ladiSc.reduce((s,x)=>s+x,0)/o.ladiSc.length);
-      const last = o.ladiSc[o.ladiSc.length-1];
-      const lp   = o.purs[o.purs.length-1]||'—';
-      const lo   = o.ordsL[o.ordsL.length-1]||'—';
-      return `<tr>
-        <td class="tbn">${o.name}</td><td>${o.ds}</td><td>${o.ladiSc.length}</td>
+  const ladiOuts=outList.filter(o=>o.ladiSc.length>0);
+  const noLadi=outList.filter(o=>o.dep>0&&o.ladiSc.length===0);
+  document.getElementById('hy-tbl').innerHTML=[
+    ...ladiOuts.map(o=>{
+      const avg=Math.round(o.ladiSc.reduce((s,x)=>s+x,0)/o.ladiSc.length);
+      const last=o.ladiSc[o.ladiSc.length-1];
+      const lp=o.purs[o.purs.length-1]||'—';
+      const lo=o.ordsL[o.ordsL.length-1]||'—';
+      return `<tr><td class="tbn">${o.name}</td><td>${o.ds}</td><td>${o.ladiSc.length}</td>
         <td><span class="sc ${avg>=75?'sc-g':avg>=45?'sc-a':'sc-r'}">${avg}/100</span></td>
         <td><span class="sc ${last>=75?'sc-g':last>=45?'sc-a':'sc-r'}">${last}/100</span></td>
         <td><span class="pill ${lp==='100% ITC'?'pg':lp==='Mixed'?'pa':'pr'}">${lp}</span></td>
-        <td><span class="pill ${lo==='Yes'?'pg':'pgr'}">${lo}</span></td>
-      </tr>`;
+        <td><span class="pill ${lo==='Yes'?'pg':'pgr'}">${lo}</span></td></tr>`;
     }),
-    ...noLadiOuts.map(o => `<tr style="opacity:.55"><td class="tbn">${o.name}</td><td>${o.ds}</td><td>0</td><td colspan="4"><span class="pill pa">No check yet</span></td></tr>`)
-  ].join('') || '<tr><td colspan="7" style="padding:20px;text-align:center;color:var(--text3)">No hygiene data yet</td></tr>';
+    ...noLadi.map(o=>`<tr style="opacity:.55"><td class="tbn">${o.name}</td><td>${o.ds}</td><td>0</td><td colspan="4"><span class="pill pa">No check yet</span></td></tr>`)
+  ].join('')||'<tr><td colspan="7" style="padding:16px;text-align:center;color:var(--text3)">No hygiene data yet</td></tr>';
 
-  // CTU table
-  const ctuOuts = outList.filter(o => o.ctuSt.length>0);
-  document.getElementById('ctu-tbl').innerHTML = ctuOuts.length ? ctuOuts.map(o => {
-    const cur  = o.ctuSt[o.ctuSt.length-1];
-    const sold = o.ctuSt.length>1 ? Math.max(0, o.ctuSt[0]-cur) : null;
-    const lo   = o.ordsC[o.ordsC.length-1]||'—';
-    return `<tr>
-      <td class="tbn">${o.name}</td><td>${o.ds}</td><td>${o.ctuSt.length}</td>
+  const ctuOuts=outList.filter(o=>o.ctuSt.length>0);
+  document.getElementById('ctu-tbl').innerHTML=ctuOuts.length?ctuOuts.map(o=>{
+    const cur=o.ctuSt[o.ctuSt.length-1];
+    const sold=o.ctuSt.length>1?Math.max(0,o.ctuSt[0]-cur):null;
+    const lo=o.ordsC[o.ordsC.length-1]||'—';
+    return `<tr><td class="tbn">${o.name}</td><td>${o.ds}</td><td>${o.ctuSt.length}</td>
       <td>${cur}</td>
       <td><strong style="color:${sold>0?'var(--green)':'var(--text3)'}">${sold!==null?sold:'—'}</strong></td>
-      <td><span class="pill ${lo==='Yes'?'pg':'pgr'}">${lo}</span></td>
-    </tr>`;
-  }).join('') : '<tr><td colspan="6" style="padding:20px;text-align:center;color:var(--text3)">No CTU checks yet</td></tr>';
+      <td><span class="pill ${lo==='Yes'?'pg':'pgr'}">${lo}</span></td></tr>`;
+  }).join(''):'<tr><td colspan="6" style="padding:16px;text-align:center;color:var(--text3)">No CTU checks yet</td></tr>';
 
-  // Score donut
+  // Charts
+  const pc={ITC:0,Mixed:0,Comp:0};
+  outList.forEach(o=>o.purs.forEach(p=>{if(p==='100% ITC')pc.ITC++;else if(p==='Mixed')pc.Mixed++;else pc.Comp++;}));
+
   kc('ch-score');
-  new Chart(document.getElementById('ch-score'), {
+  new Chart(document.getElementById('ch-score'),{
     type:'doughnut',
-    data:{ labels:['Good (≥75)','Watch (45–74)','Critical (<45)','No check'],
-      datasets:[{ data:[good,watch,crit,noChk], backgroundColor:['#0e7a40','#c9880a','#be1b0e','#cbd5e1'], borderWidth:0, hoverOffset:4 }]},
-    options:{ responsive:true, plugins:{legend:{labels:{font:{size:10},boxWidth:10}}} }
+    data:{labels:['Good (≥75)','Watch (45–74)','Critical (<45)','No check'],
+      datasets:[{data:[good,watch,crit,noChk],backgroundColor:['#0e7a40','#c9880a','#be1b0e','#cbd5e1'],borderWidth:0,hoverOffset:3}]},
+    options:{...chartOpts,plugins:{legend:{labels:{font:{size:9},boxWidth:8}}}}
   });
 
-  // Purity bar
-  const pc = {ITC:0,Mixed:0,Comp:0};
-  outList.forEach(o => o.purs.forEach(p => { if(p==='100% ITC')pc.ITC++; else if(p==='Mixed')pc.Mixed++; else pc.Comp++; }));
   kc('ch-purity');
-  new Chart(document.getElementById('ch-purity'), {
+  new Chart(document.getElementById('ch-purity'),{
     type:'bar',
-    data:{ labels:['100% ITC','Mixed','Competitors'],
-      datasets:[{ data:[pc.ITC,pc.Mixed,pc.Comp], backgroundColor:['#0e7a40','#c9880a','#be1b0e'], borderRadius:5, barThickness:40 }]},
-    options:{ responsive:true, plugins:{legend:{display:false}},
-      scales:{ y:{beginAtZero:true,ticks:{stepSize:1,font:{size:9}}}, x:{ticks:{font:{size:10}}} }}
+    data:{labels:['100% ITC','Mixed','Competitors'],
+      datasets:[{data:[pc.ITC,pc.Mixed,pc.Comp],backgroundColor:['#0e7a40','#c9880a','#be1b0e'],borderRadius:4,barThickness:30}]},
+    options:{...chartOpts,plugins:{legend:{display:false}},
+      scales:{y:{beginAtZero:true,ticks:{stepSize:1,font:{size:8}}},x:{ticks:{font:{size:9}}}}}
+  });
+
+  // Asset mix chart
+  const ladiDeps=rows.filter(r=>isDep(r)&&gAsset(r)==='Ladi').length;
+  const ctuDeps =rows.filter(r=>isDep(r)&&gAsset(r)==='CTU').length;
+  kc('ch-asset');
+  new Chart(document.getElementById('ch-asset'),{
+    type:'doughnut',
+    data:{labels:['Ladi','CTU'],datasets:[{data:[ladiDeps,ctuDeps],backgroundColor:['#003087','#c9880a'],borderWidth:0,hoverOffset:3}]},
+    options:{...chartOpts,plugins:{legend:{labels:{font:{size:9},boxWidth:8}}}}
   });
 }
 
-// ── BUILD LOG ─────────────────────────────────────────
+// ── BUILD LOG ─────────────────────────────────────
 function buildLog(rows){
-  const valid = rows.filter(isOk);
-  document.getElementById('log-ct').textContent = valid.length + ' records';
-  document.getElementById('log-tbl').innerHTML = valid.slice().reverse().map(r => {
-    const dep  = isDep(r);
-    const sc   = parseInt(g(r,23))||0;
-    const posm = dep ? g(r,4) : g(r,6);
+  const valid=rows.filter(isOk);
+  document.getElementById('log-ct').textContent=valid.length+' records';
+  document.getElementById('log-tbl').innerHTML=valid.slice().reverse().map(r=>{
+    const dep=isDep(r),sc=parseInt(g(r,23))||0,asset=gAsset(r);
     return `<tr>
-      <td style="white-space:nowrap;font-size:10.5px">${g(r,0).slice(0,16)}</td>
-      <td>${shortName(r)}</td>
-      <td class="tbn">${getOutlet(r)}</td>
-      <td><span class="pill pn" style="font-size:9px">${getWD(r).split(' ')[0]}</span></td>
+      <td style="white-space:nowrap;font-size:10px">${g(r,0).slice(0,16)}</td>
+      <td style="font-size:11px">${gShort(r)}</td>
+      <td class="tbn">${gOut(r)}</td>
+      <td><span class="pill pn" style="font-size:8.5px">${gWD(r).split(' ')[0]}</span></td>
       <td><span class="pill ${dep?'pb':'pg'}">${dep?'Deploy':'Hygiene'}</span></td>
-      <td style="font-size:11px">${posm}</td>
+      <td><span class="asset-tag ${asset==='CTU'?'ctu':''}">${asset}</span></td>
       <td>${sc>0?`<span class="sc ${sc>=75?'sc-g':sc>=45?'sc-a':'sc-r'}">${sc}/100</span>`:'<span style="color:var(--text3)">—</span>'}</td>
-      <td style="font-size:10.5px">${g(r,24)||(dep?'✅ Deployed':'—')}</td>
+      <td style="font-size:10px">${g(r,24)||(dep?'✅ Deployed':'—')}</td>
     </tr>`;
-  }).join('') || '<tr><td colspan="8" style="padding:20px;text-align:center;color:var(--text3)">No records yet</td></tr>';
+  }).join('')||'<tr><td colspan="8" style="padding:16px;text-align:center;color:var(--text3)">No records yet</td></tr>';
 }
 
-// ── BUILD ALL ─────────────────────────────────────────
+// ── BUILD ALL ─────────────────────────────────────
 function buildAll(){
-  if(!ROWS || ROWS.length === 0) return;
-  try {
-    const { rows, wdMap, dsList, outList } = aggregate();
-    buildOverview(rows, dsList, outList);
-    buildDS(wdMap, dsList);
-    buildHygiene(outList, rows);
+  if(!ROWS||ROWS.length===0) return;
+  try{
+    const {rows,wdMap,dsList,outList}=aggregate();
+    buildOverview(rows,dsList,outList);
+    buildDS(wdMap,dsList);
+    buildHygiene(outList,rows);
     buildLog(rows);
-  } catch(e){
-    console.error('buildAll error:', e);
-    showError('Error building dashboard: ' + e.message);
+  }catch(e){
+    console.error('buildAll:',e);
+    showError('Build error: '+e.message);
   }
 }
 
-// ── ERROR DISPLAY ─────────────────────────────────────
+// ── ERROR ─────────────────────────────────────────
 function showError(msg){
-  const html = `<div style="background:var(--redl);border:1px solid #fca5a5;border-radius:10px;padding:16px 20px;margin:12px 0">
-    <div style="font-weight:700;color:#991b1b;margin-bottom:6px">⚠ ${msg}</div>
-    <div style="font-size:11px;color:#7f1d1d">
-      <strong>Fix:</strong> Make sure your Google Sheet is published:<br>
-      File → Share → Publish to web → Form Responses 1 → CSV → Publish<br>
-      Then copy the URL and update CSV_URL in the HTML file.
-    </div>
+  const h=`<div style="background:var(--redl);border:1px solid #fca5a5;border-radius:8px;padding:14px;margin:8px 0">
+    <strong style="color:#991b1b">⚠ ${msg}</strong><br>
+    <span style="font-size:11px;color:#7f1d1d">Check CSV_URL — sheet must be published as CSV</span>
   </div>`;
-  ['ov1','ov2','ov-wd','ov-al','ds-content','hy-kpis','log-tbl'].forEach(id=>{
-    const el = document.getElementById(id); if(el) el.innerHTML = html;
-  });
+  ['ov1','ov-wd','ov-al','ds-content','hy-kpis'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=h;});
 }
 
-// ── COUNTDOWN ─────────────────────────────────────────
-function startCountdown(){
-  if(timer) clearInterval(timer);
-  left = SECS;
-  timer = setInterval(() => {
+// ── COUNTDOWN ─────────────────────────────────────
+function startCD(){
+  if(tmr) clearInterval(tmr);
+  left=REFRESH;
+  tmr=setInterval(()=>{
     left--;
-    if(left <= 0){ left = SECS; loadData(); return; }
-    const m = Math.floor(left/60), s = left%60;
-    document.getElementById('cdt').textContent = `↻ ${m}:${s.toString().padStart(2,'0')}`;
-  }, 1000);
+    if(left<=0){left=REFRESH;loadData();return;}
+    const m=Math.floor(left/60),s=left%60;
+    document.getElementById('cdt').textContent=`↻ ${m}:${s.toString().padStart(2,'0')}`;
+  },1000);
 }
 
-// ── LOAD DATA ─────────────────────────────────────────
+// ── LOAD DATA ─────────────────────────────────────
 async function loadData(){
-  idMap = {}; idN = 0; // reset IDs
-  document.getElementById('ust').textContent = 'Loading…';
-  try {
-    const res = await fetch(CSV_URL + '&t=' + Date.now());
-    if(!res.ok) throw new Error('HTTP ' + res.status);
-    const txt = await res.text();
-    if(!txt || txt.length < 10) throw new Error('Empty response from sheet');
-    ROWS = parseCSV(txt);
+  idm={}; idc=0;
+  document.getElementById('ust').textContent='Loading…';
+  try{
+    const res=await fetch(CSV_URL+'&t='+Date.now());
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const txt=await res.text();
+    if(!txt||txt.length<10) throw new Error('Empty response');
+    ROWS=parseCSV(txt);
     buildAll();
-    const t = new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
-    document.getElementById('ust').textContent = 'Updated ' + t + ' · ' + ROWS.length + ' rows';
+    const t=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+    document.getElementById('ust').textContent=t+' · '+ROWS.length+' rows';
     document.getElementById('overlay').classList.add('hide');
-    startCountdown();
-  } catch(e){
-    console.error('loadData:', e);
-    document.getElementById('ust').textContent = '⚠ Failed — tap Refresh';
+    startCD();
+  }catch(e){
+    console.error('loadData:',e);
+    document.getElementById('ust').textContent='⚠ Tap refresh';
     document.getElementById('overlay').classList.add('hide');
-    showError('Could not load data — ' + e.message);
+    showError('Could not load: '+e.message);
   }
 }
 
-// ── INIT ──────────────────────────────────────────────
 loadData();
 </script>
 </body>
